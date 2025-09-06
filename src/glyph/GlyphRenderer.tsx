@@ -18,7 +18,7 @@ import { UMLAssociationGlyph } from "./type/uml/UMLAssociationGlyph";
 import { UMLInheritanceGlyph } from "./type/uml/UMLInheritanceGlyph";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, size, height, label, attributes }: { type: string; size: number; height?: number; label?: string; attributes?: string[] }) {
+export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: string[] }) {
   switch (type) {
     case "rect":
       return <RectGlyph size={size} />;
@@ -41,7 +41,7 @@ export function GlyphRenderer({ type, size, height, label, attributes }: { type:
     case "xnor":
       return <XnorGateGlyph size={size} />;
     case "uml-class":
-      return <UMLClassGlyph size={size} height={height} label={label} attributes={attributes} />;
+      return <UMLClassGlyph size={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} />;
     case "uml-interface":
       return <UMLInterfaceGlyph size={size} />;
     case "uml-abstract":

@@ -77,34 +77,38 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
     fromGlyphId: string, fromPortIdx: number, fromX: number, fromY: number
   }>(null)
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null)
-  const connectors = [
-    { cx: 0, cy: size / 2, type: 'input' },
-    { cx: size, cy: size / 2, type: 'output' },
-  ]
-
+  const defaultTileSize = 60;
+  // Helper to compute glyph visual size based on label and attributes
+  const computeGlyphSize = (glyph: Glyph) => {
+    const labelWidth = Math.max(60, (glyph.label?.length ?? 0) * 10 + 32);
+    const attrHeight = (glyph.attributes?.length ?? 0) * 18 + defaultTileSize;
+    const w = Math.max(labelWidth, 100);
+    const h = Math.max(attrHeight, 60);
+    return { w, h };
+  }
   // Helper to get connector absolute position
-  const getConnectorPos = (glyph: Glyph, idx: number) => {
-    const conns = getConnectors(glyph);
+  const getConnectorPos = (glyph: Glyph, idx: number, width: number, height: number) => {
+    const conns = getConnectors(glyph, width, height);
     return {
       x: glyph.x + conns[idx].cx,
       y: glyph.y + conns[idx].cy,
     };
   };
-  const getConnectors = (glyph: Glyph, size: number, height: number) => {
+  const getConnectors = (glyph: Glyph, width: number, height: number) => {
     const numInputs = glyph.inputs ?? 2;
     const numOutputs = glyph.outputs ?? 1;
 
     // Inputs: evenly spaced along the top edge
     const inputs = Array.from({ length: numInputs }, (_, i) => ({
       cx: 0,
-      cy: size * ((i + 1) / (numInputs + 1)),
+      cy: height * ((i + 1) / (numInputs + 1)),
       type: "input",
     }));
 
     // Outputs: evenly spaced along the bottom edge
     const outputs = Array.from({ length: numOutputs }, (_, i) => ({
-      cx: height,
-      cy: size * ((i + 1) / (numOutputs + 1)),
+      cx: width,
+      cy: height * ((i + 1) / (numOutputs + 1)),
       type: "output",
     }));
 
@@ -136,12 +140,18 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
       >
       {/* Draw connections */}
       <svg style={{position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
-        {connections.map((conn, i) => {
+        {
+        connections.map((conn, i) => {
+          const sizeMap = new Map<string, { w: number, h: number }>();
+          glyphs.forEach(g => sizeMap.set(g.id, computeGlyphSize(g)));
           const fromGlyph = glyphs.find(g => g.id === conn.fromGlyphId)
           const toGlyph = glyphs.find(g => g.id === conn.toGlyphId)
           if (!fromGlyph || !toGlyph) return null
-          const from = getConnectorPos(fromGlyph, Number(conn.fromPortId))
-          const to = getConnectorPos(toGlyph, Number(conn.toPortId))
+          const fromSize = sizeMap.get(fromGlyph.id) ?? { w: defaultTileSize, h: defaultTileSize }
+          const toSize = sizeMap.get(toGlyph.id) ?? { w: defaultTileSize, h: defaultTileSize }
+
+          const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h)
+          const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h)
         // Association: solid line, no arrow
         if (conn.type === "association") {
           return (
@@ -216,7 +226,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
         // Use the largest of labelWidth or a minimum size
         const size = Math.max(labelWidth, 100);
         const height = Math.max(attrHeight, 80);
-
+        const maxLabelChars = 5;//Math.floor(size / 10); // Estimate max chars that fit
+        const isTruncated = !!(glyph.label && glyph.label.length > maxLabelChars);
+        const displayLabel = isTruncated
+          ? glyph.label.slice(0, maxLabelChars - 3) + "..."
+          : glyph.label;
         const connectors = getConnectors(glyph, size, height);
         const numInputs = glyph.inputs ?? 2; // fallback to 2 if not set
         return (
@@ -244,20 +258,10 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
             type={glyph.type} 
             size={size} 
             height={height}
-            label={glyph.label}
+            label={displayLabel}
+            orinLabel={glyph.label}
+            isTruncated={isTruncated}
             attributes={glyph.attributes} />
-          {/* Glyph label */}
-          <text
-            x={size / 2}
-            y={size / 2 + 6}
-            fontSize={16}
-            fill="#222"
-            textAnchor="middle"
-            pointerEvents="none"
-            fontWeight="bold"
-          >
-            {glyph.label}
-          </text>
           {/* Property */ }
           {glyphs.map(glyph => (
             <svg
