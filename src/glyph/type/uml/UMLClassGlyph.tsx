@@ -39,9 +39,10 @@ export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: s
         fill="#222"
         textAnchor="start"
         dominantBaseline="hanging"
-        style={{ userSelect: "none", pointerEvents: "none" }}
+        style={{ userSelect: "none", pointerEvents: "auto" }}
       >
         {attr}
+        {<title>{attr}</title>}
       </text>
     ))}
   </g>);
