@@ -41,7 +41,7 @@ export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncate
     case "xnor":
       return <XnorGateGlyph size={size} />;
     case "uml-class":
-      return <UMLClassGlyph size={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} />;
+      return <UMLClassGlyph width={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} />;
     case "uml-interface":
       return <UMLInterfaceGlyph size={size} />;
     case "uml-abstract":

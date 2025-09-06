@@ -27,11 +27,24 @@ export const PropertySheet: React.FC<{
     setAttributes(glyph.attributes ?? []);
   }, [glyph]);
 
-  const handleAttributesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value.split("\n").map(s => s.trim()).filter(Boolean);
-    setAttributes(value);
-    onUpdate(glyph.id, { attributes: value });
- };
+  const handleAttrChange = (idx: number, value: string) => {
+    const updated = [...attributes];
+    updated[idx] = value;
+    setAttributes(updated);
+    onUpdate(glyph.id, { attributes: updated });
+  };
+
+  const handleAttrAdd = () => {
+    const updated = [...attributes, ""];
+    setAttributes(updated);
+    onUpdate(glyph.id, { attributes: updated });
+  };
+
+  const handleAttrRemove = (idx: number) => {
+    const updated = attributes.filter((_, i) => i !== idx);
+    setAttributes(updated);
+    onUpdate(glyph.id, { attributes: updated });
+  };
   const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
     onUpdate(glyph.id, { label: e.target.value });
@@ -110,19 +123,60 @@ export const PropertySheet: React.FC<{
             </td>
           </tr>
           <tr>
-            <td style={{ fontWeight: 600, padding: "6px 8px" }}>Attributes</td>
-            <td style={{ padding: "6px 8px" }}>
-                <textarea
-                value={attributes.join("\n")}
-                onChange={e => {
-                    const value = e.target.value.split("\n").map(s => s.trim()).filter(Boolean);
-                    setAttributes(value);
-                    onUpdate(glyph.id, { attributes: value });
-                }}
-                rows={4}
-                style={{ width: "100%", resize: "vertical" }}
-                placeholder="Enter one attribute per line"
-                />
+            <td colSpan={2} style={{ padding: "6px 8px" }}>
+              <h3 style={{ margin: "8px 0 4px 0" }}>Attributes</h3>
+              <table style={{ width: "100%", borderCollapse: "collapse", borderSpacing: 0 }}>
+                <tbody>
+                  {attributes.map((attr, idx) => (
+                    <tr key={idx}>
+                      <td style={{ padding: "1px 2px", width: "80%" }}>
+                        <input
+                          type="text"
+                          value={attr}
+                          onChange={e => handleAttrChange(idx, e.target.value)}
+                          style={{ width: "100%", margin: 0, fontSize: "0.95em", padding: "2px 4px" }}
+                          placeholder={`Attribute ${idx + 1}`}
+                        />
+                      </td>
+                      <td style={{ padding: "1px 2px", width: "20%" }}>
+                        <button
+                          onClick={() => handleAttrRemove(idx)}
+                          style={{
+                            color: "#f87171",
+                            border: "none",
+                            background: "none",
+                            cursor: "pointer",
+                            fontSize: "1.1em",
+                            margin: 0,
+                            padding: "0 4px"
+                          }}
+                          title="Remove"
+                        >
+                          &times;
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td colSpan={2} style={{ padding: "2px 0", textAlign: "center" }}>
+                      <button
+                        onClick={handleAttrAdd}
+                        style={{
+                          padding: "2px 10px",
+                          borderRadius: 4,
+                          background: "#e0e7ef",
+                          border: "none",
+                          cursor: "pointer",
+                          margin: 0,
+                          fontSize: "0.95em"
+                        }}
+                      >
+                        + Add Attribute
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
         </tbody>

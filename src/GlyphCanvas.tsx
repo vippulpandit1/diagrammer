@@ -222,7 +222,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
          // Estimate label width: 10px per character + padding
         const labelWidth = Math.max(60, (glyph.label?.length ?? 0) * 10 + 32);
         // Estimate attribute height
-        const attrHeight = (glyph.attributes?.length ?? 0) * 18 + 60;
+        const attrHeight = (glyph.attributes?.length ?? 0) * 20 + 60;
         // Use the largest of labelWidth or a minimum size
         const size = Math.max(labelWidth, 100);
         const height = Math.max(attrHeight, 80);
