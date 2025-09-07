@@ -1,10 +1,16 @@
 import React from "react";
+import type { UMLAttr } from "./UMLAttr";
+import type { UMLMethod } from "./UMLMethod";
+
+
 export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: string; orinLabel?: string; 
-            isTruncated?: boolean; attributes?: string[] }> = ({ width, height = width, label, orinLabel, isTruncated, attributes }) => {
+            isTruncated?: boolean; attributes?: UMLAttr[] }> = ({ width, height = width, label, orinLabel, isTruncated, attributes }) => {
   // Fixed label section height (e.g. 32px)
-  const LABEL_SECTION_HEIGHT = 32;
+  const LABEL_SECTION_HEIGHT = 25;
   // Attribute section starts after label section and separator
   const ATTR_START_Y = LABEL_SECTION_HEIGHT + 8;
+  const maxLabelChars = 5;//Math.floor(size / 10); // Estimate max chars that fit
+
   return (
    <g>
     <rect x={0} y={0} width={width} height={height} rx={6} fill="#fff" stroke="#222" strokeWidth={2}/>
@@ -30,7 +36,12 @@ export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: s
       </text>
     )}
     {/* Attributes */}
-    {attributes && attributes.map((attr, i) => (
+    {attributes && attributes.map((attr, i) => {
+    const maxAttrChars = 5;
+    const isAttrTruncated = attr.name.length > maxAttrChars;
+    const displayAttr = isAttrTruncated ? attr.name.slice(0, maxAttrChars - 3) + "..." : attr.name;
+    
+    return (
       <text
         key={i}
         x={width * 0.05}
@@ -41,9 +52,10 @@ export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: s
         dominantBaseline="hanging"
         style={{ userSelect: "none", pointerEvents: "auto" }}
       >
-        {attr}
-        {<title>{attr}</title>}
+      {displayAttr}
+      {isAttrTruncated && <title>{attr.name}</title>}
       </text>
-    ))}
+    );
+    })}
   </g>);
 };

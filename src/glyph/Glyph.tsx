@@ -1,4 +1,6 @@
 import { Port } from "./Port";
+import type { UMLAttr } from "./type/uml/UMLAttr";
+import type { UMLMethod } from "./type/uml/UMLMethod";
 
 // The main glyph class
 export class Glyph {
@@ -11,8 +13,8 @@ export class Glyph {
   label: string = '';
   inputs: number = 2; // Number of input ports (for logic gates)
   outputs: number = 1; // Number of output ports (for logic gates)
-  attributes?: string[];
-  methods?: string[];
+  attributes?: UMLAttr[];
+  methods?: UMLMethod[];
 
   constructor(
     id: string,
@@ -21,7 +23,11 @@ export class Glyph {
     y: number,
     ports: Port[] = [],
     data: Record<string, any> = {},
-    label: string = ""
+    label: string = "",
+    inputs: number = 2,
+    outputs: number = 1,
+    attributes: UMLAttr[] = [],
+    methods: UMLMethod[] = []
 
   ) {
     this.id = id;
@@ -31,6 +37,10 @@ export class Glyph {
     this.ports = ports;
     this.data = data;
     this.label = label;
+    this.inputs = inputs;
+    this.outputs = outputs;
+    this.attributes = attributes;
+    this.methods = methods;
   }
 
   static fromJSON(obj: any): Glyph {
@@ -41,7 +51,11 @@ export class Glyph {
       obj.y,
       (obj.ports || []).map(Port.fromJSON),
       obj.data || {},
-      obj.label || "" // <-- Deserialize label
+      obj.label || "", // <-- Deserialize label
+      obj.inputs || 2,
+      obj.outputs || 1,
+      obj.attributes || [],
+      obj.methods || []
 
     );
   }

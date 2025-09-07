@@ -95,25 +95,45 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
     };
   };
   const getConnectors = (glyph: Glyph, width: number, height: number) => {
+    const connectors = [];
+
+    // Inputs: left edge
     const numInputs = glyph.inputs ?? 2;
+    for (let i = 0; i < numInputs; i++) {
+      connectors.push({
+        cx: 0,
+        cy: height * ((i + 1) / (numInputs + 1)),
+        type: "input",
+      });
+    }
+
+    // Outputs: right edge
     const numOutputs = glyph.outputs ?? 1;
+    for (let i = 0; i < numOutputs; i++) {
+      connectors.push({
+        cx: width,
+        cy: height * ((i + 1) / (numOutputs + 1)),
+        type: "output",
+      });
+    }
 
-    // Inputs: evenly spaced along the top edge
-    const inputs = Array.from({ length: numInputs }, (_, i) => ({
-      cx: 0,
-      cy: height * ((i + 1) / (numInputs + 1)),
-      type: "input",
-    }));
+    // Attribute outbound connectors for self-defined attributes
+    if (glyph.type === "uml-class" && Array.isArray(glyph.attributes)) {
+      const LABEL_SECTION_HEIGHT = 25;
+      const ATTR_START_Y = LABEL_SECTION_HEIGHT + 8;
+      glyph.attributes.forEach((attr, i) => {
+        if (attr.type === "self-defined") {
+          connectors.push({
+            cx: width,
+            cy: ATTR_START_Y + i * 20 + 10,
+            type: "attribute-outbound",
+            attrIdx: i,
+          });
+        }
+      });
+    }
 
-    // Outputs: evenly spaced along the bottom edge
-    const outputs = Array.from({ length: numOutputs }, (_, i) => ({
-      cx: width,
-      cy: height * ((i + 1) / (numOutputs + 1)),
-      type: "output",
-    }));
-
-
-    return [...inputs, ...outputs];
+    return connectors;
   };
 
   return (

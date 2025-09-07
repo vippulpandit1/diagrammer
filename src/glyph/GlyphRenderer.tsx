@@ -16,9 +16,10 @@ import { UMLEnumGlyph } from "./type/uml/UMLEnumGlyph";
 import { UMLPackageGlyph } from "./type/uml/UMLPackageGlyph";
 import { UMLAssociationGlyph } from "./type/uml/UMLAssociationGlyph";
 import { UMLInheritanceGlyph } from "./type/uml/UMLInheritanceGlyph";
+import type { UMLAttr } from "./type/uml/UMLAttr";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: string[] }) {
+export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[] }) {
   switch (type) {
     case "rect":
       return <RectGlyph size={size} />;

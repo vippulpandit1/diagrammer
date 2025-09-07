@@ -40,8 +40,13 @@ export const Toolbar: React.FC<{
           onChange={e => setConnectionType(e.target.value)}
           style={{ width: "100%", marginTop: 4 }}
         >
+          // https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
           <option value="association">Association</option>
           <option value="inheritance">Inheritance</option>
+          <option value="realization">Realization</option>
+          <option value="dependency">Dependency</option>
+          <option value="aggregation">Aggregation</option>
+          <option value="composition">Composition</option>
         </select>
       </div>
     )}`
