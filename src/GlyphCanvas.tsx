@@ -243,9 +243,12 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
         const labelWidth = Math.max(60, (glyph.label?.length ?? 0) * 10 + 32);
         // Estimate attribute height
         const attrHeight = (glyph.attributes?.length ?? 0) * 20 + 60;
+        // Estimate method height
+        const methodHeight = (glyph.methods?.length ?? 0) * 20 + attrHeight;
         // Use the largest of labelWidth or a minimum size
         const size = Math.max(labelWidth, 100);
         const height = Math.max(attrHeight, 80);
+        const finalHeight = glyph.type === "uml-class" ? Math.max(methodHeight, height) : height;
         const maxLabelChars = 5;//Math.floor(size / 10); // Estimate max chars that fit
         const isTruncated = !!(glyph.label && glyph.label.length > maxLabelChars);
         const displayLabel = isTruncated
@@ -277,11 +280,12 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           <GlyphRenderer 
             type={glyph.type} 
             size={size} 
-            height={height}
+            height={finalHeight}
             label={displayLabel}
             orinLabel={glyph.label}
             isTruncated={isTruncated}
-            attributes={glyph.attributes} />
+            attributes={glyph.attributes}
+            methods={glyph.methods} />
           {/* Property */ }
           {glyphs.map(glyph => (
             <svg

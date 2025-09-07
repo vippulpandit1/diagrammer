@@ -17,9 +17,10 @@ import { UMLPackageGlyph } from "./type/uml/UMLPackageGlyph";
 import { UMLAssociationGlyph } from "./type/uml/UMLAssociationGlyph";
 import { UMLInheritanceGlyph } from "./type/uml/UMLInheritanceGlyph";
 import type { UMLAttr } from "./type/uml/UMLAttr";
+import type { UMLMethod } from "./type/uml/UMLMethod";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[] }) {
+export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes, methods }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[] }) {
   switch (type) {
     case "rect":
       return <RectGlyph size={size} />;
@@ -42,7 +43,7 @@ export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncate
     case "xnor":
       return <XnorGateGlyph size={size} />;
     case "uml-class":
-      return <UMLClassGlyph width={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} />;
+      return <UMLClassGlyph width={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} methods={methods}/>;
     case "uml-interface":
       return <UMLInterfaceGlyph size={size} />;
     case "uml-abstract":

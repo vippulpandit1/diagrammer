@@ -4,11 +4,15 @@ import type { UMLMethod } from "./UMLMethod";
 
 
 export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: string; orinLabel?: string; 
-            isTruncated?: boolean; attributes?: UMLAttr[] }> = ({ width, height = width, label, orinLabel, isTruncated, attributes }) => {
+            isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[] }> = ({ width, height = width, label, orinLabel, isTruncated, attributes, methods }) => {
+
   // Fixed label section height (e.g. 32px)
   const LABEL_SECTION_HEIGHT = 25;
   // Attribute section starts after label section and separator
   const ATTR_START_Y = LABEL_SECTION_HEIGHT + 8;
+  // Method section starts after attributes and separator
+  const METHOD_START_Y = ATTR_START_Y + (attributes?.length || 0) * 20 + 8;
+  
   const maxLabelChars = 5;//Math.floor(size / 10); // Estimate max chars that fit
 
   return (
@@ -54,6 +58,28 @@ export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: s
       >
       {displayAttr}
       {isAttrTruncated && <title>{attr.name}</title>}
+      </text>
+    );
+    })}
+    {/* Method */}
+    {methods && methods.map((method, i) => {
+    const maxMethodChars = 5;
+    const isMethodTruncated = method.name.length > maxMethodChars;
+    const displayMethod = isMethodTruncated ? method.name.slice(0, maxMethodChars - 3) + "..." : method.name;
+    
+    return (
+      <text
+        key={i}
+        x={width * 0.05}
+        y={METHOD_START_Y + i * 20}
+        fontSize={width * 0.13}
+        fill="#222"
+        textAnchor="start"
+        dominantBaseline="hanging"
+        style={{ userSelect: "none", pointerEvents: "auto" }}
+      >
+      {displayMethod}
+      {isMethodTruncated && <title>{method.name}</title>}
       </text>
     );
     })}

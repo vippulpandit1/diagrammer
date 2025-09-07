@@ -82,7 +82,7 @@ export const PropertySheet: React.FC<{
     onUpdate(glyph.id, { methods: updated });
   };
   const handleMethodAdd = () => {
-      const updated = [...methods, { name: "", returnType: { name: "", type: "", visibility: "public" } as UMLAttr, parameters: [], visibility: "public" }];
+      const updated = [...methods, { name: "", returnType: "", parameters: [], visibility: "public" }];
       setMethods(updated);
       onUpdate(glyph.id, { methods: updated });
     };
@@ -330,10 +330,9 @@ export const PropertySheet: React.FC<{
               </table>
             </td>
           </tr>
-
         </tbody>
       </table>
-           {/* Attribute pop-up dialog */}
+      {/* Attribute pop-up dialog */}
       {attrDialogIdx !== null && attrDialogData && (
         <div
           style={{
@@ -426,15 +425,21 @@ export const PropertySheet: React.FC<{
             <label style={{ display: "block", fontWeight: 600 }}>Return Type</label>
             <input
               type="text"
-              value={methodDialogData.returnType}
-              onChange={e => setMethodDialogData({ ...methodDialogData, returnType: { name: e.target.value, type: "", visibility: "public" } })}
+              value={methodDialogData.returnType as string}
+              onChange={e => setMethodDialogData({ ...methodDialogData, returnType: e.target.value })}
               style={{ width: "100%", marginBottom: 8 }}
             />
             <label style={{ display: "block", fontWeight: 600 }}>Parameters</label>
             <input
               type="text"
-              value={methodDialogData.parameters}
-              onChange={e => setMethodDialogData({ ...methodDialogData, parameters: e.target.value })}
+              value={methodDialogData.parameters?.map(param => `${param.name}:${param.type}`).join(', ') || ''}
+              onChange={e => setMethodDialogData({ 
+                ...methodDialogData, 
+                parameters: e.target.value.split(',').map(param => {
+                  const [name, type] = param.split(':').map(s => s.trim());
+                  return { name, type, visibility: "public" } as UMLAttr;
+                })
+              })}
               style={{ width: "100%", marginBottom: 8 }}
               placeholder="e.g. param1: String, param2: Integer"
             />
