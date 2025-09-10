@@ -19,6 +19,9 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
   const canvasRef = useRef<HTMLDivElement>(null)
   const [dragMouse, setDragMouse] = useState<{ x: number, y: number } | null>(null);
   const [selectedConn, setSelectedConn] = useState<number | null>(null);
+  // Add state for selected glyph
+  const [selectedGlyphId, setSelectedGlyphId] = useState<string | null>(null);
+  const [hoveredConn, setHoveredConn] = useState<number | null>(null);
 
     // Handle delete key
   useEffect(() => {
@@ -172,67 +175,88 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
 
           const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h)
           const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h)
-        // Association: solid line, no arrow
-        if (conn.type === "association") {
-          return (
-            <line
-              key={i}
-              x1={from.x}
-              y1={from.y}
-              x2={to.x}
-              y2={to.y}
-              stroke="#222"
-              strokeWidth={2}
-            />
-          );
-        }
-
-        // Inheritance: solid line with hollow triangle arrow
-        if (conn.type === "inheritance") {
-          return (
-            <g key={i}>
-              <defs>
-                <marker
-                  id="inheritance-arrow"
-                  markerWidth="12"
-                  markerHeight="12"
-                  refX="10"
-                  refY="6"
-                  orient="auto"
-                  markerUnits="strokeWidth"
-                >
-                  <polygon
-                    points="2,2 10,6 2,10 2,2"
-                    fill="#fff"
-                    stroke="#222"
-                    strokeWidth={1.5}
-                  />
-                </marker>
-              </defs>
+          // Association: solid line, no arrow
+          if (conn.type === "association") {
+            return (
               <line
+                key={i}
                 x1={from.x}
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
                 stroke="#222"
                 strokeWidth={2}
-                markerEnd="url(#inheritance-arrow)"
               />
-            </g>
-          );
-        }
+            );
+          }
+
+          // Inheritance: solid line with hollow triangle arrow
+          if (conn.type === "inheritance") {
+            return (
+              <g key={i}>
+                <defs>
+                  <marker
+                    id="inheritance-arrow"
+                    markerWidth="12"
+                    markerHeight="12"
+                    refX="10"
+                    refY="6"
+                    orient="auto"
+                    markerUnits="strokeWidth"
+                  >
+                    <polygon
+                      points="2,2 10,6 2,10 2,2"
+                      fill="#fff"
+                      stroke="#222"
+                      strokeWidth={1.5}
+                    />
+                  </marker>
+                </defs>
+                <line
+                  x1={from.x}
+                  y1={from.y}
+                  x2={to.x}
+                  y2={to.y}
+                  stroke="#222"
+                  strokeWidth={2}
+                  markerEnd="url(#inheritance-arrow)"
+                />
+              </g>
+            );
+          }
           return (
             <path
               key={i}
               d={`M${from.x},${from.y} C${from.x + 40},${from.y} ${to.x - 40},${to.y} ${to.x},${to.y}`}
-              stroke={selectedConn === i ? "#f87171" : "#888"}
-              strokeWidth={selectedConn === i ? 5 : 3}
+              stroke={
+                selectedConn === i
+                  ? "#f87171"
+                  : hoveredConn === i
+                  ? "#2563eb"
+                  : "#888"
+              }
+              strokeWidth={selectedConn === i || hoveredConn === i ? 5 : 3}
               fill="none"
-              style={{ cursor: 'pointer', pointerEvents: 'all' }}
+              style={{
+                cursor: 'pointer',
+                pointerEvents: 'all',
+                filter:
+                  selectedConn === i
+                    ? 'drop-shadow(0 0 4px #f87171)'
+                    : hoveredConn === i
+                    ? 'drop-shadow(0 0 4px #2563eb)'
+                    : undefined
+              }}
               onClick={e => {
                 e.stopPropagation();
-                setSelectedConn(i);
+                if (selectedConn === i) {
+                  setSelectedConn(null); // Deselect if already selected
+                } else {
+                  setSelectedConn(i); // Select new connector
+                }
               }}
+              onMouseEnter={() => setHoveredConn(i)}
+              onMouseLeave={() => setHoveredConn(null)}
             />
           )
         })}
@@ -257,6 +281,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
         const connectors = getConnectors(glyph, size, height);
         const numInputs = glyph.inputs ?? 2; // fallback to 2 if not set
         return (
+          
           <svg
             key={glyph.id}
             style={{
@@ -273,9 +298,22 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
             onMouseDown={e => handleMouseDown(e, glyph)}
             onClick={e => {
               e.stopPropagation();
+              setSelectedGlyphId(glyph.id); // highlight this glyph
               if (onGlyphClick) onGlyphClick(glyph);
             }}
           >
+          {/* Highlight border if selected */}
+          <rect
+            x={0}
+            y={0}
+            width={size}
+            height={height}
+            rx={6}
+            fill="none"
+            stroke={selectedGlyphId === glyph.id ? "#2563eb" : "transparent"}
+            strokeWidth={selectedGlyphId === glyph.id ? 4 : 0}
+            pointerEvents="none"
+          />
           {/* Glyph shape */}
           <GlyphRenderer 
             type={glyph.type} 
@@ -336,7 +374,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
                     fromPortId: String(dragConn.fromPortIdx),
                     toGlyphId: glyph.id,
                     toPortId: String(idx),
-                    type: "inheritance", // or "inheritance" or another valid type
+                    type: "default", // or "inheritance" or another valid type
                   });
                   setDragConn(null);
                   setDragMouse(null);

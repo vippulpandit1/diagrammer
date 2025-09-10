@@ -34,6 +34,7 @@ export const PropertySheet: React.FC<{
     setInputs(glyph.inputs ?? 2);
     setOutputs(glyph.outputs ?? 1);
     setAttributes(glyph.attributes ?? []);
+    setMethods(glyph.methods ?? []);
   }, [glyph]);
 
   const handleAttrChange = (idx: number, value: UMLAttr) => {
