@@ -41,12 +41,57 @@ function App() {
       } catch {}
     }
   }, []);
-  const handleMoveGlyph = (id: string, x: number, y: number) => {
+  const groupGlyphs = (glyphIds: string[]) => {
+    const newGroupId = "group-" + Date.now();
     setGlyphs(glyphs =>
       glyphs.map(g =>
-        g.id === id ? new Glyph(g.id, g.type, x, y) : g
+        glyphIds.includes(g.id) ? { ...g, groupId: newGroupId } : g
       )
-    )
+    );
+  };
+  const ungroupGlyphs = (glyphIds: string[]) => {
+    setGlyphs(glyphs =>
+      glyphs.map(g =>
+        glyphIds.includes(g.id) ? { ...g, groupId: undefined } : g
+      )
+    );
+  };
+  const handleMoveGlyph = (id: string, x: number, y: number) => {
+    const glyph = glyphs.find(g => g.id === id);
+    if (glyph?.groupId) {
+      const dx = x - glyph.x;
+      const dy = y - glyph.y;
+      setGlyphs(glyphs =>
+        glyphs.map(g =>
+          g.groupId === glyph.groupId
+            ? { ...g, x: g.x + dx, y: g.y + dy }
+            : g
+        )
+      );
+    } else {
+      setGlyphs(glyphs =>
+        glyphs.map(g => (g.id === id ? { ...g, x, y } : g))
+      );
+    }
+  };
+  const bringGlyphToFront = (glyphId: string) => {
+    const idx = glyphs.findIndex(g => g.id === glyphId);
+    if (idx !== -1) {
+      const newGlyphs = [...glyphs];
+      const [glyph] = newGlyphs.splice(idx, 1);
+      newGlyphs.push(glyph); // Add to end (foreground)
+      // Update your glyphs state here
+      setGlyphs(newGlyphs);
+    }
+  };
+  const sendGlyphToBack = (glyphId: string) => {
+    const idx = glyphs.findIndex(g => g.id === glyphId);
+    if (idx !== -1) {
+      const newGlyphs = [...glyphs];
+      const [glyph] = newGlyphs.splice(idx, 1);
+      newGlyphs.unshift(glyph); // Add to start (background)
+      setGlyphs(newGlyphs);
+    }
   };
   // Handler to update glyph properties
   const handleUpdateGlyph = (id: string, updates: Partial<Glyph>) => {
@@ -193,6 +238,10 @@ function App() {
             setSelectedGlyph(glyph);
             setPropertySheetOpen(true);
           }}
+          bringGlyphToFront={bringGlyphToFront} // <-- add this
+          sendGlyphToBack={sendGlyphToBack}     // <-- add this if needed
+          groupGlyphs={groupGlyphs}
+          ungroupGlyphs={ungroupGlyphs}
         />
       {/* render Property Sheet if open */}
       {propertySheetOpen && selectedGlyph && (

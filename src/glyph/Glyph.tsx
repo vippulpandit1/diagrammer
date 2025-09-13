@@ -15,6 +15,7 @@ export class Glyph {
   outputs: number = 1; // Number of output ports (for logic gates)
   attributes?: UMLAttr[];
   methods?: UMLMethod[];
+  groupId?: string; // Optional group ID for grouping glyphs
 
   constructor(
     id: string,

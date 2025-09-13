@@ -12,16 +12,23 @@ interface GlyphCanvasProps {
   zoom: number // <-- Add zoom prop
   onAddGlyph: (type: string, x: number, y: number) => void;
   onGlyphClick?: (glyph: Glyph) => void;
+  bringGlyphToFront: (glyphId: string) => void;
+  sendGlyphToBack: (glyphId: string) => void;
+  groupGlyphs: (glyphIds: string[]) => void;
+  ungroupGlyphs: (glyphIds: string[]) => void;
 }
 
-export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, onMoveGlyph, onAddConnection, onDeleteConnection, zoom, onAddGlyph, onGlyphClick }) => {
+export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, onMoveGlyph, onAddConnection, onDeleteConnection, zoom, onAddGlyph, onGlyphClick, bringGlyphToFront,  sendGlyphToBack, groupGlyphs, ungroupGlyphs}) => {
   const [dragging, setDragging] = useState<null | { id: string, offsetX: number, offsetY: number }>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [dragMouse, setDragMouse] = useState<{ x: number, y: number } | null>(null);
   const [selectedConn, setSelectedConn] = useState<number | null>(null);
   // Add state for selected glyph
   const [selectedGlyphId, setSelectedGlyphId] = useState<string | null>(null);
+  const [selectedGlyphIds, setSelectedGlyphIds] = useState<string[]>([]);
   const [hoveredConn, setHoveredConn] = useState<number | null>(null);
+  // Add state for menu
+  const [glyphMenu, setGlyphMenu] = useState<{ glyphId: string, x: number, y: number } | null>(null);
 
     // Handle delete key
   useEffect(() => {
@@ -280,8 +287,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           : glyph.label;
         const connectors = getConnectors(glyph, size, height);
         const numInputs = glyph.inputs ?? 2; // fallback to 2 if not set
-        return (
-          
+        // Determine if glyph is in a group and that group is selected
+        const isGrouped =
+          glyph.groupId &&
+          glyphs.some(
+            g =>
+              g.groupId === glyph.groupId &&
+              selectedGlyphIds.includes(g.id)
+          );
+        return (        
           <svg
             key={glyph.id}
             style={{
@@ -298,8 +312,22 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
             onMouseDown={e => handleMouseDown(e, glyph)}
             onClick={e => {
               e.stopPropagation();
+              if (e.shiftKey || e.ctrlKey) {
+                setSelectedGlyphIds(ids => ids.includes(glyph.id) ? ids : [...ids, glyph.id]);
+              } else {
+                setSelectedGlyphIds([glyph.id]);
+              }
               setSelectedGlyphId(glyph.id); // highlight this glyph
               if (onGlyphClick) onGlyphClick(glyph);
+            }}
+            // Right-click to open menu
+            onContextMenu={e => {
+              e.preventDefault();
+              setGlyphMenu({
+                glyphId: glyph.id,
+                x: e.clientX,
+                y: e.clientY,
+              });
             }}
           >
           {/* Highlight border if selected */}
@@ -310,8 +338,16 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
             height={height}
             rx={6}
             fill="none"
-            stroke={selectedGlyphId === glyph.id ? "#2563eb" : "transparent"}
-            strokeWidth={selectedGlyphId === glyph.id ? 4 : 0}
+            stroke={
+              selectedGlyphId === glyph.id
+                ? "#2563eb"
+                : isGrouped
+                ? "#38bdf8"
+                : "transparent"
+            }
+            strokeWidth={
+              selectedGlyphId === glyph.id || isGrouped ? 4 : 0
+            }
             pointerEvents="none"
           />
           {/* Glyph shape */}
@@ -396,6 +432,99 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           </svg>
         )
       })}
+      {/* Glyph context menu */}
+      {glyphMenu && (
+        <div
+          style={{
+            position: "fixed",
+            left: glyphMenu.x,
+            top: glyphMenu.y,
+            background: "#fff",
+            border: "1px solid #ccc",
+            borderRadius: 6,
+            boxShadow: "0 2px 8px #0002",
+            zIndex: 10000,
+            minWidth: 120,
+            padding: "4px 0"
+          }}
+          onMouseLeave={() => setGlyphMenu(null)}
+        >
+          <button
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "6px 16px",
+              background: "none",
+              border: "none",
+              textAlign: "left",
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              // Example: bring to front
+              bringGlyphToFront(glyphMenu.glyphId);
+              setGlyphMenu(null);
+            }}
+          >
+            Bring to Front
+          </button>
+          <button
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "6px 16px",
+              background: "none",
+              border: "none",
+              textAlign: "left",
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              sendGlyphToBack(glyphMenu.glyphId);
+              setGlyphMenu(null);
+            }}
+          >
+            Send to Back
+          </button>
+          <button
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "6px 16px",
+              background: "none",
+              border: "none",
+              textAlign: "left",
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              // Group all selected glyphs and the one from the menu
+              const idsToGroup = Array.from(new Set([glyphMenu.glyphId, ...selectedGlyphIds]));
+              groupGlyphs(idsToGroup);
+              setGlyphMenu(null);
+            }}
+          >
+            Group
+          </button>
+          <button
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "6px 16px",
+              background: "none",
+              border: "none",
+              textAlign: "left",
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              // Ungroup all selected glyphs and the one from the menu
+              const idsToUngroup = Array.from(new Set([glyphMenu.glyphId, ...selectedGlyphIds]));
+              ungroupGlyphs(idsToUngroup);
+              setGlyphMenu(null);
+            }}
+          >
+            Ungroup
+          </button>
+          {/* Add more menu actions as needed */}
+        </div>
+      )}
       </div>
     </div>
   )
