@@ -18,9 +18,11 @@ import { UMLAssociationGlyph } from "./type/uml/UMLAssociationGlyph";
 import { UMLInheritanceGlyph } from "./type/uml/UMLInheritanceGlyph";
 import type { UMLAttr } from "./type/uml/UMLAttr";
 import type { UMLMethod } from "./type/uml/UMLMethod";
+import { DebugGlyph } from "./type/util/DebugGlyph";
+import type { Glyph } from "./Glyph";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes, methods }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[] }) {
+export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes, methods, hasConnections }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean }) {
   switch (type) {
     case "rect":
       return <RectGlyph size={size} />;
@@ -56,6 +58,8 @@ export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncate
       return <UMLAssociationGlyph size={size} />;
     case "uml-inheritance":
       return <UMLInheritanceGlyph size={size} />;
+    case "debug":
+      return <DebugGlyph size={size}  height={height} hasConnections={hasConnections} />;
  
     default:
       return null;

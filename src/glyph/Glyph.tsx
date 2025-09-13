@@ -38,8 +38,13 @@ export class Glyph {
     this.ports = ports;
     this.data = data;
     this.label = label;
-    this.inputs = inputs;
-    this.outputs = outputs;
+    if(type === "debug") {
+      this.inputs = 1;
+      this.outputs = 1;
+    } else {
+      this.inputs = inputs;
+      this.outputs = outputs;      
+    }
     this.attributes = attributes;
     this.methods = methods;
   }

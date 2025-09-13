@@ -4,8 +4,8 @@ import { Stencil } from "./Stencil";
 const STENCILS = [
   { key: "basic", label: "Basic" },
   { key: "logic", label: "Logic Gates" },
-  { key: "uml", label: "UML" }, // Add this line
-
+  { key: "uml", label: "UML" }, 
+  { key: "debug", label: "Debug" }
 ];
 // Add connection types for UML
 const UML_CONNECTION_TYPES = ["uml-association", "uml-inheritance"];

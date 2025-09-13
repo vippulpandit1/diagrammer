@@ -23,6 +23,9 @@ const STENCIL_GLYPHS = {
     { type: "uml-enum", label: "Enum" },
     { type: "uml-package", label: "Package" },
   ],
+  debug: [
+    { type: "debug", label: "Debug", inputs: 1, outputs: 1 }
+  ],
 };
 
 type StencilType = keyof typeof STENCIL_GLYPHS;
@@ -46,7 +49,7 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           title={g.label}
         >
           <svg width={50} height={50}>
-            <GlyphRenderer type={g.type} size={40} />
+            <GlyphRenderer type={g.type} size={40}/>
           </svg>
           <div style={{ fontSize: 12, textAlign: "center" }}>{g.label}</div>
         </div>

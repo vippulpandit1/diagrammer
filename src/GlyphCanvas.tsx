@@ -295,6 +295,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
               g.groupId === glyph.groupId &&
               selectedGlyphIds.includes(g.id)
           );
+          // Check if this glyph has any connections (for breakpoint logic)
+          const hasConnections = connections.some(
+            conn => conn.fromGlyphId === glyph.id || conn.toGlyphId === glyph.id
+          );   
+          // If it's a debug glyph and has connections, log a breakpoint message
+          if (glyph.type === "debug" && hasConnections) {
+            console.log(`Breakpoint triggered on Debug Glyph "${glyph.label || glyph.id}": Connection detected.`);
+            // You can add more logic here, e.g., alert or custom action
+          }                 
         return (        
           <svg
             key={glyph.id}
@@ -359,7 +368,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
             orinLabel={glyph.label}
             isTruncated={isTruncated}
             attributes={glyph.attributes}
-            methods={glyph.methods} />
+            methods={glyph.methods}
+            hasConnections={hasConnections}  />
           {/* Property */ }
           {glyphs.map(glyph => (
             <svg
