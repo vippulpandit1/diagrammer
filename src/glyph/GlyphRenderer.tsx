@@ -29,21 +29,21 @@ export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncate
     case "circle":
       return <CircleGlyph size={size} />;
     case "and":
-      return <AndGateGlyph size={size} />;
+      return <AndGateGlyph width={size} height={height}/>;
     case "or":
-      return <OrGateGlyph size={size} />;
+      return <OrGateGlyph width={size} height={height} />;
     case "not":
-      return <NotGateGlyph size={size} />;
+      return <NotGateGlyph width={size} height={height} />;
     case "multi":
-      return <MultiPortGlyph size={size} />;
+      return <MultiPortGlyph width={size} height={height} />;
     case "nand":
-      return <NandGateGlyph size={size} />;
+      return <NandGateGlyph width={size} height={height} />;
     case "nor":
-      return <NorGateGlyph size={size} />;
+      return <NorGateGlyph width={size} height={height} />;
     case "xor":
-      return <XorGateGlyph size={size} />;
+      return <XorGateGlyph width={size} height={height} />;
     case "xnor":
-      return <XnorGateGlyph size={size} />;
+      return <XnorGateGlyph width={size} height={height} />;
     case "uml-class":
       return <UMLClassGlyph width={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} methods={methods}/>;
     case "uml-interface":

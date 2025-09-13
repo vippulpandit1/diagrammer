@@ -1,10 +1,54 @@
 import React from "react";
-export const NandGateGlyph: React.FC<{ size: number }> = ({ size }) => (
-  <g>
-    {/* AND shape */}
-    <rect x={0} y={size * 0.2} width={size * 0.5} height={size * 0.6} rx={size * 0.1} fill="#fff" stroke="#222" strokeWidth={2}/>
-    <path d={`M${size * 0.5},${size * 0.2} A${size * 0.3},${size * 0.3} 0 0 1 ${size * 0.5},${size * 0.8}`} fill="#fff" stroke="#222" strokeWidth={2}/>
-    {/* NOT circle */}
-    <circle cx={size * 0.8} cy={size / 2} r={size * 0.08} fill="#fff" stroke="#222" strokeWidth={2}/>
-  </g>
-);
+export const NandGateGlyph: React.FC<{ width: number; height?: number }> = ({ width, height }) => {
+  const h = height ?? width;
+  // Rectangle (AND part)
+  const rectX = 0;
+  const rectY = 0;
+  const rectW = width * 0.5;
+  const rectH = h;
+  const rectRX = width * 0.1;
+  // Arc (AND part)
+  const arcStartX = width * 0.5;
+  const arcStartY = 0;
+  const arcEndX = width * 0.5;
+  const arcEndY = h;
+  const arcRadius = h / 2;
+  // NOT circle
+  const circleCX = width * 0.8;
+  const circleCY = h / 2;
+  const circleR = Math.min(width, h) * 0.08;
+
+  return (
+    <g>
+      {/* AND shape */}
+      <rect
+        x={rectX}
+        y={rectY}
+        width={rectW}
+        height={rectH}
+        rx={rectRX}
+        fill="#fff"
+        stroke="#222"
+        strokeWidth={2}
+      />
+      <path
+        d={`
+          M${arcStartX},${arcStartY}
+          A${arcRadius},${arcRadius} 0 0 1 ${arcEndX},${arcEndY}
+        `}
+        fill="#fff"
+        stroke="#222"
+        strokeWidth={2}
+      />
+      {/* NOT circle */}
+      <circle
+        cx={circleCX}
+        cy={circleCY}
+        r={circleR}
+        fill="#fff"
+        stroke="#222"
+        strokeWidth={2}
+      />
+    </g>
+  );
+};

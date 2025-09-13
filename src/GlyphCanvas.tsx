@@ -307,6 +307,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
         return (        
           <svg
             key={glyph.id}
+            // explicit svg width/height attrs + viewBox so inner glyph scales correctly
+            width={size}
+            height={height}
+            viewBox={`0 0 ${size} ${height}`}
+            preserveAspectRatio="xMidYMid meet"            
             style={{
               position: 'absolute',
               left: glyph.x,
@@ -363,7 +368,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           <GlyphRenderer 
             type={glyph.type} 
             size={size} 
-            height={finalHeight}
+            height={height}
             label={displayLabel}
             orinLabel={glyph.label}
             isTruncated={isTruncated}
