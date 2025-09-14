@@ -106,9 +106,9 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
   };
   const getConnectors = (glyph: Glyph, width: number, height: number) => {
     const connectors = [];
-
-    // Inputs: left edge
     const numInputs = glyph.inputs ?? 2;
+    const numOutputs = glyph.outputs ?? 1;
+
     for (let i = 0; i < numInputs; i++) {
       connectors.push({
         cx: 0,
@@ -117,8 +117,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
       });
     }
 
-    // Outputs: right edge
-    const numOutputs = glyph.outputs ?? 1;
+
     for (let i = 0; i < numOutputs; i++) {
       connectors.push({
         cx: width,
@@ -332,8 +331,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
                 setSelectedGlyphIds([glyph.id]);
               }
               setSelectedGlyphId(glyph.id); // highlight this glyph
+//              if (onGlyphClick) onGlyphClick(glyph);
+            }}
+            onDoubleClick={e => {
+              e.stopPropagation();
+              setSelectedGlyphIds([glyph.id]);
+              setSelectedGlyphId(glyph.id); // highlight this glyph
               if (onGlyphClick) onGlyphClick(glyph);
             }}
+            
             // Right-click to open menu
             onContextMenu={e => {
               e.preventDefault();

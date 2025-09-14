@@ -35,7 +35,7 @@ export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncate
     case "not":
       return <NotGateGlyph width={size} height={height} />;
     case "multi":
-      return <MultiPortGlyph width={size} height={height} />;
+      return <MultiPortGlyph size={size} />;
     case "nand":
       return <NandGateGlyph width={size} height={height} />;
     case "nor":
