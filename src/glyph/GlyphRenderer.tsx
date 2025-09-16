@@ -22,14 +22,14 @@ import { DebugGlyph } from "./type/util/DebugGlyph";
 import type { Glyph } from "./Glyph";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes, methods, hasConnections }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean }) {
+export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph }) {
   switch (type) {
     case "rect":
       return <RectGlyph size={size} />;
     case "circle":
       return <CircleGlyph size={size} />;
     case "and":
-      return <AndGateGlyph width={size} height={height}/>;
+      return <AndGateGlyph width={size} height={height} glyph={glyph}/>;
     case "or":
       return <OrGateGlyph width={size} height={height} />;
     case "not":

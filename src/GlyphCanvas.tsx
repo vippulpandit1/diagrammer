@@ -3,6 +3,7 @@ import { Glyph } from './glyph/Glyph'
 import type { Connection } from './glyph/GlyphDocument'
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 
+
 interface GlyphCanvasProps {
   glyphs: Glyph[]
   onMoveGlyph: (id: string, x: number, y: number) => void
@@ -101,7 +102,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
     const conns = getConnectors(glyph, width, height);
     return {
       x: glyph.x + conns[idx].cx,
-      y: glyph.y + conns[idx].cy,
+      y: glyph.y + conns[idx].cy + 5,
     };
   };
   const getConnectors = (glyph: Glyph, width: number, height: number) => {
@@ -181,55 +182,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
 
           const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h)
           const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h)
-          // Association: solid line, no arrow
-          if (conn.type === "association") {
-            return (
-              <line
-                key={i}
-                x1={from.x}
-                y1={from.y}
-                x2={to.x}
-                y2={to.y}
-                stroke="#222"
-                strokeWidth={2}
-              />
-            );
-          }
 
-          // Inheritance: solid line with hollow triangle arrow
-          if (conn.type === "inheritance") {
-            return (
-              <g key={i}>
-                <defs>
-                  <marker
-                    id="inheritance-arrow"
-                    markerWidth="12"
-                    markerHeight="12"
-                    refX="10"
-                    refY="6"
-                    orient="auto"
-                    markerUnits="strokeWidth"
-                  >
-                    <polygon
-                      points="2,2 10,6 2,10 2,2"
-                      fill="#fff"
-                      stroke="#222"
-                      strokeWidth={1.5}
-                    />
-                  </marker>
-                </defs>
-                <line
-                  x1={from.x}
-                  y1={from.y}
-                  x2={to.x}
-                  y2={to.y}
-                  stroke="#222"
-                  strokeWidth={2}
-                  markerEnd="url(#inheritance-arrow)"
-                />
-              </g>
-            );
-          }
           return (
             <path
               key={i}
@@ -380,7 +333,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
             isTruncated={isTruncated}
             attributes={glyph.attributes}
             methods={glyph.methods}
-            hasConnections={hasConnections}  />
+            hasConnections={hasConnections}
+            glyph={glyph}  />
           {/* Property */ }
           {glyphs.map(glyph => (
             <svg
