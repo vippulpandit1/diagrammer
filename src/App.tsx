@@ -19,6 +19,8 @@ function App() {
   const [propertySheetOpen, setPropertySheetOpen] = useState(false);
   const [connectionType, setConnectionType] = useState<"association" | "inheritance" | "default">("association");
   const [stencilType, setStencilType] = useState("basic");  
+  const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
+
   // Load zoom from sessionStorage or default to 1
   const [zoom, setZoom] = useState(() => {
     const saved = sessionStorage.getItem("zoomRatio");
@@ -242,6 +244,7 @@ function App() {
           sendGlyphToBack={sendGlyphToBack}     // <-- add this if needed
           groupGlyphs={groupGlyphs}
           ungroupGlyphs={ungroupGlyphs}
+          connectorType={connectorType}    // <-- pass connectorType state
         />
       {/* render Property Sheet if open */}
       {propertySheetOpen && selectedGlyph && (
@@ -249,6 +252,8 @@ function App() {
           glyph={selectedGlyph}
           onClose={() => setPropertySheetOpen(false)}
           onUpdate={handleUpdateGlyph}
+          connectorType={connectorType}
+          setConnectorType={setConnectorType}
         />
       )}     
       {/* Footer */}

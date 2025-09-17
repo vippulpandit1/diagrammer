@@ -3,6 +3,32 @@ import { Glyph } from './glyph/Glyph'
 import type { Connection } from './glyph/GlyphDocument'
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 
+const getConnectionPath = (
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  type: "bezier" | "manhattan" | "line" = "bezier"
+) => {
+  if (type === "line") {
+    return `M${from.x},${from.y} L${to.x},${to.y}`;
+  }
+  if (type === "manhattan") {
+    // Manhattan (elbow) path
+    const dx = Math.abs(to.x - from.x);
+    const dy = Math.abs(to.y - from.y);
+    if (dx > dy) {
+      const mx = (from.x + to.x) / 2;
+      return `M${from.x},${from.y} L${mx},${from.y} L${mx},${to.y} L${to.x},${to.y}`;
+    }
+    const my = (from.y + to.y) / 2;
+    return `M${from.x},${from.y} L${from.x},${my} L${to.x},${my} L${to.x},${to.y}`;
+  }
+  // Bezier curve
+  const c1x = from.x + (to.x - from.x) * 0.3;
+  const c1y = from.y;
+  const c2x = to.x - (to.x - from.x) * 0.3;
+  const c2y = to.y;
+  return `M${from.x},${from.y} C${c1x},${c1y} ${c2x},${c2y} ${to.x},${to.y}`;
+};
 
 interface GlyphCanvasProps {
   glyphs: Glyph[]
@@ -17,9 +43,11 @@ interface GlyphCanvasProps {
   sendGlyphToBack: (glyphId: string) => void;
   groupGlyphs: (glyphIds: string[]) => void;
   ungroupGlyphs: (glyphIds: string[]) => void;
+  connectorType: "bezier" | "manhattan" | "line"; // <-- add this line
+
 }
 
-export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, onMoveGlyph, onAddConnection, onDeleteConnection, zoom, onAddGlyph, onGlyphClick, bringGlyphToFront,  sendGlyphToBack, groupGlyphs, ungroupGlyphs}) => {
+export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, onMoveGlyph, onAddConnection, onDeleteConnection, zoom, onAddGlyph, onGlyphClick, bringGlyphToFront,  sendGlyphToBack, groupGlyphs, ungroupGlyphs, connectorType}) => {
   const [dragging, setDragging] = useState<null | { id: string, offsetX: number, offsetY: number }>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [dragMouse, setDragMouse] = useState<{ x: number, y: number } | null>(null);
@@ -83,13 +111,13 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
       window.removeEventListener('mouseup', handleMouseUp)
     }
   }, [dragging, onMoveGlyph])
-  const size = 60
+  const width = 60
   const [dragConn, setDragConn] = useState<null | {
     fromGlyphId: string, fromPortIdx: number, fromX: number, fromY: number
   }>(null)
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null)
   const defaultTileSize = 60;
-  // Helper to compute glyph visual size based on label and attributes
+  // Helper to compute glyph visual width based on label and attributes
   const computeGlyphSize = (glyph: Glyph) => {
     const labelWidth = Math.max(60, (glyph.label?.length ?? 0) * 10 + 32);
     const attrHeight = (glyph.attributes?.length ?? 0) * 18 + defaultTileSize;
@@ -186,7 +214,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           return (
             <path
               key={i}
-              d={`M${from.x},${from.y} C${from.x + 40},${from.y} ${to.x - 40},${to.y} ${to.x},${to.y}`}
+              d={getConnectionPath(from, to, connectorType)}
               stroke={
                 selectedConn === i
                   ? "#f87171"
@@ -228,16 +256,16 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
         const attrHeight = (glyph.attributes?.length ?? 0) * 20 + 60;
         // Estimate method height
         const methodHeight = (glyph.methods?.length ?? 0) * 20 + attrHeight;
-        // Use the largest of labelWidth or a minimum size
-        const size = Math.max(labelWidth, 100);
+        // Use the largest of labelWidth or a minimum width
+        const width = Math.max(labelWidth, 100);
         const height = Math.max(attrHeight, 80);
         const finalHeight = glyph.type === "uml-class" ? Math.max(methodHeight, height) : height;
-        const maxLabelChars = 5;//Math.floor(size / 10); // Estimate max chars that fit
+        const maxLabelChars = 5;//Math.floor(width / 10); // Estimate max chars that fit
         const isTruncated = !!(glyph.label && glyph.label.length > maxLabelChars);
         const displayLabel = isTruncated
           ? glyph.label.slice(0, maxLabelChars - 3) + "..."
           : glyph.label;
-        const connectors = getConnectors(glyph, size, height);
+        const connectors = getConnectors(glyph, width, height);
         const numInputs = glyph.inputs ?? 2; // fallback to 2 if not set
         // Determine if glyph is in a group and that group is selected
         const isGrouped =
@@ -260,15 +288,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           <svg
             key={glyph.id}
             // explicit svg width/height attrs + viewBox so inner glyph scales correctly
-            width={size}
+            width={width}
             height={height}
-            viewBox={`0 0 ${size} ${height}`}
+            viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="xMidYMid meet"            
             style={{
               position: 'absolute',
               left: glyph.x,
               top: glyph.y,
-              width: size,
+              width: width,
               height: height,
               overflow: 'visible',
               cursor: 'grab',
@@ -307,7 +335,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           <rect
             x={0}
             y={0}
-            width={size}
+            width={width}
             height={height}
             rx={6}
             fill="none"
@@ -326,7 +354,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({ glyphs, connections, o
           {/* Glyph shape */}
           <GlyphRenderer 
             type={glyph.type} 
-            size={size} 
+            width={width} 
             height={height}
             label={displayLabel}
             orinLabel={glyph.label}

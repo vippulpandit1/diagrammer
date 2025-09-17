@@ -20,47 +20,75 @@ import type { UMLAttr } from "./type/uml/UMLAttr";
 import type { UMLMethod } from "./type/uml/UMLMethod";
 import { DebugGlyph } from "./type/util/DebugGlyph";
 import type { Glyph } from "./Glyph";
+import { NetworkGlyph } from "./type/network/NetworkGlyph";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, size, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph }: { type: string; size: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph }) {
+export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph }) {
   switch (type) {
     case "rect":
-      return <RectGlyph size={size} />;
+      return <RectGlyph size={width} />;
     case "circle":
-      return <CircleGlyph size={size} />;
+      return <CircleGlyph size={width} />;
     case "and":
-      return <AndGateGlyph width={size} height={height} glyph={glyph}/>;
+      return <AndGateGlyph width={width} height={height} glyph={glyph}/>;
     case "or":
-      return <OrGateGlyph width={size} height={height} />;
+      return <OrGateGlyph width={width} height={height} />;
     case "not":
-      return <NotGateGlyph width={size} height={height} />;
+      return <NotGateGlyph width={width} height={height} />;
     case "multi":
-      return <MultiPortGlyph size={size} />;
+      return <MultiPortGlyph size={width} />;
     case "nand":
-      return <NandGateGlyph width={size} height={height} />;
+      return <NandGateGlyph width={width} height={height} />;
     case "nor":
-      return <NorGateGlyph width={size} height={height} />;
+      return <NorGateGlyph width={width} height={height} />;
     case "xor":
-      return <XorGateGlyph width={size} height={height} />;
+      return <XorGateGlyph width={width} height={height} />;
     case "xnor":
-      return <XnorGateGlyph width={size} height={height} />;
+      return <XnorGateGlyph width={width} height={height} />;
     case "uml-class":
-      return <UMLClassGlyph width={size} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} methods={methods}/>;
+      return <UMLClassGlyph width={width} height={height} label={label} orinLabel={orinLabel} isTruncated={isTruncated} attributes={attributes} methods={methods}/>;
     case "uml-interface":
-      return <UMLInterfaceGlyph size={size} />;
+      return <UMLInterfaceGlyph size={width} />;
     case "uml-abstract":
-      return <UMLAbstractGlyph size={size} />;
+      return <UMLAbstractGlyph size={width} />;
     case "uml-enum":
-      return <UMLEnumGlyph size={size} />;
+      return <UMLEnumGlyph size={width} />;
     case "uml-package":
-      return <UMLPackageGlyph size={size} />;
+      return <UMLPackageGlyph size={width} />;
     case "uml-association":
-      return <UMLAssociationGlyph size={size} />;
+      return <UMLAssociationGlyph size={width} />;
     case "uml-inheritance":
-      return <UMLInheritanceGlyph size={size} />;
+      return <UMLInheritanceGlyph size={width} />;
     case "debug":
-      return <DebugGlyph size={size}  height={height} hasConnections={hasConnections} />;
- 
+      return <DebugGlyph size={width}  height={height} hasConnections={hasConnections} />;
+    case "network-server":
+      return <NetworkGlyph type="network-server" width={width} height={height}  />;
+    case "network-switch":
+      return <NetworkGlyph type="network-switch" width={width} height={height}  />;
+    case "network-router":
+      return <NetworkGlyph type="network-router" width={width} height={height}  />;
+    case "network-firewall":
+      return <NetworkGlyph type="network-firewall" width={width} height={height}  />;
+    case "network-pc":
+      return <NetworkGlyph type="network-pc" width={width} height={height}  />;
+    case "network-cloud":
+      return <NetworkGlyph type="network-cloud" width={width} height={height}  />;
+    case "network-database":
+      return <NetworkGlyph type="network-database" width={width} height={height}  />;
+    case "network-laptop":
+      return <NetworkGlyph type="network-laptop" width={width} height={height}  />;
+    case "network-phone":
+      return <NetworkGlyph type="network-phone" width={width} height={height}  />;
+    case "network-tablet":
+      return <NetworkGlyph type="network-tablet" width={width} height={height}  />;
+    case "network-wifi":
+      return <NetworkGlyph type="network-wifi" width={width} height={height}  />;
+    case "network-printer":
+      return <NetworkGlyph type="network-printer" width={width} height={height}  />;
+    case "network-hub":
+      return <NetworkGlyph type="network-hub" width={width} height={height}  />;
+    case "network-cable":
+      return <NetworkGlyph type="network-cable" width={width} height={height}  />;
     default:
       return null;
   }

@@ -26,6 +26,22 @@ const STENCIL_GLYPHS = {
   debug: [
     { type: "debug", label: "Debug", inputs: 1, outputs: 1 }
   ],
+  network: [
+    { type: "network-server", label: "Server" },
+    { type: "network-switch", label: "Switch" },
+    { type: "network-router", label: "Router" },
+    { type: "network-firewall", label: "Firewall" },
+    { type: "network-pc", label: "PC" },
+    { type: "network-cloud", label: "Cloud" },
+    { type: "network-database", label: "Database" },
+    { type: "network-laptop", label: "Laptop" },
+    { type: "network-phone", label: "Phone" },
+    { type: "network-tablet", label: "Tablet" },
+    { type: "network-wifi", label: "WiFi" },
+    { type: "network-printer", label: "Printer" },
+    { type: "network-hub", label: "Hub" },
+    { type: "network-cable", label: "Cable" }
+  ],
 };
 
 type StencilType = keyof typeof STENCIL_GLYPHS;
@@ -49,7 +65,7 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           title={g.label}
         >
           <svg width={50} height={50}>
-            <GlyphRenderer type={g.type} size={40}/>
+            <GlyphRenderer type={g.type} width={40} height={40}/>
           </svg>
           <div style={{ fontSize: 12, textAlign: "center" }}>{g.label}</div>
         </div>

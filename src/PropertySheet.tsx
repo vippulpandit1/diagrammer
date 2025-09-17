@@ -15,7 +15,9 @@ export const PropertySheet: React.FC<{
   line?: Connection;
   onClose: () => void;
   onUpdate: (id: string, updates: Partial<Glyph>) => void;
-}> = ({ glyph, line, onClose, onUpdate }) => {
+  connectorType: "bezier" | "manhattan" | "line";
+  setConnectorType: (type: "bezier" | "manhattan" | "line") => void;
+}> = ({ glyph, line, onClose, onUpdate, connectorType, setConnectorType }) => {
   const [activeTab, setActiveTab] = useState<"Style" | "Text" | "General">("General");
 
   const [label, setLabel] = useState(glyph.label);
@@ -425,7 +427,21 @@ export const PropertySheet: React.FC<{
               style={{ marginLeft: 8, width: 60 }}
             />
           </div>
-        </div>
+
+            <div style={{ marginTop: 16 }}>
+              <label>Connector Type: </label>
+              <select
+                value={connectorType}
+                onChange={e => setConnectorType(e.target.value as "bezier" | "manhattan" | "line")}
+                style={{ marginLeft: 8 }}
+              >
+                <option value="bezier">Curve (Bezier)</option>
+                <option value="manhattan">Manhattan (Elbow)</option>
+                <option value="line">Straight Line</option>
+              </select>
+            </div>
+          </div>
+
       )}
       {activeTab === "Text" && (
         <div style={{ padding: 16 }}>
