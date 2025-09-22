@@ -1,5 +1,6 @@
 // A connection between two ports
 export class Connection {
+  public id?: string = crypto.randomUUID(); // Unique ID for each connection
   public fromGlyphId: string;
   public fromPortId: string;
   public toGlyphId: string;
@@ -7,12 +8,14 @@ export class Connection {
   public type: "association" | "inheritance" | "default" = "default";
 
   constructor(
+    id: string = crypto.randomUUID(),
     fromGlyphId: string,
     fromPortId: string,
     toGlyphId: string,
     toPortId: string,
     type: "association" | "inheritance" | "default" = "default"
   ) {
+    this.id = id;
     this.fromGlyphId = fromGlyphId;
     this.fromPortId = fromPortId;
     this.toGlyphId = toGlyphId;
@@ -21,6 +24,6 @@ export class Connection {
   }
 
   static fromJSON(obj: any): Connection {
-    return new Connection(obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.type || "default");
+    return new Connection(obj.id, obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.type || "default");
   }
 }

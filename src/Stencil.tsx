@@ -6,6 +6,7 @@ const STENCIL_GLYPHS = {
     { type: "rect", label: "Rectangle" },
     { type: "circle", label: "Circle" },
     { type: "multi", label: "Multi I/O" },
+    { type: "text", label: "Text" },
   ],
   logic: [
     { type: "and", label: "AND" },
@@ -40,7 +41,41 @@ const STENCIL_GLYPHS = {
     { type: "network-wifi", label: "WiFi" },
     { type: "network-printer", label: "Printer" },
     { type: "network-hub", label: "Hub" },
-    { type: "network-cable", label: "Cable" }
+    { type: "network-cable", label: "Cable" },
+    { type: "network-bridge", label: "Bridge" },    
+  ],
+  flowchart: [
+    { type: "flow-start", label: "Start" },
+    { type: "flow-end", label: "End" },
+    { type: "flow-process", label: "Process" },
+    { type: "flow-io", label: "I/O" },
+    { type: "flow-decision", label: "Decision" },
+    { type: "flow-connector", label: "Connector" },
+    { type: "flow-arrow", label: "Arrow" },
+    { type: "flow-card", label: "Card" },
+    { type: "flow-document", label: "Document" },
+    { type: "flow-predefined-process", label: "Predefined Process" },
+    { type: "flow-data", label: "Data" },
+    { type: "flow-delay", label: "Delay" },
+    { type: "flow-display", label: "Display" },
+    { type: "flow-subroutine", label: "Subroutine" },
+    { type: "flow-multi-document", label: "Multi-Document" },
+    { type: "flow-sorted-data", label: "Sorted Data" },
+    { type: "flow-collate", label: "Collate" },
+    { type: "flow-summarize", label: "Summarize" },
+    { type: "flow-extract", label: "Extract" },
+    { type: "flow-manual-input", label: "Manual Input" },
+    { type: "flow-manual-operation", label: "Manual Operation" },
+    { type: "flow-preparation", label: "Preparation" },
+    { type: "flow-on-page-connector", label: "On-Page Connector" },
+    { type: "flow-off-page-connector", label: "Off-Page Connector" },
+    { type: "flow-merge", label: "Merge" },
+    { type: "flow-decision-alt", label: "Decision Alt" },
+    { type: "flow-split", label: "Split" },
+    { type: "flow-database", label: "Database" },
+    { type: "flow-manual-loop", label: "Manual Loop" },
+    { type: "flow-loop-limit", label: "Loop Limit" },
+    { type: "flow-internal-storage", label: "Internal Storage" },
   ],
 };
 
@@ -64,7 +99,7 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           className="stencil-glyph"
           title={g.label}
         >
-          <svg width={50} height={50}>
+          <svg width={45} height={45}>
             <GlyphRenderer type={g.type} width={40} height={40}/>
           </svg>
           <div style={{ fontSize: 12, textAlign: "center" }}>{g.label}</div>

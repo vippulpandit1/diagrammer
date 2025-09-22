@@ -15,12 +15,21 @@ function App() {
   const [draggingToolbar, setDraggingToolbar] = useState(false);
 
   const [connections, setConnections] = useState<Connection[]>([])
+  const [selectedConnection, setSelectedConnection] = useState<Connection | null>(null) // for new connection in progress
   const [selectedGlyph, setSelectedGlyph] = useState<Glyph | null>(null);
   const [propertySheetOpen, setPropertySheetOpen] = useState(false);
   const [connectionType, setConnectionType] = useState<"association" | "inheritance" | "default">("association");
   const [stencilType, setStencilType] = useState("basic");  
   const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
 
+  const handleUpdateConnectionType = (connId: string, newType: "bezier" | "manhattan" | "line") => {
+    setConnections(conns =>
+      conns.map(conn =>
+        conn.id === connId ? { ...conn, type: newType as "association" | "inheritance" | "default" } : conn
+      )
+    );
+  };
+  
   // Load zoom from sessionStorage or default to 1
   const [zoom, setZoom] = useState(() => {
     const saved = sessionStorage.getItem("zoomRatio");
@@ -237,23 +246,30 @@ function App() {
           zoom={zoom}
           onAddGlyph={handleAddGlyph}
           onGlyphClick={glyph => {
+            setPropertySheetOpen(false);
             setSelectedGlyph(glyph);
             setPropertySheetOpen(true);
           }}
-          bringGlyphToFront={bringGlyphToFront} // <-- add this
-          sendGlyphToBack={sendGlyphToBack}     // <-- add this if needed
+          bringGlyphToFront={bringGlyphToFront} 
+          sendGlyphToBack={sendGlyphToBack}    
           groupGlyphs={groupGlyphs}
           ungroupGlyphs={ungroupGlyphs}
-          connectorType={connectorType}    // <-- pass connectorType state
+          connectorType={connectorType}  
+          onConnectionClick={conn => {
+            setSelectedConnection(conn);
+            setPropertySheetOpen(true);
+          }} 
         />
       {/* render Property Sheet if open */}
-      {propertySheetOpen && selectedGlyph && (
+      {propertySheetOpen && selectedGlyph && selectedConnection && (
         <PropertySheet
           glyph={selectedGlyph}
+          line={selectedConnection ?? undefined}
           onClose={() => setPropertySheetOpen(false)}
           onUpdate={handleUpdateGlyph}
           connectorType={connectorType}
           setConnectorType={setConnectorType}
+          onUpdateConnectionType={handleUpdateConnectionType} 
         />
       )}     
       {/* Footer */}

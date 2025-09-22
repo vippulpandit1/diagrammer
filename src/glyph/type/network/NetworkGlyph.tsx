@@ -114,6 +114,7 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <line x1={scale(20, "x")} y1={scale(20, "y")} x2={scale(20, "x")} y2={scale(8, "y")} stroke="#222" />
         </g>
       );
+
     case "network-cable":
       return (
         <g>
@@ -121,6 +122,41 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <rect x={scale(18, "x")} y={scale(12, "y")} width={scale(4, "x")} height={scale(4, "y")} fill="#888" />
         </g>
       );
+    case "network-bridge":
+      return (
+        <g>
+          {/* Main bridge body */}
+          <rect
+            x={scale(10, "x")}
+            y={scale(16, "y")}
+            width={scale(20, "x")}
+            height={scale(8, "y")}
+            rx={scale(4, "x")}
+            fill="#f3f4f6"
+            stroke="#2563eb"
+            strokeWidth={2 * Math.max(sx, sy)}
+          />
+          {/* Two "legs" */}
+          <rect
+            x={scale(12, "x")}
+            y={scale(24, "y")}
+            width={scale(4, "x")}
+            height={scale(6, "y")}
+            fill="#2563eb"
+            stroke="#2563eb"
+            strokeWidth={1 * Math.max(sx, sy)}
+          />
+          <rect
+            x={scale(24, "x")}
+            y={scale(24, "y")}
+            width={scale(4, "x")}
+            height={scale(6, "y")}
+            fill="#2563eb"
+            stroke="#2563eb"
+            strokeWidth={1 * Math.max(sx, sy)}
+          />
+        </g>
+      );    
     default:
       return (
         <g>

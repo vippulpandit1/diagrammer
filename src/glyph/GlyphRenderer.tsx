@@ -21,6 +21,8 @@ import type { UMLMethod } from "./type/uml/UMLMethod";
 import { DebugGlyph } from "./type/util/DebugGlyph";
 import type { Glyph } from "./Glyph";
 import { NetworkGlyph } from "./type/network/NetworkGlyph";
+import { TextGlyph } from "./type/basic/TextGlyph";
+import { FlowchartGlyph } from "./type/flowchart/FlowchartGlyph";
 // import other glyphs as needed
 
 export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph }) {
@@ -29,6 +31,17 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <RectGlyph size={width} />;
     case "circle":
       return <CircleGlyph size={width} />;
+    case "text":
+      return (
+        <TextGlyph
+          label={label}
+          width={width}
+          height={height ?? 40}
+          fontSize={glyph?.data?.fontSize}
+          fontFamily={glyph?.data?.fontFamily}
+          textColor={glyph?.data?.textColor}
+        />
+      );
     case "and":
       return <AndGateGlyph width={width} height={height} glyph={glyph}/>;
     case "or":
@@ -89,6 +102,41 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-hub" width={width} height={height}  />;
     case "network-cable":
       return <NetworkGlyph type="network-cable" width={width} height={height}  />;
+    case "network-bridge":
+      return <NetworkGlyph type="network-bridge" width={width} height={height}  />;
+    case "flow-start":
+    case "flow-end":
+    case "flow-process":
+    case "flow-io":
+    case "flow-decision":
+    case "flow-connector":
+    case "flow-predefined-process":
+    case "flow-document":
+    case "flow-multi-document":
+    case "flow-data":
+    case "flow-database":
+    case "flow-display":
+    case "flow-terminator":
+    case "flow-preparation":
+    case "flow-on-page-connector":
+    case "flow-off-page-connector":
+    case "flow-card":
+    case "flow-sorted-data":
+    case "flow-collate":
+    case "flow-summarize":
+    case "flow-extract":
+    case "flow-decision-alt":
+    case "flow-delay":
+    case "flow-arrow":
+    case "flow-subroutine":
+    case "flow-merge":
+    case "flow-split":
+    case "flow-manual-input":
+    case "flow-manual-operation":
+    case "flow-manual-loop":
+    case "flow-loop-limit":
+    case "flow-internal-storage":
+      return <FlowchartGlyph type={type} width={width} height={height} />;
     default:
       return null;
   }

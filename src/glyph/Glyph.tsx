@@ -16,6 +16,7 @@ export class Glyph {
   attributes?: UMLAttr[];
   methods?: UMLMethod[];
   groupId?: string; // Optional group ID for grouping glyphs
+  onUpdate?: (id: string, updates: { label: string }) => void;
 
   constructor(
     id: string,
