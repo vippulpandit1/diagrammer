@@ -110,10 +110,10 @@ function App() {
       glyphs.map(g => g.id === id ? { ...g, ...updates } : g)
     );
   };
-  const handleAddGlyph = (type: string, x: number, y: number) => {
+  const handleAddGlyph = (type: string, x: number, y: number, inputs?: number, outputs?: number) => {
     setGlyphs(glyphs => [
       ...glyphs,
-      new Glyph(`glyph-${Date.now()}`, type, x, y)
+      new Glyph(`glyph-${Date.now()}`, type, x, y, [], {}, "", inputs ?? 2, outputs ?? 1)
     ]);
   };
   const handleAutoArrange = () => {

@@ -18,6 +18,7 @@ export class Glyph {
   groupId?: string; // Optional group ID for grouping glyphs
   onUpdate?: (id: string, updates: { label: string }) => void;
 
+  
   constructor(
     id: string,
     type: string,

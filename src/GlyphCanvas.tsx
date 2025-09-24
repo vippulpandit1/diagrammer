@@ -99,7 +99,7 @@ interface GlyphCanvasProps {
   onAddConnection: (conn: Connection) => void;
   onDeleteConnection: (connIndex: number) => void;
   zoom: number;
-  onAddGlyph: (type: string, x: number, y: number) => void;
+  onAddGlyph: (type: string, x: number, y: number, inputs?: number, outputs?: number) => void;
   onGlyphClick?: (glyph: Glyph) => void;
   bringGlyphToFront: (glyphId: string) => void;
   sendGlyphToBack: (glyphId: string) => void;
@@ -191,12 +191,25 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   };
 
   const handleDrop = (e: React.DragEvent) => {
-    const type = e.dataTransfer.getData("glyphType");
+    let type = e.dataTransfer.getData("glyphType");
+    let inputs: number | undefined = undefined;
+    let outputs: number | undefined = undefined;
+    const json = e.dataTransfer.getData("glyphJSON");
+    if (json) {
+      try {
+        const parsed = JSON.parse(json);
+        if (parsed.type) type = parsed.type;
+        if (typeof parsed.inputs === "number") inputs = parsed.inputs;
+        if (typeof parsed.outputs === "number") outputs = parsed.outputs;
+      } catch (err) {
+        // ignore
+      }
+    }
     if (type) {
       const rect = (e.target as HTMLElement).getBoundingClientRect();
       const x = (e.clientX - rect.left) / zoom;
       const y = (e.clientY - rect.top) / zoom;
-      onAddGlyph(type, x, y);
+      onAddGlyph(type, x, y, inputs, outputs);
     }
   };
 
