@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 
 const STENCIL_GLYPHS = {
@@ -78,12 +78,41 @@ const STENCIL_GLYPHS = {
     { type: "flow-internal-storage", label: "Internal Storage", inputs: 1, outputs: 1 },
   ],
 };
-
+// small helper that returns a short explanation for a glyph type.
+// you can expand this mapping or add `description` to individual stencil entries.
+function getGlyphDescription(type: string, label?: string) {
+  const map: Record<string, string> = {
+    // flowchart examples
+    "flow-start": "Start: entry point of the flowchart (no inputs, one output).",
+    "flow-end": "End: termination point of the flowchart (one input, no outputs).",
+    "flow-process": "Process: a step or action in the workflow.",
+    "flow-decision": "Decision: branching point with Yes/No or True/False (two outputs).",
+    "flow-io": "I/O: input or output operation (parallelogram).",
+    "flow-database": "Database: stored data (cylindrical symbol).",
+    "flow-display": "Display: output shown to user (curved bottom).",
+    "flow-manual-input": "Manual Input: user-provided data (slanted top).",
+    "flow-manual-operation": "Manual Operation: manual task (beveled shape).",
+    "flow-connector": "Connector: flow connector, use for internal links.",
+    "flow-on-page-connector": "On-Page Connector: small circle to connect flows on same page.",
+    "flow-off-page-connector": "Off-Page Connector: denotes continuation on another page.",
+    "flow-arrow": "Arrow: directional connector (use to show flow).",
+    "flow-merge": "Merge: join multiple flows into one.",
+    "flow-split": "Split: split one flow into multiple paths.",
+    "flow-internal-storage": "Internal Storage: data stored within the program (rectangle with L-line).",
+    // generic fallback
+  };
+  return map[type] ?? label ?? "Glyph";
+}
 type StencilType = keyof typeof STENCIL_GLYPHS;
 
 export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (type: string) => void }> = ({ stencilType, onGlyphDragStart }) => {
   const glyphs = STENCIL_GLYPHS[stencilType] || [];
-
+  const [tooltip, setTooltip] = useState<{ visible: boolean; x: number; y: number; text: string }>({
+    visible: false,
+    x: 0,
+    y: 0,
+    text: "",
+  });
   const handleDragStart = (e: React.DragEvent, g: { type: string; inputs?: number; outputs?: number }) => {
     // put both a simple type and a JSON payload (includes ports) onto the drag data
     e.dataTransfer.setData("glyphType", g.type);
@@ -94,6 +123,20 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
     }
     if (onGlyphDragStart) onGlyphDragStart(g.type);
   };
+  const showTooltip = (e: React.MouseEvent, g: any) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = rect.right + 8; // place tooltip to the right of glyph
+    const y = rect.top;
+    const text = g.description ?? getGlyphDescription(g.type, g.label);
+    setTooltip({ visible: true, x, y, text });
+  };
+
+  const moveTooltip = (e: React.MouseEvent) => {
+    // keep tooltip near mouse (small offset)
+    setTooltip(t => ({ ...t, x: e.clientX + 12, y: e.clientY + 12 }));
+  };
+
+  const hideTooltip = () => setTooltip(t => ({ ...t, visible: false }));
 
   return (
     <div className="stencil">
@@ -102,8 +145,12 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           key={g.type}
           draggable
           onDragStart={e => handleDragStart(e, g)}
+          onMouseEnter={e => showTooltip(e, g)}
+          onMouseMove={moveTooltip}
+          onMouseLeave={hideTooltip}
           className="stencil-glyph"
           title={g.label}
+
         >
           <svg width={45} height={45}>
             <GlyphRenderer type={g.type} width={40} height={40} />
@@ -142,6 +189,26 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           <div style={{ fontSize: 12, textAlign: "center" }}>{g.label}</div>
         </div>
       ))}
+      {tooltip.visible && (
+        <div
+          style={{
+            position: "fixed",
+            left: tooltip.x,
+            top: tooltip.y,
+            background: "rgba(17,24,39,0.95)",
+            color: "#fff",
+            padding: "8px 10px",
+            borderRadius: 6,
+            maxWidth: 300,
+            fontSize: 13,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            zIndex: 2000,
+            pointerEvents: "none",
+          }}
+        >
+          {tooltip.text}
+        </div>
+      )}
     </div>
   );
 };
