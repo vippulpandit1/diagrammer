@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
 import type { Connection } from './glyph/GlyphDocument';

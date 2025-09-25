@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React from 'react'
 
 export const UnitsOverlay: React.FC = () => {

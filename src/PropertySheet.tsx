@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useState, useEffect } from "react";
 import { Glyph } from "./glyph/Glyph";
 import type { UMLAttr } from "./glyph/type/uml/UMLAttr";

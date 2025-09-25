@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useState } from "react";
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 
