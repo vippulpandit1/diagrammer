@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, act } from 'react'
 import { Glyph } from './glyph/Glyph'
 import { GlyphCanvas } from './GlyphCanvas'
 import { Toolbar } from './Toolbar'
@@ -6,15 +6,25 @@ import { Connection } from './glyph/GlyphDocument' // or your connection model
 import { HeaderBar } from './HeaderBar'
 import { PropertySheet } from './PropertySheet'
 import './App.css'
+import type { Page } from './glyph/Page'
 
+const INITIAL_PAGE: Page = {
+  id: "page-1",
+  name: "Page 1",
+  glyphs: [/* your initial glyphs can go here */],
+  connections: [/* your initial connections can go here */],
+};
 
 function App() {
+  const [pages, setPages] = useState<Page[]>([INITIAL_PAGE]);
+  const [activePageIdx, setActivePageIdx] = useState(0);
+
+  // Get the currently active page
+  const activePage = pages[activePageIdx];
   const [toolbarOpen, setToolbarOpen] = useState(true)
-  const [glyphs, setGlyphs] = useState<Glyph[]>([])
   const [toolbarPos, setToolbarPos] = useState({ x: 40, y: 100 });
   const [draggingToolbar, setDraggingToolbar] = useState(false);
 
-  const [connections, setConnections] = useState<Connection[]>([])
   const [selectedConnection, setSelectedConnection] = useState<Connection | null>(null) // for new connection in progress
   const [selectedGlyph, setSelectedGlyph] = useState<Glyph | null>(null);
   const [propertySheetOpen, setPropertySheetOpen] = useState(false);
@@ -23,10 +33,8 @@ function App() {
   const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
 
   const handleUpdateConnectionType = (connId: string, newType: "bezier" | "manhattan" | "line") => {
-    setConnections(conns =>
-      conns.map(conn =>
-        conn.id === connId ? { ...conn, type: newType as "association" | "inheritance" | "default" } : conn
-      )
+    activePage.connections.map(conn =>
+      conn.id === connId ? { ...conn, type: newType as "bezier" | "manhattan" | "line" } : conn
     );
   };
   
@@ -47,100 +55,104 @@ function App() {
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        setGlyphs(data.glyphs || []);
-        setConnections(data.connections || []);
+        const updatedPage = { ...activePage, glyphs: data.glyphs || [], connections: data.connections || [] };
+        setPages(pages => pages.map((page, idx) => idx === activePageIdx ? updatedPage : page));
+
       } catch {}
     }
   }, []);
   const groupGlyphs = (glyphIds: string[]) => {
     const newGroupId = "group-" + Date.now();
-    setGlyphs(glyphs =>
-      glyphs.map(g =>
-        glyphIds.includes(g.id) ? { ...g, groupId: newGroupId } : g
-      )
+    activePage.glyphs = activePage.glyphs.map(g =>
+      glyphIds.includes(g.id) ? { ...g, groupId: newGroupId } : g
     );
   };
   const ungroupGlyphs = (glyphIds: string[]) => {
-    setGlyphs(glyphs =>
-      glyphs.map(g =>
-        glyphIds.includes(g.id) ? { ...g, groupId: undefined } : g
-      )
+    activePage.glyphs = activePage.glyphs.map(g =>
+      glyphIds.includes(g.id) ? { ...g, groupId: undefined } : g
     );
   };
   const handleMoveGlyph = (id: string, x: number, y: number) => {
-    const glyph = glyphs.find(g => g.id === id);
+    const glyph = activePage.glyphs.find(g => g.id === id);
     if (glyph?.groupId) {
       const dx = x - glyph.x;
       const dy = y - glyph.y;
-      setGlyphs(glyphs =>
-        glyphs.map(g =>
-          g.groupId === glyph.groupId
-            ? { ...g, x: g.x + dx, y: g.y + dy }
-            : g
-        )
+      activePage.glyphs = activePage.glyphs.map(g =>
+        g.groupId === glyph.groupId
+          ? { ...g, x: g.x + dx, y: g.y + dy }
+          : g
       );
     } else {
-      setGlyphs(glyphs =>
-        glyphs.map(g => (g.id === id ? { ...g, x, y } : g))
-      );
+      activePage.glyphs = activePage.glyphs.map(g => (g.id === id ? { ...g, x, y } : g));
     }
   };
   const bringGlyphToFront = (glyphId: string) => {
-    const idx = glyphs.findIndex(g => g.id === glyphId);
+    const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
     if (idx !== -1) {
-      const newGlyphs = [...glyphs];
+      const newGlyphs = [...activePage.glyphs];
       const [glyph] = newGlyphs.splice(idx, 1);
       newGlyphs.push(glyph); // Add to end (foreground)
       // Update your glyphs state here
-      setGlyphs(newGlyphs);
+      activePage.glyphs = newGlyphs;
     }
   };
   const sendGlyphToBack = (glyphId: string) => {
-    const idx = glyphs.findIndex(g => g.id === glyphId);
+    const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
     if (idx !== -1) {
-      const newGlyphs = [...glyphs];
+      const newGlyphs = [...activePage.glyphs];
       const [glyph] = newGlyphs.splice(idx, 1);
       newGlyphs.unshift(glyph); // Add to start (background)
-      setGlyphs(newGlyphs);
+      activePage.glyphs = newGlyphs;
     }
   };
   // Handler to update glyph properties
   const handleUpdateGlyph = (id: string, updates: Partial<Glyph>) => {
-    setGlyphs(glyphs =>
-      glyphs.map(g => g.id === id ? { ...g, ...updates } : g)
+    activePage.glyphs = activePage.glyphs.map(g => 
+      g.id === id ? { ...g, ...updates } : g
     );
   };
   const handleAddGlyph = (type: string, x: number, y: number, inputs?: number, outputs?: number) => {
-    setGlyphs(glyphs => [
-      ...glyphs,
-      new Glyph(`glyph-${Date.now()}`, type, x, y, [], {}, "", inputs ?? 2, outputs ?? 1)
-    ]);
+    const newGlyph: Glyph = {
+      id: `glyph-${Date.now()}`,
+      type,
+      x,
+      y,
+      ports: [],
+      data: {},
+      label: "",
+      inputs: inputs ?? 1,
+      outputs: outputs ?? 1,
+    };
+    // Create a new pages array with the updated active page
+    const newPages = pages.map((page, index) => {
+      if (index === activePageIdx) {
+        // Add the new glyph to this page's glyphs array
+        return { ...page, glyphs: [...page.glyphs, newGlyph] };
+      }
+      return page;
+    });
+
+    setPages(newPages);
   };
   const handleAutoArrange = () => {
     const glyphSize = 80; // space between glyphs
-    const cols = Math.ceil(Math.sqrt(glyphs.length));
-    setGlyphs(glyphs =>
-      glyphs.map((g, i) => {
-        const row = Math.floor(i / cols);
-        const col = i % cols;
-        return new Glyph(
-          g.id,
-          g.type,
-          60 + col * glyphSize,
-          60 + row * glyphSize,
-          g.ports,
-          g.data,
-          g.label
-        );
-      })
-    );
+    const cols = Math.ceil(Math.sqrt(activePage.glyphs.length));
+    activePage.glyphs = activePage.glyphs.map((g, i) => {
+      const row = Math.floor(i / cols);
+      const col = i % cols;
+      return new Glyph(
+        g.id,
+        g.type,
+        60 + col * glyphSize,
+        60 + row * glyphSize,
+        g.ports,
+        g.data,
+        g.label
+      );
+    });
   };
   const handleSave = () => {
-    const data = {
-      glyphs,
-      connections,
-    };
-    const json = JSON.stringify(data);
+    const json = JSON.stringify(activePage);
     sessionStorage.setItem("canvasData", json);
     alert("Canvas saved to browser session!");
 /*
@@ -159,7 +171,7 @@ function App() {
   <div className="workspace-root">
       {/* Header Bar */}
       <HeaderBar         
-        onClear={() => { setGlyphs([]); setConnections([]); }}
+        onClear={() => { activePage.glyphs=[]; activePage.connections=[]; }}
         onZoomIn={() => setZoom(z => Math.min(z + 0.1, 2))}
         onZoomOut={() => setZoom(z => Math.max(z - 0.1, 0.2))}
         onSave={handleSave}
@@ -238,11 +250,18 @@ function App() {
           </button>
         )}
         <GlyphCanvas
-          glyphs={glyphs}
-          connections={connections}
+          pages={pages}
+          activePageIdx={activePageIdx}
+          onPageChange={setActivePageIdx}
+          glyphs={activePage.glyphs}
+          connections={activePage.connections}
           onMoveGlyph={handleMoveGlyph}
-          onAddConnection={conn => setConnections(conns => [...conns, conn])}
-          onDeleteConnection={idx => setConnections(conns => conns.filter((_, i) => i !== idx))}
+          onAddConnection={conn => {
+            activePage.connections = [...activePage.connections, conn];
+          }}
+          onDeleteConnection={idx => {
+            activePage.connections = activePage.connections.filter((_, i) => i !== idx);
+          }}
           zoom={zoom}
           onAddGlyph={handleAddGlyph}
           onGlyphClick={glyph => {

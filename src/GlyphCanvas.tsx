@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
 import type { Connection } from './glyph/GlyphDocument';
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
+import type { Page } from './glyph/Page';
 
 // --- Utility Functions ---
 
@@ -94,6 +95,9 @@ const getConnectorPos = (glyph: Glyph, idx: number, width: number, height: numbe
 // --- Main Component ---
 
 interface GlyphCanvasProps {
+  pages: Page[];
+  activePageIdx: number;
+  onPageChange: (index: number) => void;
   glyphs: Glyph[];
   onMoveGlyph: (id: string, x: number, y: number) => void;
   connections: Connection[];
@@ -111,6 +115,9 @@ interface GlyphCanvasProps {
 }
 
 export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
+  pages,
+  activePageIdx,
+  onPageChange,
   glyphs,
   connections,
   onMoveGlyph,
@@ -127,6 +134,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   onConnectionClick
 }) => {
   // --- State ---
+  const activePage = pages[activePageIdx];
   const [dragging, setDragging] = useState<null | { id: string, offsetX: number, offsetY: number }>(null);
   const [dragMouse, setDragMouse] = useState<{ x: number, y: number } | null>(null);
   const [selectedConn, setSelectedConn] = useState<number | null>(null);
@@ -140,6 +148,9 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     fromGlyphId: string, fromPortIdx: number, fromX: number, fromY: number
   }>(null);
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null);
+  // Your existing rendering logic now uses `activePage.glyphs` and `activePage.connections`
+  const glyphsToRender = activePage.glyphs;
+  const connectionsToRender = activePage.connections;
 
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -234,11 +245,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       >
         {/* Draw connections */}
         <svg style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
-          {connections.map((conn, i) => {
+          {connectionsToRender.map((conn, i) => {
             const sizeMap = new Map<string, { w: number, h: number }>();
-            glyphs.forEach(g => sizeMap.set(g.id, computeGlyphSize(g)));
-            const fromGlyph = glyphs.find(g => g.id === conn.fromGlyphId);
-            const toGlyph = glyphs.find(g => g.id === conn.toGlyphId);
+            glyphsToRender.forEach(g => sizeMap.set(g.id, computeGlyphSize(g)));
+            const fromGlyph = glyphsToRender.find(g => g.id === conn.fromGlyphId);
+            const toGlyph = glyphsToRender.find(g => g.id === conn.toGlyphId);
             if (!fromGlyph || !toGlyph) return null;
             const fromSize = sizeMap.get(fromGlyph.id) ?? { w: 60, h: 60 };
             const toSize = sizeMap.get(toGlyph.id) ?? { w: 60, h: 60 };
@@ -284,7 +295,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           })}
         </svg>
         {/* Draw glyphs */}
-        {glyphs.map(glyph => {
+        {glyphsToRender.map(glyph => {
           const width = computeGlyphSize(glyph).w;
           const height = computeGlyphSize(glyph).h;
           const isTextGlyph = glyph.type === "text";
