@@ -5,6 +5,7 @@ export class Connection {
   public fromPortId: string;
   public toGlyphId: string;
   public toPortId: string;
+  public label?: string = ""; // Optional label for the connection
   public type: "association" | "inheritance" | "default" = "default";
 
   constructor(
@@ -13,6 +14,7 @@ export class Connection {
     fromPortId: string,
     toGlyphId: string,
     toPortId: string,
+    label: string = "",
     type: "association" | "inheritance" | "default" = "default"
   ) {
     this.id = id;
@@ -21,9 +23,10 @@ export class Connection {
     this.toGlyphId = toGlyphId;
     this.toPortId = toPortId;
     this.type = type;
+    this.label = label;
   }
 
   static fromJSON(obj: any): Connection {
-    return new Connection(obj.id, obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.type || "default");
+    return new Connection(obj.id, obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.type || "default", obj.label || "");
   }
 }

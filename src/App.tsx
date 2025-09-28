@@ -2,7 +2,7 @@ import { useState, useEffect, act } from 'react'
 import { Glyph } from './glyph/Glyph'
 import { GlyphCanvas } from './GlyphCanvas'
 import { Toolbar } from './Toolbar'
-import { Connection } from './glyph/GlyphDocument' // or your connection model
+import { Connection } from './glyph/Connection' // or your connection model
 import { HeaderBar } from './HeaderBar'
 import { PropertySheet } from './PropertySheet'
 import './App.css'
@@ -34,10 +34,18 @@ function App() {
 
   const handleUpdateConnectionType = (connId: string, newType: "bezier" | "manhattan" | "line") => {
     activePage.connections.map(conn =>
-      conn.id === connId ? { ...conn, type: newType as "bezier" | "manhattan" | "line" } : conn
+      conn.id === connId ? { ...conn, 
+        type: newType as "bezier" | "manhattan" | "line" 
+      } : {
+        conn
+      }
     );
   };
-  
+  const handleUpdateConnection = (connId: string, updates: Partial<Connection>) => {
+    activePage.connections = activePage.connections.map(c => 
+      c.id === connId ? { ...c, ...updates } : c
+    );
+  };
   // Load zoom from sessionStorage or default to 1
   const [zoom, setZoom] = useState(() => {
     const saved = sessionStorage.getItem("zoomRatio");
@@ -266,6 +274,7 @@ function App() {
           onAddGlyph={handleAddGlyph}
           onGlyphClick={glyph => {
             setPropertySheetOpen(false);
+            setSelectedConnection(null);
             setSelectedGlyph(glyph);
             setPropertySheetOpen(true);
           }}
@@ -275,22 +284,39 @@ function App() {
           ungroupGlyphs={ungroupGlyphs}
           connectorType={connectorType}  
           onConnectionClick={conn => {
+            setPropertySheetOpen(false);
+            setSelectedGlyph(null);
             setSelectedConnection(conn);
             setPropertySheetOpen(true);
           }} 
         />
       {/* render Property Sheet if open */}
-      {propertySheetOpen && selectedGlyph && selectedConnection && (
-        <PropertySheet
-          glyph={selectedGlyph}
-          line={selectedConnection ?? undefined}
-          onClose={() => setPropertySheetOpen(false)}
-          onUpdate={handleUpdateGlyph}
-          connectorType={connectorType}
-          setConnectorType={setConnectorType}
-          onUpdateConnectionType={handleUpdateConnectionType} 
-        />
-      )}     
+      {propertySheetOpen && (selectedGlyph || selectedConnection) && (
+        <>
+          {selectedGlyph && (
+            <PropertySheet
+              glyph={selectedGlyph}
+              connection={selectedConnection!}
+              onClose={() => setPropertySheetOpen(false)}
+              onUpdateGlyph={handleUpdateGlyph}
+              connectorType={connectorType}
+              setConnectorType={setConnectorType}
+            />
+          )}
+          {selectedConnection && (
+            <PropertySheet
+              glyph={selectedGlyph!}
+              connection={selectedConnection}
+              onClose={() => setPropertySheetOpen(false)}
+              onUpdateGlyph={handleUpdateGlyph}
+              onUpdateConnection={handleUpdateConnection}
+              connectorType={connectorType}
+              setConnectorType={setConnectorType}
+              onUpdateConnectionType={handleUpdateConnectionType}
+            />
+          )}
+        </>
+      )}
       {/* Footer */}
       <footer className="workspace-footer">
         <span>© {new Date().getFullYear()} R_js_draw &mdash; All rights reserved.</span>

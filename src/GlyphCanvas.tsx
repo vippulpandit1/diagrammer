@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
-import type { Connection } from './glyph/GlyphDocument';
+import { Connection } from './glyph/Connection';
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 import type { Page } from './glyph/Page';
 
@@ -88,7 +88,7 @@ const getConnectorPos = (glyph: Glyph, idx: number, width: number, height: numbe
   const conns = getConnectors(glyph, width, height);
   return {
     x: glyph.x + conns[idx].cx,
-    y: glyph.y + conns[idx].cy + 5,
+    y: glyph.y + conns[idx].cy,
   };
 };
 
@@ -255,42 +255,68 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
             const toSize = sizeMap.get(toGlyph.id) ?? { w: 60, h: 60 };
             const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h);
             const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h);
-
+            // Calculate the midpoint for displaying the label
+            const midPoint = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
             return (
-              <path
-                key={i}
-                d={getConnectionPath(from, to, connectorType)}
-                stroke={
-                  selectedConn === i
-                    ? "#f87171"
-                    : hoveredConn === i
-                    ? "#2563eb"
-                    : "#888"
-                }
-                strokeWidth={selectedConn === i || hoveredConn === i ? 5 : 3}
-                fill="none"
-                style={{
-                  cursor: 'pointer',
-                  pointerEvents: 'all',
-                  filter:
+              <g key={i} className="connection">
+                <path
+                  key={i}
+                  d={getConnectionPath(from, to, connectorType)}
+                  stroke={
                     selectedConn === i
-                      ? 'drop-shadow(0 0 4px #f87171)'
+                      ? "#f87171"
                       : hoveredConn === i
-                      ? 'drop-shadow(0 0 4px #2563eb)'
-                      : undefined
-                }}
-                onClick={e => {
-                  e.stopPropagation();
-                  setSelectedConn(selectedConn === i ? null : i);
-                }}
-                onDoubleClick={e => {
-                  e.stopPropagation();
-                  setSelectedGlyphId(null);
-                  if (onConnectionClick && selectedConn !== i) onConnectionClick(conn);
-                }}
-                onMouseEnter={() => setHoveredConn(i)}
-                onMouseLeave={() => setHoveredConn(null)}
-              />
+                      ? "#2563eb"
+                      : "#888"
+                  }
+                  strokeWidth={selectedConn === i || hoveredConn === i ? 5 : 3}
+                  fill="none"
+                  style={{
+                    cursor: 'pointer',
+                    pointerEvents: 'all',
+                    filter:
+                      selectedConn === i
+                        ? 'drop-shadow(0 0 4px #f87171)'
+                        : hoveredConn === i
+                        ? 'drop-shadow(0 0 4px #2563eb)'
+                        : undefined
+                  }}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setSelectedConn(selectedConn === i ? null : i);
+                  }}
+                  onDoubleClick={e => {
+                    e.stopPropagation();
+                    setSelectedGlyphId(null);
+                    if (onConnectionClick && selectedConn !== i) onConnectionClick(conn);
+                  }}
+                  onMouseEnter={() => setHoveredConn(i)}
+                  onMouseLeave={() => setHoveredConn(null)}
+                />
+                {conn.label && (
+                  <>
+                    {/* Optional: Add a small rect behind the text to make it readable */}
+                    <rect
+                      x={midPoint.x - (conn.label.length * 4)} // Approximate width
+                      y={midPoint.y - 10}
+                      width={conn.label.length * 8} // Approximate width
+                      height={20}
+                      fill="#fff" // Use your canvas background color
+                    />
+                    <text
+                      x={midPoint.x}
+                      y={midPoint.y}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#334155"
+                      fontSize="13px"
+                      fontWeight="500"
+                    >
+                      {conn.label}
+                    </text>
+                  </>
+                )}                
+              </g>
             );
           })}
         </svg>
