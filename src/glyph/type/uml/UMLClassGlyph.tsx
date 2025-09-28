@@ -2,6 +2,17 @@ import React from "react";
 import type { UMLAttr } from "./UMLAttr";
 import type { UMLMethod } from "./UMLMethod";
 
+const getVisibilitySymbol = (visibility?: string) => {
+  switch (visibility) {
+    case "private":
+      return "-";
+    case "protected":
+      return "#";
+    case "public":
+    default:
+      return "+";
+  }
+};
 
 export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: string; orinLabel?: string; 
             isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[] }> = ({ width, height = width, label, orinLabel, isTruncated, attributes, methods }) => {
@@ -56,6 +67,7 @@ export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: s
         dominantBaseline="hanging"
         style={{ userSelect: "none", pointerEvents: "auto" }}
       >
+      {getVisibilitySymbol(attr.visibility)}
       {displayAttr}
       {isAttrTruncated && <title>{attr.name}</title>}
       </text>

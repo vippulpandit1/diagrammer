@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useState, useEffect } from "react";
 import { Glyph } from "./glyph/Glyph";
-import type { UMLAttr } from "./glyph/type/uml/UMLAttr";
+import type { UMLAttr, UMLVisibility, UMLDataType } from "./glyph/type/uml/UMLAttr";
 import type { UMLMethod } from "./glyph/type/uml/UMLMethod";
 import { Connection } from "./glyph/Connection";
 
@@ -16,6 +16,10 @@ const FONT_FAMILIES = [
 ];
 
 type ConnectorType = "bezier" | "manhattan" | "line";
+
+const DATA_TYPES: UMLDataType[] = [
+  "string", "number", "boolean", "date", "object", "array", "custom"
+];
 
 interface PropertySheetProps {
   glyph?: Glyph;
@@ -66,10 +70,8 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
       if (glyph.type === "uml-class") {
         updates.attributes = attributes;
         updates.methods = methods;
-        onUpdateGlyph(glyph.id, { label, inputs, outputs, attributes, methods });
-      } else {
-        onUpdateGlyph(glyph.id, updates);
       }
+      onUpdateGlyph(glyph.id, updates);
      } else if (connection && onUpdateConnection) {
       if (connection.id) {
         onUpdateConnection(connection.id, { label });
@@ -84,33 +86,64 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
 
  // --- Renderers for UML class ---
   const renderAttributesTab = () => (
+   <div>
     <div>
-      <div>
-        {attributes.map((attr, idx) => (
-          <div key={idx} style={{ display: "flex", marginBottom: 4 }}>
-            <input
-              style={{ flex: 1 }}
-              value={attr.name}
-              placeholder="Attribute"
-              onChange={e => {
-                const newAttrs = [...attributes];
-                newAttrs[idx] = { ...newAttrs[idx], name: e.target.value };
-                setAttributes(newAttrs);
-              }}
-            />
-            <button
-              style={{ marginLeft: 4 }}
-              onClick={() => setAttributes(attributes.filter((_, i) => i !== idx))}
-              title="Remove"
-            >×</button>
-          </div>
-        ))}
-      </div>
-      <button
-        style={{ marginTop: 6 }}
-        onClick={() => setAttributes([...attributes, { name: "", type: "string", visibility: "public" }])}
-      >Add Attribute</button>
+      {attributes.map((attr, idx) => (
+        <div key={idx} style={{ display: "flex", marginBottom: 4, alignItems: "center" }}>
+          {/* Visibility selector */}
+          <select
+            value={attr.visibility ?? "public"}
+            onChange={e => {
+              const newAttrs = [...attributes];
+              newAttrs[idx] = { ...newAttrs[idx], visibility: e.target.value as UMLVisibility };
+              setAttributes(newAttrs);
+            }}
+            style={{ marginRight: 4, width: 32 }}
+            title="Visibility"
+          >
+            <option value="public">+</option>
+            <option value="private">-</option>
+            <option value="protected">#</option>
+          </select>
+          {/* Attribute name */}
+          <input
+            style={{ flex: 1 }}
+            value={attr.name}
+            placeholder="Attribute"
+            onChange={e => {
+              const newAttrs = [...attributes];
+              newAttrs[idx] = { ...newAttrs[idx], name: e.target.value };
+              setAttributes(newAttrs);
+            }}
+          />
+          {/* Datatype dropdown */}
+          <select
+            value={attr.dataType ?? "string"}
+            onChange={e => {
+              const newAttrs = [...attributes];
+              newAttrs[idx] = { ...newAttrs[idx], dataType: e.target.value };
+              setAttributes(newAttrs);
+            }}
+            style={{ marginLeft: 4, width: 90 }}
+            title="Datatype"
+          >
+            {DATA_TYPES.map(dt => (
+              <option key={dt} value={dt}>{dt}</option>
+            ))}
+          </select>          
+          <button
+            style={{ marginLeft: 4 }}
+            onClick={() => setAttributes(attributes.filter((_, i) => i !== idx))}
+            title="Remove"
+          >×</button>
+        </div>
+      ))}
     </div>
+    <button
+      style={{ marginTop: 6 }}
+      onClick={() => setAttributes([...attributes, { name: "", visibility: "public" as UMLVisibility, type: "string" }])}
+    >Add Attribute</button>
+  </div>
   );
 
   const renderMethodsTab = () => (
