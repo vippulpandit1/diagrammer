@@ -77,6 +77,7 @@ const STENCIL_GLYPHS = {
     { type: "flow-manual-loop", label: "Manual Loop", inputs: 1, outputs: 1 },
     { type: "flow-loop-limit", label: "Loop Limit", inputs: 1, outputs: 1 },
     { type: "flow-internal-storage", label: "Internal Storage", inputs: 1, outputs: 1 },
+    { type: "flow-server", label: "Server", inputs: 1, outputs: 1 },
   ],
 };
 // small helper that returns a short explanation for a glyph type.

@@ -1040,6 +1040,54 @@ export const FlowchartGlyph: React.FC<{ type: string; width?: number; height?: n
           />
         </g>
       );
+    case "flow-server":
+      return (
+        <g>
+          {/* Outer rectangle representing the server body */}
+          <rect
+            x={scale(8, "x")}
+            y={scale(10, "y")}
+            width={scale(24, "x")}
+            height={scale(20, "y")}
+            rx={scale(4, "x")}
+            fill="#dbeafe" // A light blue color
+            stroke="#1e40af" // A darker blue for the border
+            strokeWidth={2}
+          />
+          
+          {/* Gear icon inside the rectangle */}
+          <path
+            d={`
+              M ${scale(20, "x")} ${scale(15, "y")}
+              a 5 5 0 1 0 0 10
+              a 5 5 0 1 0 0 -10
+              Z
+              M ${scale(20, "x")} ${scale(17, "y")}
+              a 3 3 0 1 0 0 6
+              a 3 3 0 1 0 0 -6
+              Z
+            `}
+            fill="#1e40af"
+            stroke="none"
+          />
+          {/* Simple teeth for the gear */}
+          <path
+            d={`
+              M ${scale(20, "x")} ${scale(14, "y")} v -1
+              M ${scale(20, "x")} ${scale(26, "y")} v 1
+              M ${scale(14, "x")} ${scale(20, "y")} h -1
+              M ${scale(26, "x")} ${scale(20, "y")} h 1
+              M ${scale(16, "x")} ${scale(16, "y")} l -1 -1
+              M ${scale(24, "x")} ${scale(24, "y")} l 1 1
+              M ${scale(16, "x")} ${scale(24, "y")} l -1 1
+              M ${scale(24, "x")} ${scale(16, "y")} l 1 -1
+            `}
+            stroke="#1e40af"
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
+        </g>
+      );
     default:
       return (
         <g>

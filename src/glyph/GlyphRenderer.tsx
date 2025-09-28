@@ -136,6 +136,7 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
     case "flow-manual-loop":
     case "flow-loop-limit":
     case "flow-internal-storage":
+    case "flow-server":
       return <FlowchartGlyph type={type} width={width} height={height} />;
     default:
       return null;
