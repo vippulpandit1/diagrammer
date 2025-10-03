@@ -1,10 +1,14 @@
 import type { UMLAttr } from "./UMLAttr";
 
+type UMLVisibility = "public" | "private" | "protected";
+type UMLDataType = "string" | "number" | "boolean" | "date" | "object" | "array" | "custom";
+
+
 export interface UMLMethod {
     name: string; // The name of the method.
-    parameters?: UMLAttr[]; // A list of parameters that the method takes, each defined by an UMLAttr object.
-    returnType: String; // The return type of the method, which can be a primitive
-    visibility: string; // Controls the accessibility of the attribute from other parts of the system using symbols like + (public), - (private), # (protected), or ~ (package). 
+    parameters?: { name: string; type: UMLDataType | string }[]; // A list of parameters that the method takes, each defined by an UMLAttr object.
+    returnType?: UMLDataType | string; // The return type of the method, which can be a primitive
+    visibility?: UMLVisibility; // Controls the accessibility of the attribute from other parts of the system using symbols like + (public), - (private), # (protected), or ~ (package). 
     stereotype?: string; // A way to classify or categorize the method, often used to indicate special behavior or characteristics.
     isAbstract?: boolean; // Indicates if the method is abstract, meaning it must be implemented by subclasses.
     isStatic?: boolean; // Indicates if the method belongs to the class itself rather than to instances of the class.

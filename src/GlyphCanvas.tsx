@@ -468,6 +468,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                           toGlyphId: glyph.id,
                           toPortId: String(idx),
                           type: "default",
+                          view: {}, // Provide a default or appropriate view object
                         });
                         setDragConn(null);
                         setDragMouse(null);

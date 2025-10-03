@@ -35,10 +35,7 @@ function App() {
   const handleUpdateConnectionType = (connId: string, newType: "bezier" | "manhattan" | "line") => {
     activePage.connections.map(conn =>
       conn.id === connId ? { ...conn, 
-        type: newType as "bezier" | "manhattan" | "line" 
-      } : {
-        conn
-      }
+        type: newType as "bezier" | "manhattan" | "line" } : conn
     );
   };
   const handleUpdateConnection = (connId: string, updates: Partial<Connection>) => {

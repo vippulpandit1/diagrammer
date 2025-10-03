@@ -53,6 +53,8 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   // UML-specific fields
   const [attributes, setAttributes] = useState<UMLAttr[]>(glyph?.attributes ?? []);
   const [methods, setMethods] = useState<UMLMethod[]>(glyph?.methods ?? []);
+  const [newParamName, setNewParamName] = useState("");
+  const [newParamType, setNewParamType] = useState<UMLDataType | string>("string");
 
 
   // Effect to update internal state when the selected glyph or connection changes
@@ -86,10 +88,20 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
 
  // --- Renderers for UML class ---
   const renderAttributesTab = () => (
-   <div>
-    <div>
+    <div style={{ padding: "8px" }}> {/* Add padding to the container */}
       {attributes.map((attr, idx) => (
-        <div key={idx} style={{ display: "flex", marginBottom: 4, alignItems: "center" }}>
+        <div
+          key={idx}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "8px",
+            border: "1px solid #ddd",
+            padding: "8px",
+            borderRadius: "4px",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
           {/* Visibility selector */}
           <select
             value={attr.visibility ?? "public"}
@@ -98,7 +110,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
               newAttrs[idx] = { ...newAttrs[idx], visibility: e.target.value as UMLVisibility };
               setAttributes(newAttrs);
             }}
-            style={{ marginRight: 4, width: 32 }}
+            style={{ marginRight: "8px", width: "48px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
             title="Visibility"
           >
             <option value="public">+</option>
@@ -107,7 +119,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
           </select>
           {/* Attribute name */}
           <input
-            style={{ flex: 1 }}
+            style={{ flex: 1, marginRight: "8px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
             value={attr.name}
             placeholder="Attribute"
             onChange={e => {
@@ -124,57 +136,216 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
               newAttrs[idx] = { ...newAttrs[idx], dataType: e.target.value };
               setAttributes(newAttrs);
             }}
-            style={{ marginLeft: 4, width: 90 }}
+            style={{ marginRight: "8px", width: "90px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
             title="Datatype"
           >
             {DATA_TYPES.map(dt => (
               <option key={dt} value={dt}>{dt}</option>
             ))}
-          </select>          
+          </select>
           <button
-            style={{ marginLeft: 4 }}
             onClick={() => setAttributes(attributes.filter((_, i) => i !== idx))}
             title="Remove"
-          >×</button>
+            style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#d32f2f" }}
+          >
+            ×
+          </button>
         </div>
       ))}
+      <button
+        style={{
+          marginTop: "12px",
+          background: "#2196f3",
+          color: "white",
+          border: "none",
+          padding: "8px 16px",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontSize: "14px",
+        }}
+        onClick={() => setAttributes([...attributes, { name: "", visibility: "public", dataType: "string", type: "attribute" }])}
+      >
+        Add Attribute
+      </button>
     </div>
-    <button
-      style={{ marginTop: 6 }}
-      onClick={() => setAttributes([...attributes, { name: "", visibility: "public" as UMLVisibility, type: "string" }])}
-    >Add Attribute</button>
-  </div>
   );
 
-  const renderMethodsTab = () => (
-    <div>
-      <div>
+  const renderMethodsTab = () => {
+
+    const handleAddParameter = (methodIndex: number) => {
+      const newMethods = [...methods];
+      if (!newMethods[methodIndex].parameters) {
+        newMethods[methodIndex].parameters = [];
+      }
+      newMethods[methodIndex].parameters!.push({ name: newParamName, type: newParamType });
+      setMethods(newMethods);
+      setNewParamName("");
+      setNewParamType("string");
+    };
+    return (
+      <div style={{ padding: "8px" }}> {/* Add padding to the container */}
         {methods.map((method, idx) => (
-          <div key={idx} style={{ display: "flex", marginBottom: 4 }}>
-            <input
-              style={{ flex: 1 }}
-              value={method.name}
-              placeholder="Method"
-              onChange={e => {
-                const newMethods = [...methods];
-                newMethods[idx] = { ...newMethods[idx], name: e.target.value };
-                setMethods(newMethods);
-              }}
-            />
-            <button
-              style={{ marginLeft: 4 }}
-              onClick={() => setMethods(methods.filter((_, i) => i !== idx))}
-              title="Remove"
-            >×</button>
+          <div
+            key={idx}
+            style={{
+              marginBottom: "12px",
+              border: "1px solid #ddd",
+              padding: "8px",
+              borderRadius: "4px",
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "4px" }}>
+              {/* Visibility selector */}
+              <select
+                value={method.visibility ?? "public"}
+                onChange={e => {
+                  const newMethods = [...methods];
+                  newMethods[idx] = { ...newMethods[idx], visibility: e.target.value as UMLVisibility };
+                  setMethods(newMethods);
+                }}
+                style={{ marginRight: "8px", width: "48px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                title="Visibility"
+              >
+                <option value="public">+</option>
+                <option value="private">-</option>
+                <option value="protected">#</option>
+              </select>
+              {/* Method name */}
+              <input
+                style={{ flex: 1, marginRight: "8px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                value={method.name}
+                placeholder="Method Name"
+                onChange={e => {
+                  const newMethods = [...methods];
+                  newMethods[idx] = { ...newMethods[idx], name: e.target.value };
+                  setMethods(newMethods);
+                }}
+              />
+              {/* Return type */}
+              <select
+                value={method.returnType ?? "void"}
+                onChange={e => {
+                  const newMethods = [...methods];
+                  newMethods[idx] = { ...newMethods[idx], returnType: e.target.value };
+                  setMethods(newMethods);
+                }}
+                style={{ marginRight: "8px", width: "90px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                title="Return Type"
+              >
+                <option value="void">void</option>
+                {DATA_TYPES.map(dt => (
+                  <option key={dt} value={dt}>{dt}</option>
+                ))}
+              </select>
+              <button
+                onClick={() => setMethods(methods.filter((_, i) => i !== idx))}
+                title="Remove Method"
+                style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#d32f2f" }}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Parameters */}
+            <div style={{ marginLeft: "12px" }}>
+              {method.parameters?.map((param, paramIdx) => (
+                <div
+                  key={paramIdx}
+                  style={{ display: "flex", alignItems: "center", marginBottom: "4px" }}
+                >
+                  <input
+                    style={{ width: "100px", marginRight: "8px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                    value={param.name}
+                    placeholder="Parameter Name"
+                    onChange={e => {
+                      const newMethods = [...methods];
+                      newMethods[idx].parameters![paramIdx].name = e.target.value;
+                      setMethods(newMethods);
+                    }}
+                  />
+                  <select
+                    value={param.type}
+                    onChange={e => {
+                      const newMethods = [...methods];
+                      newMethods[idx].parameters![paramIdx].type = e.target.value;
+                      setMethods(newMethods);
+                    }}
+                    style={{ marginRight: "8px", width: "90px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                    title="Parameter Type"
+                  >
+                    {DATA_TYPES.map(dt => (
+                      <option key={dt} value={dt}>{dt}</option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={() => {
+                      const newMethods = [...methods];
+                      newMethods[idx].parameters = newMethods[idx].parameters!.filter((_, i) => i !== paramIdx);
+                      setMethods(newMethods);
+                    }}
+                    title="Remove Parameter"
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", color: "#d32f2f" }}
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  style={{ width: "100px", marginRight: "8px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                  placeholder="Parameter Name"
+                  value={newParamName}
+                  onChange={e => setNewParamName(e.target.value)}
+                />
+                <select
+                  value={newParamType}
+                  onChange={e => setNewParamType(e.target.value as UMLDataType)}
+                  style={{ marginRight: "8px", width: "90px", padding: "4px", border: "1px solid #ccc", borderRadius: "4px" }}
+                  title="Parameter Type"
+                >
+                  {DATA_TYPES.map(dt => (
+                    <option key={dt} value={dt}>{dt}</option>
+                  ))}
+                </select>
+                <button
+                  onClick={() => handleAddParameter(idx)}
+                  disabled={!newParamName}
+                  style={{
+                    background: "#4caf50",
+                    color: "white",
+                    border: "none",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                  }}
+                >
+                  Add Parameter
+                </button>
+              </div>
+            </div>
           </div>
         ))}
+        <button
+          style={{
+            marginTop: "12px",
+            background: "#2196f3",
+            color: "white",
+            border: "none",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+          onClick={() => setMethods([...methods, { name: "", visibility: "public" }])}
+        >
+          Add Method
+        </button>
       </div>
-      <button
-        style={{ marginTop: 6 }}
-        onClick={() => setMethods([...methods, { name: "", returnType: "void", visibility: "public" }])}
-      >Add Method</button>
-    </div>
-  );
+    );
+  };
+  
 
   const renderTabs = () => (
     <div style={{ display: "flex", borderBottom: "1px solid #e5e7eb", marginBottom: 8 }}>
@@ -201,43 +372,61 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   );
 
   const renderGeneralTab = () => (
-    <>
-      <div className="property-row">
-        <label>Label</label>
-        <input value={label} onChange={e => setLabel(e.target.value)} />
+    <div style={{ padding: "8px" }}> {/* Add padding to the container */}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Label</label>
+        <input
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+          value={label}
+          onChange={e => setLabel(e.target.value)}
+        />
       </div>
-      <div className="property-row">
-        <label>Inputs</label>
-        <input type="number" value={inputs} onChange={e => setInputs(parseInt(e.target.value, 10) || 0)} />
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Inputs</label>
+        <input
+          type="number"
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+          value={inputs}
+          onChange={e => setInputs(parseInt(e.target.value, 10) || 0)}
+        />
       </div>
-      <div className="property-row">
-        <label>Outputs</label>
-        <input type="number" value={outputs} onChange={e => setOutputs(parseInt(e.target.value, 10) || 0)} />
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Outputs</label>
+        <input
+          type="number"
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+          value={outputs}
+          onChange={e => setOutputs(parseInt(e.target.value, 10) || 0)}
+        />
       </div>
-    </>
+    </div>
   );
 
   const renderConnectionProperties = () => (
-    <>
-      {/* General Tab Content */}
-      <div className="property-row">
-        <label>Label</label>
-        <input value={label} onChange={e => setLabel(e.target.value)} />
+    <div style={{ padding: "8px" }}>
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Label</label>
+        <input
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+          value={label}
+          onChange={e => setLabel(e.target.value)}
+        />
       </div>
       {connectorType && setConnectorType && (
-        <div className="property-row">
-          <label>Connector Type</label>
-          <select value={connectorType} onChange={
-                  e => connection?.id && onUpdateConnectionType 
-                    && onUpdateConnectionType(connection.id, e.target.value as ConnectorType)
-          }>
+        <div style={{ marginBottom: "12px" }}>
+          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connector Type</label>
+          <select
+            value={connectorType}
+            onChange={e => setConnectorType(e.target.value as ConnectorType)}
+            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+          >
             <option value="bezier">Bezier</option>
             <option value="manhattan">Manhattan</option>
             <option value="line">Line</option>
           </select>
         </div>
       )}
-    </>
+    </div>
   );
 
   const renderEmptyState = () => (  

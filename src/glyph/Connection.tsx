@@ -7,7 +7,23 @@ export class Connection {
   public toPortId: string;
   public label?: string = ""; // Optional label for the connection
   public type: "association" | "inheritance" | "default" = "default";
+  // Hashmap for view-specific properties
+  public view: { [key: string]: any } = {};
+/*
+// Set a view property
+conn.setViewProperty("dashed", true);
 
+// Get a view property
+const color = conn.getViewProperty("color"); // "#2563eb"
+
+// Check if a property exists
+if (conn.hasViewProperty("customData")) {
+  // Do something
+}
+
+// Remove a property
+conn.removeViewProperty("thickness");
+*/
   constructor(
     id: string = crypto.randomUUID(),
     fromGlyphId: string,
@@ -15,7 +31,8 @@ export class Connection {
     toGlyphId: string,
     toPortId: string,
     label: string = "",
-    type: "association" | "inheritance" | "default" = "default"
+    type: "association" | "inheritance" | "default" = "default",
+    view?: { [key: string]: any }
   ) {
     this.id = id;
     this.fromGlyphId = fromGlyphId;
@@ -24,6 +41,9 @@ export class Connection {
     this.toPortId = toPortId;
     this.type = type;
     this.label = label;
+    if (view) {
+      this.view = { ...view };
+    }
   }
 
   static fromJSON(obj: any): Connection {
