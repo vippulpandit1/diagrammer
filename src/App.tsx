@@ -1,10 +1,11 @@
-import { useState, useEffect, act } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Glyph } from './glyph/Glyph'
 import { GlyphCanvas } from './GlyphCanvas'
 import { Toolbar } from './Toolbar'
-import { Connection } from './glyph/Connection' // or your connection model
+import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection' // or your connection model
 import { HeaderBar } from './HeaderBar'
 import { PropertySheet } from './PropertySheet'
+import { BottomPanel } from './BottomPanel'
 import './App.css'
 import type { Page } from './glyph/Page'
 
@@ -24,6 +25,7 @@ function App() {
   const [toolbarOpen, setToolbarOpen] = useState(true)
   const [toolbarPos, setToolbarPos] = useState({ x: 40, y: 100 });
   const [draggingToolbar, setDraggingToolbar] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Glyph | Connection | null>(null);
 
   const [selectedConnection, setSelectedConnection] = useState<Connection | null>(null) // for new connection in progress
   const [selectedGlyph, setSelectedGlyph] = useState<Glyph | null>(null);
@@ -31,17 +33,63 @@ function App() {
   const [connectionType, setConnectionType] = useState<"association" | "inheritance" | "default">("association");
   const [stencilType, setStencilType] = useState("basic");  
   const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
+  const [messages, setMessages] = useState<string[]>([]);
+
+  // 1. History Stack
+  const [history, setHistory] = useState<Page[][]>([pages]);
+  // 2. Current Index
+  const [historyIndex, setHistoryIndex] = useState(0);
+  const addMessage = useCallback((msg: string) => {
+    setMessages(prev => [...prev, `${new Date().toLocaleTimeString()} — ${msg}`]);
+  }, []);
+  const clearMessages = useCallback(() => setMessages([]), []);
+
+    // Function to add a new state to the history
+  const updateHistory = useCallback(
+    (newPages: Page[]) => {
+      setPages(newPages);
+      addMessage(`Updated canvas state`);
+      setHistory(prevHistory => {
+        const newHistory = [...prevHistory.slice(0, historyIndex + 1), newPages];
+        setHistoryIndex(newHistory.length - 1);
+        return newHistory;
+      });
+    },
+    [historyIndex]
+  );
+
+  // 3. Undo Function
+  const undo = useCallback(() => {
+    if (historyIndex > 0) {
+      setHistoryIndex(prevIndex => prevIndex - 1);
+      setPages(history[historyIndex - 1]);
+    }
+  }, [history, historyIndex]);
+
+  // 4. Redo Function
+  const redo = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      setHistoryIndex(prevIndex => prevIndex + 1);
+      setPages(history[historyIndex + 1]);
+    }
+  }, [history, historyIndex]);
 
   const handleUpdateConnectionType = (connId: string, newType: "bezier" | "manhattan" | "line") => {
-    activePage.connections.map(conn =>
-      conn.id === connId ? { ...conn, 
-        type: newType as "bezier" | "manhattan" | "line" } : conn
-    );
+    activePage.connections.map(conn =>{
+          if (conn.id === connId) {
+            conn.view[CONNECTION_TYPE_INDEX] = (newType);
+            return conn;
+          }
+          return conn;
+        });
   };
   const handleUpdateConnection = (connId: string, updates: Partial<Connection>) => {
-    activePage.connections = activePage.connections.map(c => 
-      c.id === connId ? { ...c, ...updates } : c
-    );
+    const newPages = pages.map(page => ({
+      ...page,
+      connections: page.connections.map(connection => (connection.id === connId ? { ...connection, ...updates } : connection)),
+    }));
+    addMessage(`Updated connection ${connId}`);
+    updateHistory(newPages);
   };
   // Load zoom from sessionStorage or default to 1
   const [zoom, setZoom] = useState(() => {
@@ -87,7 +135,9 @@ function App() {
           ? { ...g, x: g.x + dx, y: g.y + dy }
           : g
       );
+      addMessage(`Moved group ${glyph.groupId}`);
     } else {
+      addMessage(`Moved glyph ${id} to (${x}, ${y})`);
       activePage.glyphs = activePage.glyphs.map(g => (g.id === id ? { ...g, x, y } : g));
     }
   };
@@ -99,6 +149,7 @@ function App() {
       newGlyphs.push(glyph); // Add to end (foreground)
       // Update your glyphs state here
       activePage.glyphs = newGlyphs;
+      addMessage(`Brought glyph ${glyphId} to front`);
     }
   };
   const sendGlyphToBack = (glyphId: string) => {
@@ -108,13 +159,28 @@ function App() {
       const [glyph] = newGlyphs.splice(idx, 1);
       newGlyphs.unshift(glyph); // Add to start (background)
       activePage.glyphs = newGlyphs;
+      addMessage(`Sent glyph ${glyphId} to back`);
     }
+  };
+  const handleGlyphClick = (glyph: Glyph) => {
+    setSelectedItem(glyph);
+  };
+
+  const handleConnectionClick = (connection: Connection) => {
+    setSelectedItem(connection);
+  };
+
+  const handleClosePropertySheet = () => {
+    setSelectedItem(null);
   };
   // Handler to update glyph properties
   const handleUpdateGlyph = (id: string, updates: Partial<Glyph>) => {
-    activePage.glyphs = activePage.glyphs.map(g => 
-      g.id === id ? { ...g, ...updates } : g
-    );
+    const newPages = pages.map(page => ({
+      ...page,
+      glyphs: page.glyphs.map(glyph => (glyph.id === id ? { ...glyph, ...updates } : glyph)),
+    }));
+    updateHistory(newPages);
+    addMessage(`Updated glyph ${id}`)
   };
   const handleAddGlyph = (type: string, x: number, y: number, inputs?: number, outputs?: number) => {
     const newGlyph: Glyph = {
@@ -132,12 +198,13 @@ function App() {
     const newPages = pages.map((page, index) => {
       if (index === activePageIdx) {
         // Add the new glyph to this page's glyphs array
+        addMessage(`Added glyph ${newGlyph.id} of type ${type}`);
         return { ...page, glyphs: [...page.glyphs, newGlyph] };
       }
       return page;
     });
 
-    setPages(newPages);
+    updateHistory(newPages);
   };
   const handleAutoArrange = () => {
     const glyphSize = 80; // space between glyphs
@@ -155,11 +222,12 @@ function App() {
         g.label
       );
     });
+    addMessage("Auto-arranged glyphs");
   };
   const handleSave = () => {
     const json = JSON.stringify(activePage);
     sessionStorage.setItem("canvasData", json);
-    alert("Canvas saved to browser session!");
+    addMessage("Canvas data saved to sessionStorage");
 /*
     const json = JSON.stringify(data, null, 2);
     const blob = new Blob([json], { type: "application/json" });
@@ -236,7 +304,7 @@ function App() {
           >
             Toolbar
           </div>
-`          <Toolbar
+`         <Toolbar
             stencilType={stencilType}
             setStencilType={setStencilType}
             connectionType={connectionType}
@@ -287,6 +355,9 @@ function App() {
             setPropertySheetOpen(true);
           }} 
         />
+          {/* Bottom message panel */}
+      <BottomPanel messages={messages} onClear={clearMessages} />
+  
       {/* render Property Sheet if open */}
       {propertySheetOpen && (selectedGlyph || selectedConnection) && (
         <>
@@ -296,7 +367,7 @@ function App() {
               connection={selectedConnection!}
               onClose={() => setPropertySheetOpen(false)}
               onUpdateGlyph={handleUpdateGlyph}
-              connectorType={connectorType}
+              connectorType={selectedConnection?.view?.[CONNECTION_TYPE_INDEX] || connectorType}
               setConnectorType={setConnectorType}
             />
           )}
@@ -308,8 +379,8 @@ function App() {
               onUpdateGlyph={handleUpdateGlyph}
               onUpdateConnection={handleUpdateConnection}
               connectorType={connectorType}
-              setConnectorType={setConnectorType}
-              onUpdateConnectionType={handleUpdateConnectionType}
+              setConnectorType={selectedConnection.view?.[CONNECTION_TYPE_INDEX] || connectorType}
+//              onUpdateConnectionType={handleUpdateConnectionType}
             />
           )}
         </>

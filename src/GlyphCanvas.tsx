@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
-import { Connection } from './glyph/Connection';
+import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection';
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 import type { Page } from './glyph/Page';
 
@@ -112,6 +112,7 @@ interface GlyphCanvasProps {
   ungroupGlyphs: (glyphIds: string[]) => void;
   connectorType: "bezier" | "manhattan" | "line";
   onConnectionClick?: (conn: Connection) => void;
+  onMessage?: (msg: string) => void;
 }
 
 export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
@@ -131,7 +132,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   groupGlyphs,
   ungroupGlyphs,
   connectorType,
-  onConnectionClick
+  onConnectionClick,
+  onMessage
 }) => {
   // --- State ---
   const activePage = pages[activePageIdx];
@@ -148,6 +150,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     fromGlyphId: string, fromPortIdx: number, fromX: number, fromY: number
   }>(null);
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null);
+  // add rect state here (parent owns the rect)
+  const [rect, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
   // Your existing rendering logic now uses `activePage.glyphs` and `activePage.connections`
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
@@ -246,8 +250,14 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         {/* Draw connections */}
         <svg style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
           {connectionsToRender.map((conn, i) => {
+            const connectionType = conn.view?.[CONNECTION_TYPE_INDEX] || connectorType;
             const sizeMap = new Map<string, { w: number, h: number }>();
             glyphsToRender.forEach(g => sizeMap.set(g.id, computeGlyphSize(g)));
+            // Get connection color and thickness from conn.view
+            const connectionColor = conn.view?.color || "black";
+            const connectionThickness = conn.view?.thickness || 2;
+            const connectionDashed = conn.view?.dashed || false;
+            const isHovered = hoveredConn === i;
             const fromGlyph = glyphsToRender.find(g => g.id === conn.fromGlyphId);
             const toGlyph = glyphsToRender.find(g => g.id === conn.toGlyphId);
             if (!fromGlyph || !toGlyph) return null;
@@ -261,15 +271,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
               <g key={i} className="connection">
                 <path
                   key={i}
-                  d={getConnectionPath(from, to, connectorType)}
+                  d={getConnectionPath(from, to, connectionType)}
                   stroke={
                     selectedConn === i
                       ? "#f87171"
                       : hoveredConn === i
                       ? "#2563eb"
-                      : "#888"
+                      : connectionColor === "black" ? "#f87171" : connectionColor
                   }
-                  strokeWidth={selectedConn === i || hoveredConn === i ? 5 : 3}
+                  strokeWidth={selectedConn === i || hoveredConn === i ? 5 : connectionThickness}
                   fill="none"
                   style={{
                     cursor: 'pointer',
@@ -292,6 +302,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                   }}
                   onMouseEnter={() => setHoveredConn(i)}
                   onMouseLeave={() => setHoveredConn(null)}
+                  strokeDasharray={connectionDashed ? "5,5" : isHovered ? "5,5" : "none"}
                 />
                 {conn.label && (
                   <>
@@ -429,6 +440,19 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 methods={glyph.methods}
                 hasConnections={hasConnections}
                 glyph={glyph}
+          
+                onResize={newRect => {
+                  if (typeof glyph.onUpdate === "function") {
+                    // Only update label for text glyphs; otherwise, move glyph
+                    if (glyph.type === "text") {
+                      glyph.onUpdate(glyph.id, { label: glyph.label ?? "" });
+                    } else {
+                      onMoveGlyph(glyph.id, newRect.x, newRect.y);
+                    }
+                  } else {
+                    onMoveGlyph(glyph.id, newRect.x, newRect.y);
+                  }
+                }}
               />
               {/* Connectors */}
               {connectors.map((pt, idx) => (

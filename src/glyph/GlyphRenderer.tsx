@@ -23,14 +23,17 @@ import type { Glyph } from "./Glyph";
 import { NetworkGlyph } from "./type/network/NetworkGlyph";
 import { TextGlyph } from "./type/basic/TextGlyph";
 import { FlowchartGlyph } from "./type/flowchart/FlowchartGlyph";
+import ResizableRectangleGlyph from "./type/basic/ResizableRectangleGlyph";
 // import other glyphs as needed
 
-export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph }) {
+export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph, onResize }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph, onResize?: (rect: { x: number; y: number; width: number; height: number }) => void }) {
   switch (type) {
     case "rect":
       return <RectGlyph size={width} />;
     case "circle":
       return <CircleGlyph size={width} />;
+    case "resizable-rectangle":
+      return <ResizableRectangleGlyph x={0} y={0} width={width} height={height ?? width} selected={true} onResize={onResize}/>;
     case "text":
       return (
         <TextGlyph

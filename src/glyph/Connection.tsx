@@ -1,3 +1,6 @@
+
+export const CONNECTION_TYPE_INDEX = "connectionType";
+
 // A connection between two ports
 export class Connection {
   public id?: string = crypto.randomUUID(); // Unique ID for each connection

@@ -29,7 +29,7 @@ interface PropertySheetProps {
   onUpdateConnection?: (id: string, updates: Partial<Connection>) => void;
   connectorType?: ConnectorType;
   setConnectorType?: (type: ConnectorType) => void;
-  onUpdateConnectionType?: (id: string, type: ConnectorType) => void;
+//  onUpdateConnectionType?: (id: string, type: ConnectorType) => void;
 }
 
 export const PropertySheet: React.FC<PropertySheetProps> = ({
@@ -38,15 +38,20 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   onClose,
   onUpdateGlyph,
   onUpdateConnection,
-  connectorType,
-  setConnectorType,
-  onUpdateConnectionType
+//  onUpdateConnectionType
 })  => {
   // --- State ---
   const [activeTab, setActiveTab] = useState<"General" | "Attributes" | "Methods">("General");
 
   // Safely initialize state from props
   const [label, setLabel] = useState(glyph?.label ?? connection?.label ?? "");
+  const [connectorType, setConnectorType] = useState<ConnectorType>(
+    (connection?.view?.connectionType as ConnectorType) || "line"
+  );
+  const [connectionColor, setConnectionColor] = useState(connection?.view?.color || "#000000");
+  const [connectionThickness, setConnectionThickness] = useState(connection?.view?.thickness || 2);
+  const [connectionDashed, setConnectionDashed] = useState(connection?.view?.dashed || false);
+
   const [inputs, setInputs] = useState(glyph?.inputs ?? 0);
   const [outputs, setOutputs] = useState(glyph?.outputs ?? 0);
 
@@ -64,6 +69,10 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
     setOutputs(glyph?.outputs ?? 0);
     setAttributes(glyph?.attributes ?? []);
     setMethods(glyph?.methods ?? []);
+    setConnectorType((connection?.view?.connectionType as ConnectorType) || "line");
+    setConnectionColor(connection?.view?.color || "#000000");
+    setConnectionThickness(connection?.view?.thickness || 2);
+    setConnectionDashed(connection?.view?.dashed || false);
   }, [glyph, connection]);
 
   const handleSave = () => {
@@ -74,10 +83,15 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
         updates.methods = methods;
       }
       onUpdateGlyph(glyph.id, updates);
-     } else if (connection && onUpdateConnection) {
-      if (connection.id) {
-        onUpdateConnection(connection.id, { label });
-      }
+     } else if (connection && connection.id && onUpdateConnection) {
+      const updates: Partial<Connection> = { label };
+      updates.view = {
+        connectionType: connectorType,
+        color: connectionColor,
+        thickness: connectionThickness,
+        dashed: connectionDashed,
+      };
+      onUpdateConnection(connection.id, updates);
     }
     // Show an alert to confirm the save
     window.alert("Properties saved successfully!");
@@ -402,7 +416,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
     </div>
   );
 
-  const renderConnectionProperties = () => (
+ const renderConnectionProperties = () => (
     <div style={{ padding: "8px" }}>
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Label</label>
@@ -412,21 +426,47 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
           onChange={e => setLabel(e.target.value)}
         />
       </div>
-      {connectorType && setConnectorType && (
-        <div style={{ marginBottom: "12px" }}>
-          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connector Type</label>
-          <select
-            value={connectorType}
-            onChange={e => setConnectorType(e.target.value as ConnectorType)}
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          >
-            <option value="bezier">Bezier</option>
-            <option value="manhattan">Manhattan</option>
-            <option value="line">Line</option>
-          </select>
-        </div>
-      )}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connector Type</label>
+        <select
+          value={connectorType}
+          onChange={e => setConnectorType(e.target.value as ConnectorType)}
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+        >
+          <option value="bezier">Bezier</option>
+          <option value="manhattan">Manhattan</option>
+          <option value="line">Line</option>
+        </select>
+      </div>
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connection Color</label>
+        <input
+          type="color"
+          value={connectionColor}
+          onChange={e => setConnectionColor(e.target.value)}
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+        />
+      </div>
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connection Thickness</label>
+        <input
+          type="number"
+          value={connectionThickness}
+          onChange={e => setConnectionThickness(Number(e.target.value))}
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+        />
+      </div>
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connection Dashed</label>
+        <input
+          type="checkbox"
+          checked={connectionDashed}
+          onChange={e => setConnectionDashed(e.target.checked)}
+          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+        />
+      </div>
     </div>
+
   );
 
   const renderEmptyState = () => (  

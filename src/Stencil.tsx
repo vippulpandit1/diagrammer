@@ -8,6 +8,7 @@ const STENCIL_GLYPHS = {
     { type: "circle", label: "Circle", inputs: 1, outputs: 1 },
     { type: "multi", label: "Multi I/O", inputs: 2, outputs: 2 },
     { type: "text", label: "Text", inputs: 0, outputs: 0 },
+    { type: "resizable-rectangle", label: "Resizable Rectangle", inputs: 1, outputs: 1, width: 120, height: 80, selected: true },
   ],
   logic: [
     { type: "and", label: "AND", inputs: 2, outputs: 1 },
