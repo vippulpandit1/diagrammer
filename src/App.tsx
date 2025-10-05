@@ -244,9 +244,9 @@ function App() {
   <div className="workspace-root">
       {/* Header Bar */}
       <HeaderBar         
-        onClear={() => { activePage.glyphs=[]; activePage.connections=[]; }}
-        onZoomIn={() => setZoom(z => Math.min(z + 0.1, 2))}
-        onZoomOut={() => setZoom(z => Math.max(z - 0.1, 0.2))}
+        onClear={() => { activePage.glyphs=[]; activePage.connections=[]; addMessage("Cleared canvas"); updateHistory(pages); }}
+        onZoomIn={() => {setZoom(z => Math.min(z + 0.1, 2));addMessage("Zoomed in");}}
+        onZoomOut={() => {setZoom(z => Math.max(z - 0.1, 0.2));addMessage("Zoomed out");}}
         onSave={handleSave}
         zoom={zoom}
         onAutoArrange={handleAutoArrange}
