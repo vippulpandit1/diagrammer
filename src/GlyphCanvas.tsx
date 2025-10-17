@@ -44,6 +44,13 @@ const computeGlyphSize = (glyph: Glyph) => {
   const attrHeight = (glyph.attributes?.length ?? 0) * 18 + defaultTileSize;
   const w = Math.max(labelWidth, 100);
   const h = Math.max(attrHeight, 60);
+  if (glyph.type === "resizable-rectangle") {
+    return { w: glyph.width ?? 120, h: glyph.height ?? 80 }; 
+  }
+
+  if (typeof glyph.width === "number" && typeof glyph.height === "number") {
+    return { w: glyph.width, h: glyph.height };
+  }
   return { w, h };
 };
 
@@ -199,11 +206,43 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
 
   // --- Handlers ---
   const handleMouseDown = (e: React.MouseEvent, glyph: Glyph) => {
+    if (glyph.type === "resizable-rectangle") {
+      // Check if the click is on a corner handle
+      const { x, y } = glyph;
+      const width = glyph.width ?? 120;
+      const height = glyph.height ?? 80;
+      const HANDLE_RADIUS = 6; // Same as the handle radius in ResizableRectangleGlyph
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      // Define the positions of the corner handles
+      const handles = [
+        { cx: x, cy: y }, // Top-left
+        { cx: x + width, cy: y }, // Top-right
+        { cx: x, cy: y + height }, // Bottom-left
+        { cx: x + width, cy: y + height }, // Bottom-right
+      ];
+
+      // Check if the mouse is within any handle
+      const isOnHandle = handles.some(
+        handle =>
+          Math.abs(mouseX - handle.cx) <= HANDLE_RADIUS &&
+          Math.abs(mouseY - handle.cy) <= HANDLE_RADIUS
+      );
+
+      if (isOnHandle) {
+        // If the click is on a handle, do not start dragging
+        return;
+      }
+    }
+
+    // Default dragging logic
     setDragging({
       id: glyph.id,
       offsetX: e.clientX - glyph.x,
       offsetY: e.clientY - glyph.y,
     });
+
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -439,8 +478,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 attributes={glyph.attributes}
                 methods={glyph.methods}
                 hasConnections={hasConnections}
-                glyph={glyph}
-          
+                glyph={glyph}          
                 onResize={newRect => {
                   if (typeof glyph.onUpdate === "function") {
                     // Only update label for text glyphs; otherwise, move glyph
@@ -450,8 +488,17 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                       onMoveGlyph(glyph.id, newRect.x, newRect.y);
                     }
                   } else {
-                    onMoveGlyph(glyph.id, newRect.x, newRect.y);
+                    if(glyph.type === "resizable-rectangle") {
+                      console.log("Resized glyph:", glyph.id, newRect, glyph);
+                      setRect(newRect);
+                      glyph.width = newRect.width;
+                      glyph.height = newRect.height;
+                    } else {
+                      onMoveGlyph(glyph.id, newRect.x, newRect.y);
+                    }
                   }
+
+                  // width and height are constants and should not be reassigned here
                 }}
               />
               {/* Connectors */}

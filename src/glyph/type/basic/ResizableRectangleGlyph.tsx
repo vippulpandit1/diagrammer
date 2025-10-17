@@ -35,6 +35,7 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
       ev.preventDefault();
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
+      console.log("Dragging", dx, dy);
       let newRect = { ...startRect };
 
       if (corner === "tl") {
