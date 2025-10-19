@@ -231,6 +231,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       );
 
       if (isOnHandle) {
+        console.log("Clicked on handle, not starting drag");
         // If the click is on a handle, do not start dragging
         return;
       }
@@ -489,7 +490,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     }
                   } else {
                     if(glyph.type === "resizable-rectangle") {
-                      console.log("Resized glyph:", glyph.id, newRect, glyph);
+                      console.log("Resized glyph:", glyph.id, newRect);
                       setRect(newRect);
                       glyph.width = newRect.width;
                       glyph.height = newRect.height;

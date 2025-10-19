@@ -24,6 +24,7 @@ import { NetworkGlyph } from "./type/network/NetworkGlyph";
 import { TextGlyph } from "./type/basic/TextGlyph";
 import { FlowchartGlyph } from "./type/flowchart/FlowchartGlyph";
 import ResizableRectangleGlyph from "./type/basic/ResizableRectangleGlyph";
+import PngGlyph from "./type/basic/PngGlyph";
 // import other glyphs as needed
 
 export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph, onResize }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph, onResize?: (rect: { x: number; y: number; width: number; height: number }) => void }) {
@@ -34,6 +35,15 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <CircleGlyph size={width} />;
     case "resizable-rectangle":
       return <ResizableRectangleGlyph x={0} y={0} width={width} height={height ?? width} selected={true} onResize={onResize}/>;
+    case "png-glyph":
+      return <PngGlyph
+          x={0}
+          y={0}
+          width={width}
+          height={height ?? width}
+          imageUrl={glyph?.icon ?? ""}
+          selected={true}
+        />;
     case "text":
       return (
         <TextGlyph

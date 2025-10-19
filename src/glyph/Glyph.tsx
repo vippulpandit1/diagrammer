@@ -19,6 +19,7 @@ export class Glyph {
   methods?: UMLMethod[];
   groupId?: string; // Optional group ID for grouping glyphs
   onUpdate?: (id: string, updates: { label: string }) => void;
+  icon?: string; // Optional icon property
 
   
   constructor(
@@ -34,7 +35,8 @@ export class Glyph {
     attributes: UMLAttr[] = [],
     methods: UMLMethod[] = [],
     width: number = 120, // Default width
-    height: number = 80 // Default height
+    height: number = 80, // Default height
+    icon?: string
   ) {
     this.id = id;
     this.type = type;
@@ -55,6 +57,8 @@ export class Glyph {
     }
     this.attributes = attributes;
     this.methods = methods;
+
+    this.icon = icon;
   }
 
   static fromJSON(obj: any): Glyph {
@@ -71,8 +75,8 @@ export class Glyph {
       obj.attributes || [],
       obj.methods || [],
       obj.width || 120, // Deserialize width
-      obj.height || 80 // Deserialize height
-
+      obj.height || 80, // Deserialize height
+      obj.icon || undefined
     );
   }
 }

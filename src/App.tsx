@@ -8,6 +8,7 @@ import { PropertySheet } from './PropertySheet'
 import { BottomPanel } from './BottomPanel'
 import './App.css'
 import type { Page } from './glyph/Page'
+import iconPng from './image/free-sample.png';
 
 const INITIAL_PAGE: Page = {
   id: "page-1",
@@ -193,6 +194,7 @@ function App() {
       label: "",
       inputs: inputs ?? 1,
       outputs: outputs ?? 1,
+      icon: type == "png-glyph" ? iconPng : undefined,
     };
     // Create a new pages array with the updated active page
     const newPages = pages.map((page, index) => {

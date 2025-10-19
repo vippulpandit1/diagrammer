@@ -39,10 +39,12 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
       let newRect = { ...startRect };
 
       if (corner === "tl") {
-        newRect.x = startRect.x + dx;
-        newRect.y = startRect.y + dy;
+        console.log("Top-left drag");
+        newRect.x = ev.clientX;
+        newRect.y = ev.clientY;
         newRect.width = startRect.width - dx;
         newRect.height = startRect.height - dy;
+        console.log("New rect:", newRect);
       } else if (corner === "tr") {
         newRect.y = startRect.y + dy;
         newRect.width = startRect.width + dx;
