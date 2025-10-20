@@ -373,6 +373,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         </svg>
         {/* Draw glyphs */}
         {glyphsToRender.map(glyph => {
+          const x = glyph.x;
+          const y = glyph.y;
           const width = computeGlyphSize(glyph).w;
           const height = computeGlyphSize(glyph).h;
           const isTextGlyph = glyph.type === "text";

@@ -8,7 +8,7 @@ const STENCIL_GLYPHS = {
     { type: "circle", label: "Circle", inputs: 1, outputs: 1 },
     { type: "multi", label: "Multi I/O", inputs: 2, outputs: 2 },
     { type: "text", label: "Text", inputs: 0, outputs: 0 },
-    { type: "png-glyph", label: "PNG", inputs: 1, outputs: 1 },
+    { type: "png-glyph", label: "PNG", inputs: 1, outputs: 1},
     { type: "resizable-rectangle", label: "Resizable Rectangle", inputs: 1, outputs: 1, width: 120, height: 80, selected: true },
   ],
   logic: [
@@ -154,7 +154,6 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           onMouseLeave={hideTooltip}
           className="stencil-glyph"
           title={g.label}
-
         >
           <svg width={45} height={45}>
             <GlyphRenderer type={g.type} width={40} height={40} />

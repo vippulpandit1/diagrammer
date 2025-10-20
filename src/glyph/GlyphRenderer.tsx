@@ -25,6 +25,7 @@ import { TextGlyph } from "./type/basic/TextGlyph";
 import { FlowchartGlyph } from "./type/flowchart/FlowchartGlyph";
 import ResizableRectangleGlyph from "./type/basic/ResizableRectangleGlyph";
 import PngGlyph from "./type/basic/PngGlyph";
+import iconPng from '../image/free-sample.png';
 // import other glyphs as needed
 
 export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph, onResize }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph, onResize?: (rect: { x: number; y: number; width: number; height: number }) => void }) {
@@ -41,7 +42,7 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
           y={0}
           width={width}
           height={height ?? width}
-          imageUrl={glyph?.icon ?? ""}
+          imageUrl={iconPng}
           selected={true}
         />;
     case "text":
