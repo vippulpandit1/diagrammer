@@ -373,8 +373,6 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         </svg>
         {/* Draw glyphs */}
         {glyphsToRender.map(glyph => {
-          const x = glyph.x;
-          const y = glyph.y;
           const width = computeGlyphSize(glyph).w;
           const height = computeGlyphSize(glyph).h;
           const isTextGlyph = glyph.type === "text";
@@ -493,7 +491,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                   } else {
                     if(glyph.type === "resizable-rectangle") {
                       console.log("Resized glyph:", glyph.id, newRect);
+                      //newRect.x = glyph.x;
+                      //newRect.y = glyph.y;
                       setRect(newRect);
+                      glyph.x = newRect.x;
+                      glyph.y = newRect.y;
                       glyph.width = newRect.width;
                       glyph.height = newRect.height;
                     } else {

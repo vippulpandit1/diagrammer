@@ -2,8 +2,8 @@
 import React, { useRef } from "react";
 
 export interface ResizableRectangleGlyphProps {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   width: number;
   height: number;
   selected?: boolean;
@@ -28,7 +28,9 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
     pointerIdRef.current = e.pointerId;
     const startX = e.clientX;
     const startY = e.clientY;
-    const startRect = { x, y, width, height };
+    const glyphOriginX = x ?? 0;
+    const glyphOriginY = y ?? 0;
+    const startRect = { x: x ?? 0, y: y ?? 0, width, height };
 
     const onPointerMove = (ev: PointerEvent) => {
       if (pointerIdRef.current !== (ev as any).pointerId && pointerIdRef.current != null) return;
@@ -46,14 +48,18 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
         newRect.height = startRect.height - dy;
         console.log("New rect:", newRect);
       } else if (corner === "tr") {
-        newRect.y = startRect.y + dy;
+        newRect.x = startX - startRect.width;
+        newRect.y = startY + dy;
         newRect.width = startRect.width + dx;
         newRect.height = startRect.height - dy;
       } else if (corner === "bl") {
-        newRect.x = startRect.x + dx;
+        newRect.x = startX  + dx;
+        newRect.y = startY - startRect.height;
         newRect.width = startRect.width - dx;
         newRect.height = startRect.height + dy;
       } else if (corner === "br") {
+        newRect.x = startX - startRect.width;
+        newRect.y = startY - startRect.height;
         newRect.width = startRect.width + dx;
         newRect.height = startRect.height + dy;
       }
@@ -81,8 +87,8 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
   return (
     <g>
       <rect
-        x={x}
-        y={y}
+        x={x ?? 0}
+        y={y ?? 0}
         width={width}
         height={height}
         fill="#f1f5f9"
@@ -93,32 +99,32 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
       {selected && (
         <>
           <circle
-            cx={x}
-            cy={y}
+            cx={(x ?? 0)}
+            cy={(y ?? 0)}
             r={HANDLE_RADIUS}
             fill="#2563eb"
             style={{ cursor: "nwse-resize", touchAction: "none" }}
             onPointerDown={startDrag("tl")}
           />
           <circle
-            cx={x + width}
-            cy={y}
+            cx={(x ?? 0) + width}
+            cy={(y ?? 0)}
             r={HANDLE_RADIUS}
             fill="#2563eb"
             style={{ cursor: "nesw-resize", touchAction: "none" }}
             onPointerDown={startDrag("tr")}
           />
           <circle
-            cx={x}
-            cy={y + height}
+            cx={(x ?? 0)}
+            cy={(y ?? 0) + height}
             r={HANDLE_RADIUS}
             fill="#2563eb"
             style={{ cursor: "nesw-resize", touchAction: "none" }}
             onPointerDown={startDrag("bl")}
           />
           <circle
-            cx={x + width}
-            cy={y + height}
+            cx={(x ?? 0) + width}
+            cy={(y ?? 0) + height}
             r={HANDLE_RADIUS}
             fill="#2563eb"
             style={{ cursor: "nwse-resize", touchAction: "none" }}

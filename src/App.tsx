@@ -200,7 +200,7 @@ function App() {
     const newPages = pages.map((page, index) => {
       if (index === activePageIdx) {
         // Add the new glyph to this page's glyphs array
-        addMessage(`Added glyph ${newGlyph.id} of type ${type}`);
+        addMessage(`Added glyph ${newGlyph.id} of type ${type} at (${x}, ${y})`);
         return { ...page, glyphs: [...page.glyphs, newGlyph] };
       }
       return page;
