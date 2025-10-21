@@ -35,7 +35,23 @@ function App() {
   const [stencilType, setStencilType] = useState("basic");  
   const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
   const [messages, setMessages] = useState<string[]>([]);
+  // Handler for switching pages
+  const handlePageChange = (idx: number) => setActivePageIdx(idx);
+  // track bottom panel height so tabs can sit above it
+  const [panelHeight, setPanelHeight] = useState<number>(96);
 
+
+    // Handler for adding a new page
+  const handleAddPage = () => {
+    const newPage = {
+      id: `page-${Date.now()}`,
+      name: `Page ${pages.length + 1}`,
+      glyphs: [],
+      connections: [],
+    };
+    setPages([...pages, newPage]);
+    setActivePageIdx(pages.length);
+  };
   // 1. History Stack
   const [history, setHistory] = useState<Page[][]>([pages]);
   // 2. Current Index
@@ -173,6 +189,10 @@ function App() {
 
   const handleClosePropertySheet = () => {
     setSelectedItem(null);
+  };
+    // handler passed to BottomPanel
+  const handlePanelCollapseChange = (collapsed: boolean, height: number) => {
+    setPanelHeight(height);
   };
   // Handler to update glyph properties
   const handleUpdateGlyph = (id: string, updates: Partial<Glyph>) => {
@@ -324,42 +344,104 @@ function App() {
             <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2"><rect x="6" y="12" width="16" height="4" rx="2"/></svg>
           </button>
         )}
+
+        {/* Glyph Canvas */}
         <GlyphCanvas
-          pages={pages}
-          activePageIdx={activePageIdx}
-          onPageChange={setActivePageIdx}
-          glyphs={activePage.glyphs}
-          connections={activePage.connections}
-          onMoveGlyph={handleMoveGlyph}
-          onAddConnection={conn => {
-            activePage.connections = [...activePage.connections, conn];
-          }}
-          onDeleteConnection={idx => {
-            activePage.connections = activePage.connections.filter((_, i) => i !== idx);
-          }}
-          zoom={zoom}
-          onAddGlyph={handleAddGlyph}
-          onGlyphClick={glyph => {
-            setPropertySheetOpen(false);
-            setSelectedConnection(null);
-            setSelectedGlyph(glyph);
-            setPropertySheetOpen(true);
-          }}
-          bringGlyphToFront={bringGlyphToFront} 
-          sendGlyphToBack={sendGlyphToBack}    
-          groupGlyphs={groupGlyphs}
-          ungroupGlyphs={ungroupGlyphs}
-          connectorType={connectorType}  
-          onConnectionClick={conn => {
-            setPropertySheetOpen(false);
-            setSelectedGlyph(null);
-            setSelectedConnection(conn);
-            setPropertySheetOpen(true);
-          }} 
+            pages={pages}
+            activePageIdx={activePageIdx}
+            onPageChange={setActivePageIdx}
+            glyphs={activePage.glyphs}
+            connections={activePage.connections}
+            onMoveGlyph={handleMoveGlyph}
+            onAddConnection={conn => {
+              activePage.connections = [...activePage.connections, conn];
+            }}
+            onDeleteConnection={idx => {
+              activePage.connections = activePage.connections.filter((_, i) => i !== idx);
+            }}
+            zoom={zoom}
+            onAddGlyph={handleAddGlyph}
+            onGlyphClick={glyph => {
+              setPropertySheetOpen(false);
+              setSelectedConnection(null);
+              setSelectedGlyph(glyph);
+              setPropertySheetOpen(true);
+            }}
+            bringGlyphToFront={bringGlyphToFront} 
+            sendGlyphToBack={sendGlyphToBack}    
+            groupGlyphs={groupGlyphs}
+            ungroupGlyphs={ungroupGlyphs}
+            connectorType={connectorType}  
+            onConnectionClick={conn => {
+              setPropertySheetOpen(false);
+              setSelectedGlyph(null);
+              setSelectedConnection(conn);
+              setPropertySheetOpen(true);
+            }} 
         />
-          {/* Bottom message panel */}
-      <BottomPanel messages={messages} onClear={clearMessages} />
-  
+
+      
+      {/* Tabs for pages positioned relative to BottomPanel */}
+      <div
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: panelHeight, // use dynamic height from BottomPanel
+          background: "#f8fafc",
+          borderTop: "1px solid #e6e9ee",
+          borderBottom: "1px solid #e6e9ee",
+          zIndex: 1201,
+          display: "flex",
+          alignItems: "center",
+          height: 40,
+        }}
+      >
+        {pages.map((page, idx) => (
+          <div
+            key={page.id}
+            onClick={() => handlePageChange(idx)}
+            style={{
+              padding: "0 24px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+              background: idx === activePageIdx ? "#fff" : "transparent",
+              borderBottom: idx === activePageIdx ? "3px solid #2563eb" : "3px solid transparent",
+              fontWeight: idx === activePageIdx ? 700 : 500,
+              color: idx === activePageIdx ? "#2563eb" : "#334155",
+              transition: "background 0.15s",
+            }}
+          >
+            {page.name}
+          </div>
+        ))}
+        <button
+          onClick={handleAddPage}
+          style={{
+            marginLeft: 16,
+            padding: "4px 12px",
+            border: "1px solid #e5e7eb",
+            borderRadius: 6,
+            background: "#f1f5f9",
+            cursor: "pointer",
+            fontSize: 15,
+            color: "#2563eb",
+          }}
+        >
+          ＋ Add Page
+        </button>
+      </div>
+
+      {/* Bottom message panel - pass handler to report height/collapse */}
+      <BottomPanel
+        messages={messages}
+        onClear={clearMessages}
+        height={96}
+        defaultCollapsed={false}
+        onCollapseChange={handlePanelCollapseChange}
+      />
       {/* render Property Sheet if open */}
       {propertySheetOpen && (selectedGlyph || selectedConnection) && (
         <>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 interface BottomPanelProps {
   messages: string[];
@@ -6,6 +6,11 @@ interface BottomPanelProps {
   onClear?: () => void;
   defaultCollapsed?: boolean;
   defaultSort?: "newest" | "oldest";
+  /**
+   * Called when the panel collapse state or computed container height changes.
+   * (collapsed, containerHeight)
+   */
+  onCollapseChange?: (collapsed: boolean, containerHeight: number) => void;
 }
 
 export const BottomPanel: React.FC<BottomPanelProps> = ({
@@ -14,12 +19,17 @@ export const BottomPanel: React.FC<BottomPanelProps> = ({
   onClear,
   defaultCollapsed = false,
   defaultSort = "newest",
+  onCollapseChange,
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(defaultCollapsed);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">(defaultSort);
 
   const msgCount = messages.length;
   const containerHeight = collapsed ? 36 : height;
+
+  useEffect(() => {
+    onCollapseChange?.(collapsed, containerHeight);
+  }, [collapsed, containerHeight, onCollapseChange]);
 
   const headerTitle = `Messages (${msgCount})`;
 
