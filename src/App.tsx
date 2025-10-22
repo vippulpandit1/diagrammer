@@ -121,14 +121,25 @@ function App() {
 
   useEffect(() => {
     const saved = sessionStorage.getItem("canvasData");
+    if(!saved) return;
+    try {
+      const parsed = JSON.parse(saved);
+      // support older format (array of pages) or { pages: [...] } envelope
+      const newPages: Page[] = Array.isArray(parsed)
+        ? parsed
+        : Array.isArray(parsed.pages)
+        ? parsed.pages
+        : null;
 
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        const updatedPage = { ...activePage, glyphs: data.glyphs || [], connections: data.connections || [] };
-        setPages(pages => pages.map((page, idx) => idx === activePageIdx ? updatedPage : page));
-
-      } catch {}
+      if (newPages && newPages.length > 0) {
+        setPages(newPages);
+        // ensure activePageIdx is within bounds after load
+        setActivePageIdx(idx => Math.min(idx, newPages.length - 1));
+        addMessage(`Loaded ${newPages.length} page(s) from sessionStorage`);
+      }
+    } catch (err) {
+      console.warn("Failed to parse saved canvasData:", err);
+      addMessage("Failed to load canvas data from sessionStorage");
     }
   }, []);
   const groupGlyphs = (glyphIds: string[]) => {
@@ -247,7 +258,7 @@ function App() {
     addMessage("Auto-arranged glyphs");
   };
   const handleSave = () => {
-    const json = JSON.stringify(activePage);
+    const json = JSON.stringify(pages);
     sessionStorage.setItem("canvasData", json);
     addMessage("Canvas data saved to sessionStorage");
 /*
@@ -394,7 +405,8 @@ function App() {
           zIndex: 1201,
           display: "flex",
           alignItems: "center",
-          height: 40,
+          height: 44,
+          boxShadow: "0 -1px 4px rgba(16,24,40,0.03)",
         }}
       >
         {pages.map((page, idx) => (
@@ -453,6 +465,7 @@ function App() {
               onUpdateGlyph={handleUpdateGlyph}
               connectorType={selectedConnection?.view?.[CONNECTION_TYPE_INDEX] || connectorType}
               setConnectorType={setConnectorType}
+              pages={pages}
             />
           )}
           {selectedConnection && (
@@ -464,6 +477,7 @@ function App() {
               onUpdateConnection={handleUpdateConnection}
               connectorType={connectorType}
               setConnectorType={selectedConnection.view?.[CONNECTION_TYPE_INDEX] || connectorType}
+              pages={pages}
 //              onUpdateConnectionType={handleUpdateConnectionType}
             />
           )}

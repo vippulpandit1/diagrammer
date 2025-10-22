@@ -4,6 +4,7 @@ import { Glyph } from "./glyph/Glyph";
 import type { UMLAttr, UMLVisibility, UMLDataType } from "./glyph/type/uml/UMLAttr";
 import type { UMLMethod } from "./glyph/type/uml/UMLMethod";
 import { Connection } from "./glyph/Connection";
+import type { Page } from "./glyph/Page";
 
 const TYPE_OPTIONS = [
   "rect", "circle", "multi",
@@ -29,6 +30,7 @@ interface PropertySheetProps {
   onUpdateConnection?: (id: string, updates: Partial<Connection>) => void;
   connectorType?: ConnectorType;
   setConnectorType?: (type: ConnectorType) => void;
+  pages?: Page[];
 //  onUpdateConnectionType?: (id: string, type: ConnectorType) => void;
 }
 
@@ -38,6 +40,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   onClose,
   onUpdateGlyph,
   onUpdateConnection,
+  pages = [],
 //  onUpdateConnectionType
 })  => {
   // --- State ---
@@ -60,11 +63,13 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   const [methods, setMethods] = useState<UMLMethod[]>(glyph?.methods ?? []);
   const [newParamName, setNewParamName] = useState("");
   const [newParamType, setNewParamType] = useState<UMLDataType | string>("string");
+  const [targetPageId, setTargetPageId] = useState(glyph?.data?.targetPageId ?? "");
 
 
   // Effect to update internal state when the selected glyph or connection changes
   useEffect(() => {
     setLabel(glyph?.label ?? connection?.label ?? "");
+    setTargetPageId(glyph?.data?.targetPageId ?? "");
     setInputs(glyph?.inputs ?? 0);
     setOutputs(glyph?.outputs ?? 0);
     setAttributes(glyph?.attributes ?? []);
@@ -81,9 +86,11 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
       if (glyph.type === "uml-class") {
         updates.attributes = attributes;
         updates.methods = methods;
+      } else if (glyph.type === "flow-off-page-connector") {
+        updates.data = { ...glyph.data, targetPageId };
       }
       onUpdateGlyph(glyph.id, updates);
-     } else if (connection && connection.id && onUpdateConnection) {
+    } else if (connection && connection.id && onUpdateConnection) {
       const updates: Partial<Connection> = { label };
       updates.view = {
         connectionType: connectorType,
@@ -413,6 +420,24 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
           onChange={e => setOutputs(parseInt(e.target.value, 10) || 0)}
         />
       </div>
+      {/* Add page dropdown for flow-off-page-connector */}
+      {glyph?.type === "flow-off-page-connector" && pages.length > 0 && (
+        <div style={{ marginBottom: "12px" }}>
+          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Connects to Page</label>
+          <select
+            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            value={targetPageId}
+            onChange={e => setTargetPageId(e.target.value)}
+          >
+            <option value="">-- Select Page --</option>
+            {pages.map(page => (
+              <option key={page.id} value={page.id}>
+                {page.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </div>
   );
 

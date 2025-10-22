@@ -665,6 +665,72 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
             >
               Ungroup
             </button>
+            {/* Goto page selection for flow-off-page-connector */}
+            {(() => {
+              const glyph = glyphsToRender.find(g => g.id === glyphMenu.glyphId);
+              if (glyph?.type === "flow-off-page-connector" && pages.length > 0) {
+                return (
+                  <div style={{ padding: "8px 16px" }}>
+                    <label style={{ fontWeight: 500, fontSize: 13, color: "#2563eb", display: "block", marginBottom: 4 }}>
+                      Goto Page
+                    </label>
+                    <select
+                      style={{
+                        width: "100%",
+                        padding: "6px",
+                        border: "1px solid #2563eb",
+                        borderRadius: 4,
+                        fontSize: 14,
+                        marginBottom: 4,
+                      }}
+                      value={glyph.data?.targetPageId || ""}
+                      onChange={e => {
+                        // Save the selected page id in the glyph's data
+                        glyph.data = { ...glyph.data, targetPageId: e.target.value };
+                        setGlyphMenu(null);
+                        // Take the user to the selected page
+                        const pageIdx = pages.findIndex(p => p.id === e.target.value);
+                        if (pageIdx >= 0) {
+                          onPageChange(pageIdx);
+                          onMessage?.(`Navigated to page: ${pages[pageIdx].name}`);
+                        }
+                      }}
+                    >
+                      <option value="">-- Select Page --</option>
+                      {pages.map(page => (
+                        <option key={page.id} value={page.id}>
+                          {page.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      style={{
+                        marginTop: 4,
+                        width: "100%",
+                        padding: "6px",
+                        background: "#2563eb",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 4,
+                        fontSize: 14,
+                        cursor: "pointer"
+                      }}
+                      onClick={() => {
+                        const pageIdx = pages.findIndex(p => p.id === (glyph.data?.targetPageId || ""));
+                        setGlyphMenu(null);
+                        if (pageIdx >= 0) {
+                          onPageChange(pageIdx);
+                          onMessage?.(`Navigated to page: ${pages[pageIdx].name}`);
+                        }
+                      }}
+                    >
+                      Go
+                    </button>
+                  </div>
+                );
+              }
+              return null;
+            })()}
           </div>
         )}
       </div>
