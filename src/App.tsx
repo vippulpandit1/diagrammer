@@ -39,6 +39,8 @@ function App() {
   const handlePageChange = (idx: number) => setActivePageIdx(idx);
   // track bottom panel height so tabs can sit above it
   const [panelHeight, setPanelHeight] = useState<number>(96);
+  const [editingPageIdx, setEditingPageIdx] = useState<number | null>(null);
+  const [editingPageName, setEditingPageName] = useState("");
 
 
     // Handler for adding a new page
@@ -51,6 +53,33 @@ function App() {
     };
     setPages([...pages, newPage]);
     setActivePageIdx(pages.length);
+  };
+  // Handler for starting page name edit
+  const handleStartEditPage = (idx: number, name: string) => {
+    setEditingPageIdx(idx);
+    setEditingPageName(name);
+  };
+
+  // Handler for saving page name edit
+  const handleSaveEditPage = () => {
+    if (editingPageIdx !== null && editingPageName.trim()) {
+      setPages(pages =>
+        pages.map((p, idx) =>
+          idx === editingPageIdx ? { ...p, name: editingPageName } : p
+        )
+      );
+    }
+    setEditingPageIdx(null);
+    setEditingPageName("");
+  };
+
+  // Handler for blur or Enter key
+  const handleEditPageKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSaveEditPage();
+    if (e.key === "Escape") {
+      setEditingPageIdx(null);
+      setEditingPageName("");
+    }
   };
   // 1. History Stack
   const [history, setHistory] = useState<Page[][]>([pages]);
@@ -414,7 +443,7 @@ function App() {
             key={page.id}
             onClick={() => handlePageChange(idx)}
             style={{
-              padding: "0 24px",
+              padding: "0 32px",
               height: "100%",
               display: "flex",
               alignItems: "center",
@@ -422,11 +451,63 @@ function App() {
               background: idx === activePageIdx ? "#fff" : "transparent",
               borderBottom: idx === activePageIdx ? "3px solid #2563eb" : "3px solid transparent",
               fontWeight: idx === activePageIdx ? 700 : 500,
-              color: idx === activePageIdx ? "#2563eb" : "#334155",
-              transition: "background 0.15s",
+              color: idx === activePageIdx ? "#2563eb" : "#64748b",
+              fontSize: 16,
+              letterSpacing: 0.2,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              marginRight: 4,
+              marginLeft: idx === 0 ? 16 : 0,
+              boxShadow: idx === activePageIdx ? "0 -2px 8px rgba(37,99,235,0.04)" : undefined,
+              transition: "background 0.18s, color 0.18s, border-bottom 0.18s",
+              position: "relative",
+              userSelect: "none"
+            }}
+            onDoubleClick={e => {
+              e.stopPropagation();
+              handleStartEditPage(idx, page.name);
             }}
           >
-            {page.name}
+           {editingPageIdx === idx ? (
+              <input
+                type="text"
+                value={editingPageName}
+                autoFocus
+                onChange={e => setEditingPageName(e.target.value)}
+                onBlur={handleSaveEditPage}
+                onKeyDown={handleEditPageKeyDown}
+                style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: "#2563eb",
+                  border: "1px solid #2563eb",
+                  borderRadius: 6,
+                  padding: "2px 8px",
+                  width: 120,
+                  margin: "0 -8px",
+                  background: "#fff"
+                }}
+              />
+            ) : (
+              <>
+                {page.name}
+                {idx === activePageIdx && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 8,
+                      top: 8,
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: "#2563eb22",
+                      boxShadow: "0 0 0 2px #2563eb11",
+                      display: "inline-block",
+                    }}
+                  />
+                )}
+              </>
+            )}
           </div>
         ))}
         <button
