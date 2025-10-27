@@ -8,25 +8,15 @@ export class Connection {
   public fromPortId: string;
   public toGlyphId: string;
   public toPortId: string;
+  public from?: { x: number; y: number };
+  public to?: { x: number; y: number };
+  public points?: { x: number; y: number }[]; // Array of intermediate points
+ 
   public label?: string = ""; // Optional label for the connection
   public type: "association" | "inheritance" | "default" = "default";
   // Hashmap for view-specific properties
   public view: { [key: string]: any } = {};
-/*
-// Set a view property
-conn.setViewProperty("dashed", true);
 
-// Get a view property
-const color = conn.getViewProperty("color"); // "#2563eb"
-
-// Check if a property exists
-if (conn.hasViewProperty("customData")) {
-  // Do something
-}
-
-// Remove a property
-conn.removeViewProperty("thickness");
-*/
   constructor(
     id: string = crypto.randomUUID(),
     fromGlyphId: string,

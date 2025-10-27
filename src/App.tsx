@@ -342,7 +342,7 @@ function App() {
               fontWeight: 600,
               letterSpacing: 1,
             }}
-            onMouseDown={e => {
+            onPointerDown={e => {
               setDraggingToolbar(true);
               const startX = e.clientX;
               const startY = e.clientY;
@@ -381,7 +381,7 @@ function App() {
             onClick={() => setToolbarOpen(true)}
           >
             {/* Show icon */}
-            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2"><rect x="6" y="12" width="16" height="4" rx="2"/></svg>
+            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" style={{ pointerEvents: "all", touchAction: "none" }}><rect x="6" y="12" width="16" height="4" rx="2"/></svg>
           </button>
         )}
 

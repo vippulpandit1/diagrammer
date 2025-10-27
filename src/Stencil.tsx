@@ -150,7 +150,7 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           draggable
           onDragStart={e => handleDragStart(e, g)}
           onMouseEnter={e => showTooltip(e, g)}
-          onMouseMove={moveTooltip}
+          onPointerMove={moveTooltip}
           onMouseLeave={hideTooltip}
           className="stencil-glyph"
           title={g.label}

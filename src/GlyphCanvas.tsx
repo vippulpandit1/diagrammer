@@ -5,8 +5,10 @@ import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection';
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 import type { Page } from './glyph/Page';
 
+function distance(a: { x: number; y: number }, b: { x: number; y: number }) {
+  return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+}
 // --- Utility Functions ---
-
 const getConnectionPath = (
   from: { x: number; y: number },
   to: { x: number; y: number },
@@ -144,6 +146,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
 }) => {
   // --- State ---
   const activePage = pages[activePageIdx];
+  const [draggedPoint, setDraggedPoint] = useState<{ connId: string; idx: number } | null>(null);
   const [dragging, setDragging] = useState<null | { id: string, offsetX: number, offsetY: number }>(null);
   const [dragMouse, setDragMouse] = useState<{ x: number, y: number } | null>(null);
   const [selectedConn, setSelectedConn] = useState<number | null>(null);
@@ -203,7 +206,38 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [dragging, onMoveGlyph]);
-
+  useEffect(() => {
+    if (!dragConn) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      setDragMouse({ x: e.clientX, y: e.clientY });
+    };
+    const handleMouseUp = () => {
+      setDragConn(null);
+      setDragMouse(null);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [dragConn]);  
+  const getConnectionPathMulti = (
+    from: { x: number; y: number },
+    points: { x: number; y: number }[],
+    to: { x: number; y: number },
+    type: "bezier" | "manhattan" | "line" = "bezier"
+  ) => {
+    // Start at 'from'
+    let path = `M${from.x},${from.y}`;
+    // Draw lines or curves through each point
+    points.forEach(pt => {
+      path += ` L${pt.x},${pt.y}`;
+    });
+    // End at 'to'
+    path += ` L${to.x},${to.y}`;
+    return path;
+  };
   // --- Handlers ---
   const handleMouseDown = (e: React.MouseEvent, glyph: Glyph) => {
     if (glyph.type === "resizable-rectangle") {
@@ -268,7 +302,85 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       onAddGlyph(type, x, y, inputs, outputs);
     }
   };
+  const handlePointPointerDown = (connId: string, idx: number, e: React.PointerEvent) => {
+    e.stopPropagation();
+    setDraggedPoint({ connId, idx });
+  };
 
+  useEffect(() => {
+    if (!draggedPoint) return;
+    const handlePointerMove = (e: PointerEvent) => {
+      // Update the position of the dragged point
+      activePage.connections = activePage.connections.map(conn =>
+        conn.id === draggedPoint.connId
+          ? {
+              ...conn,
+              points: conn.points?.map((pt, i) =>
+                i === draggedPoint.idx ? { x: e.clientX, y: e.clientY } : pt
+              )
+            }
+          : conn
+      );
+    };
+    const handlePointerUp = () => setDraggedPoint(null);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, [draggedPoint, activePage.connections]);
+
+  const handleSvgClick = (e: React.MouseEvent) => {
+    const svg = e.currentTarget as SVGSVGElement;
+    const rect = svg.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Find the nearest connection and segment
+    let nearestConn: Connection | null = null;
+    let minDist = Infinity;
+    let nearestSegIdx = 0;
+
+    connectionsToRender.forEach(conn => {
+      const fromGlyph = glyphsToRender.find(g => g.id === conn.fromGlyphId);
+      const toGlyph = glyphsToRender.find(g => g.id === conn.toGlyphId);
+      if (!fromGlyph || !toGlyph) return;
+
+      const fromSize = computeGlyphSize(fromGlyph);
+      const toSize = computeGlyphSize(toGlyph);
+      const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h);
+      const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h);
+
+      const pts = [from, ...(conn.points || []), to];
+      for (let i = 0; i < pts.length - 1; i++) {
+        const mx = (pts[i].x + pts[i + 1].x) / 2;
+        const my = (pts[i].y + pts[i + 1].y) / 2;
+        const d = distance({ x, y }, { x: mx, y: my });
+        if (d < minDist) {
+          minDist = d;
+          nearestConn = conn;
+          nearestSegIdx = i;
+        }
+      }
+    });
+
+    // If close enough, insert a new point
+    if (nearestConn && minDist < 30) {
+      activePage.connections = activePage.connections.map(conn =>
+        conn.id === nearestConn?.id
+          ? {
+              ...conn,
+              points: [
+                ...(conn.points ?? []).slice(0, nearestSegIdx),
+                { x, y },
+                ...(conn.points ?? []).slice(nearestSegIdx)
+              ]
+            }
+          : conn
+      );
+    }
+  };
   // --- Render ---
   return (
     <div
@@ -288,7 +400,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         }}
       >
         {/* Draw connections */}
-        <svg style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+      <svg style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'all', touchAction: 'none', zIndex: 1 }}>
           {connectionsToRender.map((conn, i) => {
             const connectionType = conn.view?.[CONNECTION_TYPE_INDEX] || connectorType;
             const sizeMap = new Map<string, { w: number, h: number }>();
@@ -311,7 +423,10 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
               <g key={i} className="connection">
                 <path
                   key={i}
-                  d={getConnectionPath(from, to, connectionType)}
+                  d={conn.points && conn.points.length > 0
+                    ? getConnectionPathMulti(from, conn.points, to, connectionType)
+                    : getConnectionPath(from, to, connectionType)
+                  }
                   stroke={
                     selectedConn === i
                       ? "#f87171"
@@ -344,6 +459,19 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                   onMouseLeave={() => setHoveredConn(null)}
                   strokeDasharray={connectionDashed ? "5,5" : isHovered ? "5,5" : "none"}
                 />
+                {conn.points?.map((pt, idx) => (
+                  <circle
+                    key={idx}
+                    cx={pt.x}
+                    cy={pt.y}
+                    r={8}
+                    fill="#fbbf24"
+                    stroke="#222"
+                    strokeWidth={2}
+                    style={{ cursor: "grab" }}
+                    onPointerDown={e => handlePointPointerDown(conn.id ?? "", idx, e)}
+                  />
+                ))}
                 {conn.label && (
                   <>
                     {/* Optional: Add a small rect behind the text to make it readable */}
@@ -370,6 +498,19 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
               </g>
             );
           })}
+          {dragConn && dragMouse && (
+            <path
+              d={getConnectionPath(
+                { x: dragConn.fromX, y: dragConn.fromY },
+                dragMouse,
+                connectorType
+              )}
+              stroke="#2563eb"
+              strokeWidth={3}
+              fill="none"
+              style={{ pointerEvents: "none" }}
+            />
+          )}
         </svg>
         {/* Draw glyphs */}
         {glyphsToRender.map(glyph => {
@@ -415,9 +556,10 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 overflow: 'visible',
                 cursor: isTextGlyph ? (isEditing ? 'text' : 'pointer') : 'grab',
                 zIndex: 2,
-                pointerEvents: 'auto',
+                pointerEvents: 'all',
+                touchAction: 'none'
               }}
-              onMouseDown={e => handleMouseDown(e, glyph)}
+              onPointerDown={e => handleMouseDown(e, glyph)}
               onClick={e => {
                 e.stopPropagation();
                 if (e.shiftKey || e.ctrlKey) {
@@ -517,7 +659,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     stroke="#222"
                     strokeWidth={2}
                     style={{ cursor: pt.type === 'output' ? 'crosshair' : 'pointer' }}
-                    onMouseDown={e => {
+                    onPointerDown={e => {
                       e.stopPropagation();
                       if (pt.type === 'output') {
                         setDragConn({
