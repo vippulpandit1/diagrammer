@@ -118,6 +118,8 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-cable" width={width} height={height}  />;
     case "network-bridge":
       return <NetworkGlyph type="network-bridge" width={width} height={height}  />;
+    case "network-access-point":
+      return <NetworkGlyph type="network-access-point" width={width} height={height}  />;
     case "flow-start":
     case "flow-end":
     case "flow-process":

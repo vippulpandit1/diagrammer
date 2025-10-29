@@ -46,6 +46,7 @@ const STENCIL_GLYPHS = {
     { type: "network-hub", label: "Hub", inputs: 1, outputs: 1 },
     { type: "network-cable", label: "Cable", inputs: 1, outputs: 1 },
     { type: "network-bridge", label: "Bridge", inputs: 1, outputs: 1 },
+    { type: "network-access-point", label: "Access Point" , inputs: 1, outputs: 1 },
   ],
   flowchart: [
     { type: "flow-start", label: "Start", inputs: 0, outputs: 1 },

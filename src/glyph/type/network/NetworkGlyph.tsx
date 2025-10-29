@@ -156,7 +156,19 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
             strokeWidth={1 * Math.max(sx, sy)}
           />
         </g>
-      );    
+      );  
+    case "network-access-point":
+      return (
+        <g>
+          {/* Outer circle */}
+          <circle cx={scale(20, "x")} cy={scale(20, "y")} r={scale(12, "x")} fill="#f0fdf4" stroke="#22c55e" strokeWidth={2 * Math.max(sx, sy)} />
+          {/* WiFi arcs */}
+          <path d={`M${scale(14, "x")} ${scale(24, "y")} Q${scale(20, "x")} ${scale(16, "y")} ${scale(26, "x")} ${scale(24, "y")}`} stroke="#22c55e" strokeWidth={2 * Math.max(sx, sy)} fill="none" />
+          <path d={`M${scale(16, "x")} ${scale(26, "y")} Q${scale(20, "x")} ${scale(20, "y")} ${scale(24, "x")} ${scale(26, "y")}`} stroke="#22c55e" strokeWidth={1.5 * Math.max(sx, sy)} fill="none" />
+          {/* Center dot */}
+          <circle cx={scale(20, "x")} cy={scale(28, "y")} r={Math.min(sx, sy) * 1.5} fill="#22c55e" />
+        </g>
+      );  
     default:
       return (
         <g>
