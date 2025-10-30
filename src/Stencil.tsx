@@ -73,7 +73,7 @@ const STENCIL_GLYPHS = {
     { type: "network-unified-threat-management", label: "UTM", inputs: 1, outputs: 1 },
     { type: "network-virtual-machine", label: "Virtual Machine", inputs: 1, outputs: 1 },
     { type: "network-software-defined-network", label: "SDN", inputs: 1, outputs: 1 },
-    { type: "network-network-function-virtualization", label: "NFV", inputs: 1, outputs: 1 },
+    { type: "network-function-virtualization", label: "NFV", inputs: 1, outputs: 1 },
   ],
   flowchart: [
     { type: "flow-start", label: "Start", inputs: 0, outputs: 1 },

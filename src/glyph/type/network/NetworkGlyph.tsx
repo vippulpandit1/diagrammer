@@ -1273,7 +1273,213 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
             Firewall
           </text>
         </g>
-      );   
+      ); 
+    case "network-software-defined-network":
+      return (
+        <g>
+          {/* SDN body */}
+          <rect
+            x={scale(12, "x")}
+            y={scale(16, "y")}
+            width={scale(16, "x")}
+            height={scale(8, "y")}
+            rx={scale(4, "x")}
+            fill="#e0f2fe"
+            stroke="#0ea5e9"
+            strokeWidth={2}
+          />
+          {/* SDN lines */}
+          <path
+            d={`M${scale(14, "x")},${scale(20, "y")} L${scale(26, "x")},${scale(20, "y")}`}
+            stroke="#0ea5e9"
+            strokeWidth={2}
+          />
+          <path
+            d={`M${scale(20, "x")},${scale(18, "y")} L${scale(20, "x")},${scale(22, "y")}`}
+            stroke="#0ea5e9"
+            strokeWidth={2}
+          />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(30, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#0ea5e9"
+            fontWeight={600}
+          >
+            SDN
+          </text>
+        </g>
+      );  
+    case "network-server-rack":
+      return (
+        <g>
+          {/* Rack body */}
+          <rect
+            x={scale(14, "x")}
+            y={scale(10, "y")}
+            width={scale(12, "x")}
+            height={scale(20, "y")}
+            rx={scale(2, "x")}
+            fill="#e0e7ef"
+            stroke="#222"
+            strokeWidth={2}
+          />
+          {/* Rack slots */}
+          {[0, 1, 2, 3].map(i => (
+            <rect
+              key={i}
+              x={scale(16, "x")}
+              y={scale(12 + i * 5, "y")}
+              width={scale(8, "x")}
+              height={scale(3, "y")}
+              fill="#fff"
+              stroke="#2563eb"
+              strokeWidth={1}
+            />
+          ))}
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(34, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#2563eb"
+            fontWeight={600}
+          >
+            Rack
+          </text>
+        </g>
+      );
+    case "network-unified-threat-management":
+      return (
+        <g>
+          {/* UTM body */}
+          <rect
+            x={scale(12, "x")}
+            y={scale(16, "y")}
+            width={scale(16, "x")}
+            height={scale(8, "y")}
+            rx={scale(4, "x")}
+            fill="#fee2e2"
+            stroke="#b91c1c"
+            strokeWidth={2}
+          />
+          {/* Shield symbol */}
+          <path
+            d={`
+              M${scale(20, "x")},${scale(14, "y")}
+              L${scale(26, "x")},${scale(18, "y")}
+              L${scale(20, "x")},${scale(28, "y")}
+              L${scale(14, "x")},${scale(18, "y")}
+              Z
+            `}
+            fill="#fff"
+            stroke="#b91c1c"
+            strokeWidth={1.5}
+          />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(30, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#b91c1c"
+            fontWeight={600}
+          >
+            UTM
+          </text>
+        </g>
+      );
+    case "network-wireless-controller":
+      return (
+        <g>
+          {/* Controller body */}
+          <rect
+            x={scale(14, "x")}
+            y={scale(16, "y")}
+            width={scale(12, "x")}
+            height={scale(8, "y")}
+            rx={scale(3, "x")}
+            fill="#f0fdf4"
+            stroke="#22c55e"
+            strokeWidth={2}
+          />
+          {/* WiFi symbol */}
+          <path
+            d={`M${scale(20, "x")},${scale(18, "y")} Q${scale(16, "x")},${scale(14, "y")} ${scale(24, "x")},${scale(14, "y")}`}
+            stroke="#22c55e"
+            strokeWidth={2}
+            fill="none"
+          />
+          <circle
+            cx={scale(20, "x")}
+            cy={scale(22, "y")}
+            r={Math.min(sx, sy) * 1.2}
+            fill="#22c55e"
+          />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(30, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#22c55e"
+            fontWeight={600}
+          >
+            Wireless Ctrl
+          </text>
+        </g>
+      );
+    case "network-function-virtualization":
+      return (
+        <g>
+          {/* NFV body */}
+          <rect
+            x={scale(12, "x")}
+            y={scale(16, "y")}
+            width={scale(16, "x")}
+            height={scale(8, "y")}
+            rx={scale(4, "x")}
+            fill="#f3f4f6"
+            stroke="#6366f1"
+            strokeWidth={2}
+          />
+          {/* Virtualization symbol: stacked rectangles */}
+          <rect
+            x={scale(14, "x")}
+            y={scale(18, "y")}
+            width={scale(12, "x")}
+            height={scale(4, "y")}
+            rx={scale(1, "x")}
+            fill="#fff"
+            stroke="#6366f1"
+            strokeWidth={1}
+          />
+          <rect
+            x={scale(15, "x")}
+            y={scale(22, "y")}
+            width={scale(10, "x")}
+            height={scale(2, "y")}
+            rx={scale(1, "x")}
+            fill="#e0e7ef"
+            stroke="#6366f1"
+            strokeWidth={1}
+          />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(30, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            NFV
+          </text>
+        </g>
+      );
     default:
       return (
         <g>

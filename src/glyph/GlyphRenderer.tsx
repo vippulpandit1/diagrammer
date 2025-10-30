@@ -202,8 +202,8 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-edge-computing" width={width} height={height}  />;
     case "network-software-defined-network":
       return <NetworkGlyph type="network-software-defined-network" width={width} height={height}  />;
-    case "network-network-function-virtualization":
-      return <NetworkGlyph type="network-network-function-virtualization" width={width} height={height}  />;
+    case "network-function-virtualization":
+      return <NetworkGlyph type="network-function-virtualization" width={width} height={height}  />;
     case "network-5g-tower":
       return <NetworkGlyph type="network-5g-tower" width={width} height={height}  />;
     case "network-sd-wan":
@@ -234,6 +234,10 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-ids" width={width} height={height}  />;
     case "network-quantum-computer":
       return <NetworkGlyph type="network-quantum-computer" width={width} height={height}  />;
+    case "network-unified-threat-management":
+      return <NetworkGlyph type="network-unified-threat-management" width={width} height={height}  />;
+    case "network-wireless-controller":
+      return <NetworkGlyph type="network-wireless-controller" width={width} height={height}  />;
     case "flow-start":
     case "flow-end":
     case "flow-process":
