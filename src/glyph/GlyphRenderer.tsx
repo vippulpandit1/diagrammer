@@ -120,6 +120,120 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-bridge" width={width} height={height}  />;
     case "network-access-point":
       return <NetworkGlyph type="network-access-point" width={width} height={height}  />;
+    case "network-vpn":
+      return <NetworkGlyph type="network-vpn" width={width} height={height}  />;
+    case "network-load-balancer":
+      return <NetworkGlyph type="network-load-balancer" width={width} height={height}  />;
+    case "network-modem":
+      return <NetworkGlyph type="network-modem" width={width} height={height}  />;
+    case "network-bridge-router":
+      return <NetworkGlyph type="network-bridge-router" width={width} height={height}  />;
+    case "network-fiber-optic":
+      return <NetworkGlyph type="network-fiber-optic" width={width} height={height}  />;
+    case "network-satellite":
+      return <NetworkGlyph type="network-satellite" width={width} height={height}  />;
+    case "network-server-rack":
+      return <NetworkGlyph type="network-server-rack" width={width} height={height}  />;
+    case "network-mainframe":
+      return <NetworkGlyph type="network-mainframe" width={width} height={height}  />;
+    case "network-terminal":
+      return <NetworkGlyph type="network-terminal" width={width} height={height}  />;
+    case "network-virtual-machine":
+      return <NetworkGlyph type="network-virtual-machine" width={width} height={height}  />;
+    case "network-cloud-storage":
+      return <NetworkGlyph type="network-cloud-storage" width={width} height={height}  />;
+    case "network-edge-device":
+      return <NetworkGlyph type="network-edge-device" width={width} height={height}  />;
+    case "network-iot-device":
+      return <NetworkGlyph type="network-iot-device" width={width} height={height}  />;
+    case "network-security-camera":
+      return <NetworkGlyph type="network-security-camera" width={width} height={height}  />;
+    case "network-voip-phone":
+      return <NetworkGlyph type="network-voip-phone" width={width} height={height}  />;
+    case "network-smart-tv":
+      return <NetworkGlyph type="network-smart-tv" width={width} height={height}  />;
+    case "network-gateway":
+      return <NetworkGlyph type="network-gateway" width={width} height={height}  />;
+    case "network-proxy":
+      return <NetworkGlyph type="network-proxy" width={width} height={height}  />;
+    case "network-dmz":
+      return <NetworkGlyph type="network-dmz" width={width} height={height}  />;
+    case "network-internet":
+      return <NetworkGlyph type="network-internet" width={width} height={height}  />;
+    case "network-extranet":
+      return <NetworkGlyph type="network-extranet" width={width} height={height}  />;
+    case "network-intranet":
+      return <NetworkGlyph type="network-intranet" width={width} height={height}  />;
+    case "network-vlan":
+      return <NetworkGlyph type="network-vlan" width={width} height={height}  />;
+    case "network-subnet":
+      return <NetworkGlyph type="network-subnet" width={width} height={height}  />;
+    case "network-bastion-host":
+      return <NetworkGlyph type="network-bastion-host" width={width} height={height}  />;
+    case "network-cloud-compute":
+      return <NetworkGlyph type="network-cloud-compute" width={width} height={height}  />;
+    case "network-content-delivery":
+      return <NetworkGlyph type="network-content-delivery" width={width} height={height}  />;
+    case "network-dns":
+      return <NetworkGlyph type="network-dns" width={width} height={height}  />;
+    case "network-email-server":
+      return <NetworkGlyph type="network-email-server" width={width} height={height}  />;
+    case "network-web-server":
+      return <NetworkGlyph type="network-web-server" width={width} height={height}  />;
+    case "network-application-server":
+      return <NetworkGlyph type="network-application-server" width={width} height={height}  />;
+    case "network-file-server":
+      return <NetworkGlyph type="network-file-server" width={width} height={height}  />;
+    case "network-print-server":
+      return <NetworkGlyph type="network-print-server" width={width} height={height}  />;
+    case "network-dhcp":
+      return <NetworkGlyph type="network-dhcp" width={width} height={height}  />;
+    case "network-nat":
+      return <NetworkGlyph type="network-nat" width={width} height={height}  />;
+    case "network-load-balancing-cluster":
+      return <NetworkGlyph type="network-load-balancing-cluster" width={width} height={height}  />;
+    case "network-storage-area-network":
+      return <NetworkGlyph type="network-storage-area-network" width={width} height={height}  />;
+    case "network-virtual-private-cloud":
+      return <NetworkGlyph type="network-virtual-private-cloud" width={width} height={height}  />;
+    case "network-hybrid-cloud":
+      return <NetworkGlyph type="network-hybrid-cloud" width={width} height={height}  />;
+    case "network-edge-computing":
+      return <NetworkGlyph type="network-edge-computing" width={width} height={height}  />;
+    case "network-software-defined-network":
+      return <NetworkGlyph type="network-software-defined-network" width={width} height={height}  />;
+    case "network-network-function-virtualization":
+      return <NetworkGlyph type="network-network-function-virtualization" width={width} height={height}  />;
+    case "network-5g-tower":
+      return <NetworkGlyph type="network-5g-tower" width={width} height={height}  />;
+    case "network-sd-wan":
+      return <NetworkGlyph type="network-sd-wan" width={width} height={height}  />;
+    case "network-optical-network":
+      return <NetworkGlyph type="network-optical-network" width={width} height={height}  />;
+    case "network-quantum-computer":
+      return <NetworkGlyph type="network-quantum-computer" width={width} height={height}  />;
+    case "network-pdu":
+      return <NetworkGlyph type="network-pdu" width={width} height={height}  />;
+    case "network-kvm-switch":
+      return <NetworkGlyph type="network-kvm-switch" width={width} height={height}  />;
+    case "network-raspberry-pi":
+      return <NetworkGlyph type="network-raspberry-pi" width={width} height={height}  />;
+    case "network-nas":
+      return <NetworkGlyph type="network-nas" width={width} height={height}  />;
+    case "network-uninterruptible-power-supply":
+      return <NetworkGlyph type="network-uninterruptible-power-supply" width={width} height={height}  />;
+    case "network-ups":
+      return <NetworkGlyph type="network-ups" width={width} height={height}  />;
+    case "network-antenna":
+      return <NetworkGlyph type="network-antenna" width={width} height={height}  />;
+    case "network-satellite":
+      return <NetworkGlyph type="network-satellite" width={width} height={height}  />;
+    case "network-cctv":
+      return <NetworkGlyph type="network-cctv" width={width} height={height}  />;
+    case "network-ids":
+      return <NetworkGlyph type="network-ids" width={width} height={height}  />;
+    case "network-quantum-computer":
+      return <NetworkGlyph type="network-quantum-computer" width={width} height={height}  />;
     case "flow-start":
     case "flow-end":
     case "flow-process":
