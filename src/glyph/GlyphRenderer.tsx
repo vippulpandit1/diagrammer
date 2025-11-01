@@ -96,6 +96,8 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-router" width={width} height={height}  />;
     case "network-firewall":
       return <NetworkGlyph type="network-firewall" width={width} height={height}  />;
+    case "network-firewall-alt":
+      return <NetworkGlyph type="network-firewall-alt" width={width} height={height}  />;
     case "network-pc":
       return <NetworkGlyph type="network-pc" width={width} height={height}  />;
     case "network-cloud":

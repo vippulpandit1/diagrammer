@@ -1480,6 +1480,47 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           </text>
         </g>
       );
+    case "network-firewall-alt":
+      return (
+        <g>
+          {/* Alt firewall: shield */}
+          <path
+            d={`
+              M${scale(20, "x")},${scale(12, "y")}
+              L${scale(28, "x")},${scale(18, "y")}
+              L${scale(24, "x")},${scale(32, "y")}
+              L${scale(16, "x")},${scale(32, "y")}
+              L${scale(12, "x")},${scale(18, "y")}
+              Z
+            `}
+            fill="#fee2e2"
+            stroke="#b91c1c"
+            strokeWidth={2 * Math.max(sx, sy)}
+          />
+          {/* Shield lines */}
+          <path
+            d={`M${scale(20, "x")},${scale(16, "y")} L${scale(20, "x")},${scale(28, "y")}`}
+            stroke="#b91c1c"
+            strokeWidth={2}
+          />
+          <path
+            d={`M${scale(16, "x")},${scale(24, "y")} L${scale(24, "x")},${scale(24, "y")}`}
+            stroke="#b91c1c"
+            strokeWidth={2}
+          />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(36, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#b91c1c"
+            fontWeight={600}
+          >
+            Firewall
+          </text>
+        </g>
+      );
     default:
       return (
         <g>
