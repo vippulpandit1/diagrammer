@@ -33,6 +33,7 @@ interface PropertySheetProps {
   connectorType?: ConnectorType;
   setConnectorType?: (type: ConnectorType) => void;
   pages?: Page[];
+  connections?: Connection[];
 //  onUpdateConnectionType?: (id: string, type: ConnectorType) => void;
 }
 
@@ -43,6 +44,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   onUpdateGlyph,
   onUpdateConnection,
   pages = [],
+  connections = [],
 //  onUpdateConnectionType
 })  => {
   // --- State ---
@@ -88,7 +90,27 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
 
       // Keep existing ports, only add new ones if needed
       let ports = glyph.ports ? [...glyph.ports] : [];
-
+      // Find ports that will be removed
+      const removedInputPorts = ports.filter(p => p.type === "input").slice(inputs);
+      const removedOutputPorts = ports.filter(p => p.type === "output").slice(outputs);
+      // Check for connections using these ports
+      const usedPortIds = [
+        ...removedInputPorts.map(p => p.id),
+        ...removedOutputPorts.map(p => p.id),
+      ];
+      const affectedConnections = connections.filter(
+        conn => usedPortIds.includes(conn.fromPortId) || usedPortIds.includes(conn.toPortId)
+      );
+      if (affectedConnections.length > 0) {
+        window.alert(
+          `Warning: Removing ports will affect ${affectedConnections.length} connection(s).`
+        );
+        // Reset inputs/outputs to original values
+        setInputs(glyph.inputs ?? 0);
+        setOutputs(glyph.outputs ?? 0); 
+        return;
+        // Optionally, handle affected connections here
+      }
       // Remove excess input ports if inputs decreased
       const inputPorts = ports.filter(p => p.type === "input").slice(0, inputs);
       // Remove excess output ports if outputs decreased

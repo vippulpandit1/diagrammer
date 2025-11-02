@@ -574,6 +574,7 @@ function App() {
               connectorType={selectedConnection?.view?.[CONNECTION_TYPE_INDEX] || connectorType}
               setConnectorType={setConnectorType}
               pages={pages}
+              connections={activePage.connections}
             />
           )}
           {selectedConnection && (
@@ -586,6 +587,7 @@ function App() {
               connectorType={connectorType}
               setConnectorType={selectedConnection.view?.[CONNECTION_TYPE_INDEX] || connectorType}
               pages={pages}
+              connections={activePage.connections}
 //              onUpdateConnectionType={handleUpdateConnectionType}
             />
           )}
