@@ -61,19 +61,27 @@ const getConnectors = (glyph: Glyph, width: number, height: number) => {
   const numInputs = glyph.inputs ?? 2;
   const numOutputs = glyph.outputs ?? 1;
 
-  for (let i = 0; i < numInputs; i++) {
-    connectors.push({
-      cx: 0,
-      cy: height * ((i + 1) / (numInputs + 1)),
-      type: "input",
-    });
-  }
-  for (let i = 0; i < numOutputs; i++) {
-    connectors.push({
-      cx: width,
-      cy: height * ((i + 1) / (numOutputs + 1)),
-      type: "output",
-    });
+  let inputCount = 0;
+  let outputCount = 0;
+  for (let i = 0; i < glyph.ports?.length; i++) {
+    const port = glyph.ports[i];
+    if (port.type === "input") {
+      connectors.push({
+        cx: 0,
+        cy: height * ((inputCount + 1) / (numInputs + 1)),
+        type: "input",
+        id: port.id ?? `input-${i + 1}`,
+      });
+      inputCount++;
+    } else if (port.type === "output") {
+      connectors.push({
+        cx: width,
+        cy: height * ((outputCount + 1) / (numOutputs + 1)),
+        type: "output",
+        id: port.id ?? `output-${i + 1}`,
+      });
+      outputCount++;
+    }
   }
   // Attribute outbound connectors for self-defined attributes
   if (glyph.type === "uml-class" && Array.isArray(glyph.attributes)) {
@@ -86,6 +94,7 @@ const getConnectors = (glyph: Glyph, width: number, height: number) => {
           cy: ATTR_START_Y + i * 20 + 10,
           type: "attribute-outbound",
           attrIdx: i,
+          id: `attr-outbound-${i}`,
         });
       }
     });
@@ -93,11 +102,16 @@ const getConnectors = (glyph: Glyph, width: number, height: number) => {
   return connectors;
 };
 
-const getConnectorPos = (glyph: Glyph, idx: number, width: number, height: number) => {
+const getConnectorPos = (glyph: Glyph, portId: string, width: number, height: number) => {
   const conns = getConnectors(glyph, width, height);
+  const connector = conns.find(c => c.id === portId);
+  if (!connector) {
+    // fallback: use first connector
+    return { x: glyph.x, y: glyph.y };
+  }
   return {
-    x: glyph.x + conns[idx].cx,
-    y: glyph.y + conns[idx].cy,
+    x: glyph.x + connector.cx,
+    y: glyph.y + connector.cy,
   };
 };
 
@@ -157,7 +171,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const [editingTextId, setEditingTextId] = useState<string | null>(null);
   const [editingTextValue, setEditingTextValue] = useState<string>("");
   const [dragConn, setDragConn] = useState<null | {
-    fromGlyphId: string, fromPortIdx: number, fromX: number, fromY: number
+    fromGlyphId: string, fromPortIdx: string, fromX: number, fromY: number
   }>(null);
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null);
   // add rect state here (parent owns the rect)
@@ -349,8 +363,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
 
       const fromSize = computeGlyphSize(fromGlyph);
       const toSize = computeGlyphSize(toGlyph);
-      const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h);
-      const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h);
+      const from = getConnectorPos(fromGlyph, conn.fromPortId, fromSize.w, fromSize.h);
+      const to = getConnectorPos(toGlyph, conn.toPortId, toSize.w, toSize.h);
 
       const pts = [from, ...(conn.points || []), to];
       for (let i = 0; i < pts.length - 1; i++) {
@@ -399,7 +413,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           position: 'relative',
         }}
       >
-        {/* Draw connections */}
+      {/* Draw connections */}
       <svg style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'all', touchAction: 'none', zIndex: 1 }}>
           {connectionsToRender.map((conn, i) => {
             const connectionType = conn.view?.[CONNECTION_TYPE_INDEX] || connectorType;
@@ -415,8 +429,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
             if (!fromGlyph || !toGlyph) return null;
             const fromSize = sizeMap.get(fromGlyph.id) ?? { w: 60, h: 60 };
             const toSize = sizeMap.get(toGlyph.id) ?? { w: 60, h: 60 };
-            const from = getConnectorPos(fromGlyph, Number(conn.fromPortId), fromSize.w, fromSize.h);
-            const to = getConnectorPos(toGlyph, Number(conn.toPortId), toSize.w, toSize.h);
+            const from = getConnectorPos(fromGlyph, conn.fromPortId, fromSize.w, fromSize.h);
+            const to = getConnectorPos(toGlyph, conn.toPortId, toSize.w, toSize.h);
             // Calculate the midpoint for displaying the label
             const midPoint = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
             return (
@@ -664,7 +678,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                       if (pt.type === 'output') {
                         setDragConn({
                           fromGlyphId: glyph.id,
-                          fromPortIdx: idx,
+                          fromPortIdx: pt.id, // Use connector's id
                           fromX: glyph.x + pt.cx,
                           fromY: glyph.y + pt.cy,
                         });
@@ -677,14 +691,14 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                       if (
                         dragConn &&
                         pt.type === 'input' &&
-                        !(dragConn.fromGlyphId === glyph.id && dragConn.fromPortIdx === idx)
+                        !(dragConn.fromGlyphId === glyph.id && dragConn.fromPortIdx === glyph.ports?.[idx]?.id)
                       ) {
                         onAddConnection({
                           id: crypto.randomUUID(),
                           fromGlyphId: dragConn.fromGlyphId,
-                          fromPortId: String(dragConn.fromPortIdx),
+                          fromPortId: dragConn.fromPortIdx, 
                           toGlyphId: glyph.id,
-                          toPortId: String(idx),
+                          toPortId:  glyph.ports?.[idx]?.id,
                           type: "default",
                           view: {}, // Provide a default or appropriate view object
                         });
@@ -701,7 +715,9 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     textAnchor={pt.type === 'input' ? 'end' : 'start'}
                     pointerEvents="none"
                   >
-                    {pt.type === 'input' ? `in${idx + 1}` : `out${idx + 1 - numInputs}`}
+                    {pt.type === 'input'
+                      ? `in${connectors.filter(c => c.type === 'input').findIndex(c => c.id === pt.id) + 1}`
+                      : `out${connectors.filter(c => c.type === 'output').findIndex(c => c.id === pt.id) + 1}`}
                   </text>
                 </g>
               ))}

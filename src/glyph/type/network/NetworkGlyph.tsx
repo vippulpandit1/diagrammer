@@ -1233,7 +1233,6 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           </text>
         </g>
       );
-    case "network-firewall-alt":
       return (
         <g>
           {/* Alt firewall: shield */}

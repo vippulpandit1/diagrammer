@@ -1,4 +1,5 @@
 import { Port } from "./Port";
+import { v4 as uuidv4 } from "uuid";
 import type { UMLAttr } from "./type/uml/UMLAttr";
 import type { UMLMethod } from "./type/uml/UMLMethod";
 
@@ -21,7 +22,6 @@ export class Glyph {
   onUpdate?: (id: string, updates: { label: string }) => void;
   icon?: string; // Optional icon property
 
-  
   constructor(
     id: string,
     type: string,
@@ -57,7 +57,15 @@ export class Glyph {
     }
     this.attributes = attributes;
     this.methods = methods;
-
+    // Always generate ports based on inputs/outputs
+    this.ports = [
+      ...Array.from({ length: this.inputs }, (_, i) =>
+        new Port(`input-${uuidv4()}`, "input")
+      ),
+      ...Array.from({ length: this.outputs }, (_, i) =>
+        new Port(`output-${uuidv4()}`, "output")
+      ),
+    ];
     this.icon = icon;
   }
 

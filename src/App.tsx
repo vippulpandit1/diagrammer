@@ -244,7 +244,7 @@ function App() {
     addMessage(`Updated glyph ${id}`)
   };
   const handleAddGlyph = (type: string, x: number, y: number, inputs?: number, outputs?: number) => {
-    const newGlyph: Glyph = {
+/*    const newGlyph: Glyph = {
       id: `glyph-${Date.now()}`,
       type,
       x,
@@ -260,6 +260,33 @@ function App() {
     const newPages = pages.map((page, index) => {
       if (index === activePageIdx) {
         // Add the new glyph to this page's glyphs array
+        addMessage(`Added glyph ${newGlyph.id} of type ${type} at (${x}, ${y})`);
+        return { ...page, glyphs: [...page.glyphs, newGlyph] };
+      }
+      return page;
+    });
+
+    updateHistory(newPages);
+*/
+    const newGlyph = new Glyph(
+      `glyph-${Date.now()}`,
+      type,
+      x,
+      y,
+      [],
+      {},
+      "",
+      inputs ?? 1,
+      outputs ?? 1,
+      [],
+      [],
+      undefined,
+      undefined,
+      type == "png-glyph" ? iconPng : undefined
+    );
+    // Create a new pages array with the updated active page
+    const newPages = pages.map((page, index) => {
+      if (index === activePageIdx) {
         addMessage(`Added glyph ${newGlyph.id} of type ${type} at (${x}, ${y})`);
         return { ...page, glyphs: [...page.glyphs, newGlyph] };
       }

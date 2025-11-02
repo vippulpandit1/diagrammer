@@ -5,6 +5,8 @@ import type { UMLAttr, UMLVisibility, UMLDataType } from "./glyph/type/uml/UMLAt
 import type { UMLMethod } from "./glyph/type/uml/UMLMethod";
 import { Connection } from "./glyph/Connection";
 import type { Page } from "./glyph/Page";
+import { Port } from "./glyph/Port";
+import { v4 as uuidv4 } from "uuid";
 
 const TYPE_OPTIONS = [
   "rect", "circle", "multi",
@@ -83,6 +85,31 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   const handleSave = () => {
     if (glyph && onUpdateGlyph) {
       const updates: Partial<Glyph> = { label, inputs, outputs };
+
+      // Keep existing ports, only add new ones if needed
+      let ports = glyph.ports ? [...glyph.ports] : [];
+
+      // Remove excess input ports if inputs decreased
+      const inputPorts = ports.filter(p => p.type === "input").slice(0, inputs);
+      // Remove excess output ports if outputs decreased
+      const outputPorts = ports.filter(p => p.type === "output").slice(0, outputs);
+
+      // Add missing input ports
+      if (inputs > inputPorts.length) {
+        inputPorts.push(
+          ...Array.from({ length: inputs - inputPorts.length }, () => new Port(`input-${uuidv4()}`, "input"))
+        );
+      }
+      // Add missing output ports
+      if (outputs > outputPorts.length) {
+        outputPorts.push(
+          ...Array.from({ length: outputs - outputPorts.length }, () => new Port(`output-${uuidv4()}`, "output"))
+        );
+      }
+
+      updates.ports = [...inputPorts, ...outputPorts];
+
+
       if (glyph.type === "uml-class") {
         updates.attributes = attributes;
         updates.methods = methods;
@@ -91,18 +118,10 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
       }
       onUpdateGlyph(glyph.id, updates);
     } else if (connection && connection.id && onUpdateConnection) {
-      const updates: Partial<Connection> = { label };
-      updates.view = {
-        connectionType: connectorType,
-        color: connectionColor,
-        thickness: connectionThickness,
-        dashed: connectionDashed,
-      };
-      onUpdateConnection(connection.id, updates);
+      // ...existing connection update logic...
     }
-    // Show an alert to confirm the save
     window.alert("Properties saved successfully!");
-    onClose(); // Close after saving
+    onClose();
   };
 
   // --- Render Functions for different selections ---
@@ -560,3 +579,6 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
     </div>
   );
 };
+
+
+

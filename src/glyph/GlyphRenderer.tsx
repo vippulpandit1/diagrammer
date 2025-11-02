@@ -228,14 +228,10 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <NetworkGlyph type="network-ups" width={width} height={height}  />;
     case "network-antenna":
       return <NetworkGlyph type="network-antenna" width={width} height={height}  />;
-    case "network-satellite":
-      return <NetworkGlyph type="network-satellite" width={width} height={height}  />;
     case "network-cctv":
       return <NetworkGlyph type="network-cctv" width={width} height={height}  />;
     case "network-ids":
       return <NetworkGlyph type="network-ids" width={width} height={height}  />;
-    case "network-quantum-computer":
-      return <NetworkGlyph type="network-quantum-computer" width={width} height={height}  />;
     case "network-unified-threat-management":
       return <NetworkGlyph type="network-unified-threat-management" width={width} height={height}  />;
     case "network-wireless-controller":

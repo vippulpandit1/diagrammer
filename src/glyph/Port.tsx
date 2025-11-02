@@ -2,14 +2,14 @@
 export class Port {
   public id: string;
   public type: 'input' | 'output';
-  public x: number;
-  public y: number;
+  public x?: number;
+  public y?: number;
 
   constructor(
     id: string,
     type: 'input' | 'output',
-    x: number,
-    y: number
+    x?: number,
+    y?: number
   ) {
     this.id = id;
     this.type = type;
