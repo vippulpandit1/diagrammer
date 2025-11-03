@@ -223,7 +223,10 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   useEffect(() => {
     if (!dragConn) return;
     const handleMouseMove = (e: MouseEvent) => {
-      setDragMouse({ x: e.clientX, y: e.clientY });
+      const rect = canvasRef.current?.getBoundingClientRect();
+      const mouseX = (e.clientX - (rect?.left ?? 0)) / zoom;
+      const mouseY = (e.clientY - (rect?.top ?? 0)) / zoom;
+      setDragMouse({ x: mouseX, y: mouseY });
     };
     const handleMouseUp = () => {
       setDragConn(null);
@@ -235,7 +238,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [dragConn]);  
+  }, [dragConn, zoom]);  
   const getConnectionPathMulti = (
     from: { x: number; y: number },
     points: { x: number; y: number }[],
@@ -676,13 +679,16 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     onPointerDown={e => {
                       e.stopPropagation();
                       if (pt.type === 'output') {
+                        const rect = canvasRef.current?.getBoundingClientRect();
+                        const mouseX = (e.clientX - (rect?.left ?? 0)) / zoom;
+                        const mouseY = (e.clientY - (rect?.top ?? 0)) / zoom;
                         setDragConn({
                           fromGlyphId: glyph.id,
-                          fromPortIdx: pt.id, // Use connector's id
-                          fromX: glyph.x + pt.cx,
-                          fromY: glyph.y + pt.cy,
+                          fromPortIdx: pt.id,
+                          fromX: mouseX,
+                          fromY: mouseY,
                         });
-                        setDragMouse({ x: e.clientX, y: e.clientY });
+                        setDragMouse({ x: mouseX, y: mouseY });
                       }
                     }}
                     onMouseEnter={() => setHoveredPort({ glyphId: glyph.id, portIdx: idx })}
