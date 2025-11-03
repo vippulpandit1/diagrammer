@@ -229,6 +229,8 @@ function App() {
 
   const handleClosePropertySheet = () => {
     setSelectedItem(null);
+    setPropertySheetOpen(false);
+    addMessage("Closed PropertySheet");
   };
     // handler passed to BottomPanel
   const handlePanelCollapseChange = (collapsed: boolean, height: number) => {
@@ -313,6 +315,15 @@ function App() {
     });
     addMessage("Auto-arranged glyphs");
   };
+  const handleOpenPropertySheet = (glyph?: Glyph, connection?: Connection) => {
+    setPropertySheetOpen(true);
+    setSelectedGlyph(glyph ?? null);
+    setSelectedConnection(connection ?? null);
+    addMessage(
+      `Opened PropertySheet for ${glyph ? `glyph ${glyph.id}` : ""}${connection ? `connection ${connection.id}` : ""}`.trim()
+    );
+  };
+
   const handleSave = () => {
     const json = JSON.stringify(pages);
     sessionStorage.setItem("canvasData", json);
@@ -428,23 +439,24 @@ function App() {
             }}
             zoom={zoom}
             onAddGlyph={handleAddGlyph}
-            onGlyphClick={glyph => {
-              setPropertySheetOpen(false);
-              setSelectedConnection(null);
-              setSelectedGlyph(glyph);
-              setPropertySheetOpen(true);
-            }}
+
             bringGlyphToFront={bringGlyphToFront} 
             sendGlyphToBack={sendGlyphToBack}    
             groupGlyphs={groupGlyphs}
             ungroupGlyphs={ungroupGlyphs}
             connectorType={connectorType}  
+            onGlyphClick={glyph => {
+              setPropertySheetOpen(false);
+              setSelectedConnection(null);
+              setSelectedGlyph(glyph);
+              handleOpenPropertySheet(glyph, undefined);
+            }}
             onConnectionClick={conn => {
               setPropertySheetOpen(false);
               setSelectedGlyph(null);
               setSelectedConnection(conn);
-              setPropertySheetOpen(true);
-            }} 
+              handleOpenPropertySheet(undefined, conn);
+            }}
         />
 
       
@@ -569,7 +581,7 @@ function App() {
             <PropertySheet
               glyph={selectedGlyph}
               connection={selectedConnection!}
-              onClose={() => setPropertySheetOpen(false)}
+              onClose={handleClosePropertySheet}
               onUpdateGlyph={handleUpdateGlyph}
               connectorType={selectedConnection?.view?.[CONNECTION_TYPE_INDEX] || connectorType}
               setConnectorType={setConnectorType}
@@ -581,14 +593,13 @@ function App() {
             <PropertySheet
               glyph={selectedGlyph!}
               connection={selectedConnection}
-              onClose={() => setPropertySheetOpen(false)}
+              onClose={handleClosePropertySheet}
               onUpdateGlyph={handleUpdateGlyph}
               onUpdateConnection={handleUpdateConnection}
               connectorType={connectorType}
               setConnectorType={selectedConnection.view?.[CONNECTION_TYPE_INDEX] || connectorType}
               pages={pages}
               connections={activePage.connections}
-//              onUpdateConnectionType={handleUpdateConnectionType}
             />
           )}
         </>
