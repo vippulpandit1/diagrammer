@@ -384,12 +384,12 @@ function App() {
   <div className="workspace-root">
       {/* Header Bar */}
       <HeaderBar
-        onClear={() => console.log("Clear Canvas")}
-        onZoomIn={() => console.log("Zoom In")}
-        onZoomOut={() => console.log("Zoom Out")}
-        onSave={() => console.log("Save")}
-        zoom={1}
-        onAutoArrange={() => console.log("Auto Arrange")}
+        onClear={() => { activePage.glyphs=[]; activePage.connections=[]; addMessage("Cleared canvas"); updateHistory(pages); }}
+        onZoomIn={() => {setZoom(z => Math.min(z + 0.1, 2));addMessage("Zoomed in");}}
+        onZoomOut={() => {setZoom(z => Math.max(z - 0.1, 0.2));addMessage("Zoomed out");}}
+        onSave={handleSave}
+        zoom={zoom}
+        onAutoArrange={handleAutoArrange}
         onPrint={printCanvas} // Pass the printCanvas function
       />
       <div
