@@ -1,4 +1,3 @@
-// Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React from "react";
 
 interface HeaderBarProps {
@@ -8,9 +7,18 @@ interface HeaderBarProps {
   onSave: () => void;
   zoom: number;
   onAutoArrange: () => void;
+  onPrint: () => void; // Add onPrint prop
 }
 
-export const HeaderBar: React.FC<HeaderBarProps> = ({ onClear, onZoomIn, onZoomOut, onSave, zoom, onAutoArrange }) => (
+export const HeaderBar: React.FC<HeaderBarProps> = ({
+  onClear,
+  onZoomIn,
+  onZoomOut,
+  onSave,
+  zoom,
+  onAutoArrange,
+  onPrint, // Destructure onPrint
+}) => (
   <header className="workspace-header">
     <span className="workspace-title">Graphic Workspace</span>
     <div className="workspace-header-actions">
@@ -57,6 +65,17 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onClear, onZoomIn, onZoomO
         <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="3" width="5" height="5"/><rect x="14" y="3" width="5" height="5"/>
             <rect x="3" y="14" width="5" height="5"/><rect x="14" y="14" width="5" height="5"/>
+        </svg>
+      </button>
+      <button
+        title="Print Canvas"
+        onClick={onPrint} // Add onClick handler for print
+      >
+        {/* Print icon */}
+        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M6 9V2h12v7"/>
+          <rect x="6" y="9" width="12" height="13" rx="2"/>
+          <path d="M6 15h12"/>
         </svg>
       </button>
       <button

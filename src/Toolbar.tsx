@@ -19,7 +19,7 @@ export const Toolbar: React.FC<{
   connectionType: string;
   setConnectionType: (type: string) => void;
 }> = ({ stencilType, setStencilType, connectionType, setConnectionType })  => {
-  const [selectedStencil, setSelectedStencil] = useState<"basic" | "logic" | "uml">("uml");
+  const [selectedStencil, setSelectedStencil] = useState<"basic" | "logic" | "uml">("basic");
 
   return (
     <div className="workspace-toolbar">

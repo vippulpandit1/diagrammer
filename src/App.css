@@ -142,3 +142,6 @@
   font-size: 2rem;
   cursor: pointer;
 }
+.hide-for-print {
+  display: none !important;
+}

@@ -168,6 +168,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const [selectedGlyphIds, setSelectedGlyphIds] = useState<string[]>([]);
   const [hoveredConn, setHoveredConn] = useState<number | null>(null);
   const [glyphMenu, setGlyphMenu] = useState<{ glyphId: string, x: number, y: number } | null>(null);
+  // Add state for connection menu
+  const [connectionMenu, setConnectionMenu] = useState<{ connId: string, x: number, y: number } | null>(null);
   const [editingTextId, setEditingTextId] = useState<string | null>(null);
   const [editingTextValue, setEditingTextValue] = useState<string>("");
   const [dragConn, setDragConn] = useState<null | {
@@ -416,9 +418,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           position: 'relative',
         }}
       >
-      {/* Draw connections */}
-      <svg style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'all', touchAction: 'none', zIndex: 1 }}>
-          {connectionsToRender.map((conn, i) => {
+        {/* Draw connections */}
+        {connectionsToRender.map((conn, i) => {
             const connectionType = conn.view?.[CONNECTION_TYPE_INDEX] || connectorType;
             const sizeMap = new Map<string, { w: number, h: number }>();
             glyphsToRender.forEach(g => sizeMap.set(g.id, computeGlyphSize(g)));
@@ -436,86 +437,164 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
             const to = getConnectorPos(toGlyph, conn.toPortId, toSize.w, toSize.h);
             // Calculate the midpoint for displaying the label
             const midPoint = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
+            // Calculate the bounding box for all glyphs to determine canvas size
+            const allGlyphXs = glyphsToRender.map(g => g.x);
+            const allGlyphYs = glyphsToRender.map(g => g.y);
+            const allGlyphWidths = glyphsToRender.map(g => computeGlyphSize(g).w);
+            const allGlyphHeights = glyphsToRender.map(g => computeGlyphSize(g).h);
+
+            const minX = Math.min(...allGlyphXs, 0);
+            const minY = Math.min(...allGlyphYs, 0);
+            const maxX = Math.max(...allGlyphXs.map((x, idx) => x + allGlyphWidths[idx]), 1000);
+            const maxY = Math.max(...allGlyphYs.map((y, idx) => y + allGlyphHeights[idx]), 1000);
+
+            const svgWidth = maxX - minX + 40; // add some padding
+            const svgHeight = maxY - minY + 40;
             return (
-              <g key={i} className="connection">
-                <path
+              <svg
+                key={conn.id || i}
+                style={{ position: 'absolute', pointerEvents: 'all', touchAction: 'none', zIndex: 1, left: minX, top: minY }}
+                width={svgWidth}
+                height={svgHeight}
+              >                
+                <g
                   key={i}
-                  d={conn.points && conn.points.length > 0
-                    ? getConnectionPathMulti(from, conn.points, to, connectionType)
-                    : getConnectionPath(from, to, connectionType)
-                  }
-                  stroke={
-                    selectedConn === i
-                      ? "#f87171"
-                      : hoveredConn === i
-                      ? "#2563eb"
-                      : connectionColor === "black" ? "#f87171" : connectionColor
-                  }
-                  strokeWidth={selectedConn === i || hoveredConn === i ? 5 : connectionThickness}
-                  fill="none"
-                  style={{
-                    cursor: 'pointer',
-                    pointerEvents: 'all',
-                    filter:
+                  className="connection"
+                  onContextMenu={e => {
+                    e.preventDefault();
+                    setConnectionMenu({
+                      connId: conn.id ?? "",
+                      x: e.clientX,
+                      y: e.clientY,
+                    });
+                  }}
+                >
+                  <path
+                    key={i}
+                    d={conn.points && conn.points.length > 0
+                      ? getConnectionPathMulti(from, conn.points, to, connectionType)
+                      : getConnectionPath(from, to, connectionType)
+                    }
+                    stroke={
                       selectedConn === i
-                        ? 'drop-shadow(0 0 4px #f87171)'
+                        ? "#f87171"
                         : hoveredConn === i
-                        ? 'drop-shadow(0 0 4px #2563eb)'
-                        : undefined
-                  }}
-                  onClick={e => {
-                    e.stopPropagation();
-                    setSelectedConn(selectedConn === i ? null : i);
-                  }}
-                  onDoubleClick={e => {
-                    e.stopPropagation();
-                    setSelectedGlyphId(null);
-                    if (onConnectionClick && selectedConn !== i) onConnectionClick(conn);
-                  }}
-                  onMouseEnter={() => setHoveredConn(i)}
-                  onMouseLeave={() => setHoveredConn(null)}
-                  strokeDasharray={connectionDashed ? "5,5" : isHovered ? "5,5" : "none"}
-                />
-                {conn.points?.map((pt, idx) => (
-                  <circle
-                    key={idx}
-                    cx={pt.x}
-                    cy={pt.y}
-                    r={8}
-                    fill="#fbbf24"
-                    stroke="#222"
-                    strokeWidth={2}
-                    style={{ cursor: "grab" }}
-                    onPointerDown={e => handlePointPointerDown(conn.id ?? "", idx, e)}
+                        ? "#2563eb"
+                        : connectionColor === "black" ? "#f87171" : connectionColor
+                    }
+                    strokeWidth={selectedConn === i || hoveredConn === i ? 5 : connectionThickness}
+                    fill="none"
+                    style={{
+                      cursor: 'pointer',
+                      pointerEvents: 'all',
+                      filter:
+                        selectedConn === i
+                          ? 'drop-shadow(0 0 4px #f87171)'
+                          : hoveredConn === i
+                          ? 'drop-shadow(0 0 4px #2563eb)'
+                          : undefined
+                    }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      setSelectedConn(selectedConn === i ? null : i);
+                    }}
+                    onDoubleClick={e => {
+                      e.stopPropagation();
+                      setSelectedGlyphId(null);
+                      if (onConnectionClick && selectedConn !== i) onConnectionClick(conn);
+                    }}
+                    onMouseEnter={() => setHoveredConn(i)}
+                    onMouseLeave={() => setHoveredConn(null)}
+                    strokeDasharray={connectionDashed ? "5,5" : isHovered ? "5,5" : "none"}
                   />
-                ))}
-                {conn.label && (
-                  <>
-                    {/* Optional: Add a small rect behind the text to make it readable */}
-                    <rect
-                      x={midPoint.x - (conn.label.length * 4)} // Approximate width
-                      y={midPoint.y - 10}
-                      width={conn.label.length * 8} // Approximate width
-                      height={20}
-                      fill="#fff" // Use your canvas background color
+                  {conn.points?.map((pt, idx) => (
+                    <circle
+                      key={idx}
+                      cx={pt.x}
+                      cy={pt.y}
+                      r={8}
+                      fill="#fbbf24"
+                      stroke="#222"
+                      strokeWidth={2}
+                      style={{ cursor: "grab" }}
+                      onPointerDown={e => handlePointPointerDown(conn.id ?? "", idx, e)}
                     />
-                    <text
-                      x={midPoint.x}
-                      y={midPoint.y}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="#334155"
-                      fontSize="13px"
-                      fontWeight="500"
-                    >
-                      {conn.label}
-                    </text>
-                  </>
-                )}                
-              </g>
+                  ))}
+                  {conn.label && (
+                    <>
+                      {/* Optional: Add a small rect behind the text to make it readable */}
+                      <rect
+                        x={midPoint.x - (conn.label.length * 4)} // Approximate width
+                        y={midPoint.y - 10}
+                        width={conn.label.length * 8} // Approximate width
+                        height={20}
+                        fill="#fff" // Use your canvas background color
+                      />
+                      <text
+                        x={midPoint.x}
+                        y={midPoint.y}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        fill="#334155"
+                        fontSize="13px"
+                        fontWeight="500"
+                      >
+                        {conn.label}
+                      </text>
+                    </>
+                  )}                               
+                </g>
+              </svg>
             );
-          })}
-          {dragConn && dragMouse && (
+        })}
+        {/* Draw connection context menu */}
+        {connectionMenu && (
+            <div
+              style={{
+                position: "fixed",
+                left: connectionMenu.x,
+                top: connectionMenu.y,
+                background: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: 6,
+                boxShadow: "0 2px 8px #0002",
+                zIndex: 10000,
+                minWidth: 120,
+                padding: "4px 0"
+              }}
+              onMouseLeave={() => setConnectionMenu(null)}
+            >
+              <button
+                style={menuButtonStyle}
+                onClick={() => {
+                  // Delete the connection
+                  const connIdx = activePage.connections.findIndex(c => c.id === connectionMenu.connId);
+                  if (connIdx !== -1) {
+                    activePage.connections.splice(connIdx, 1);
+                  }
+                  setConnectionMenu(null);
+                  if (onMessage) onMessage(`Deleted connection ${connectionMenu.connId}`);
+                }}
+              >
+                Delete Connection
+              </button>
+              {/* You can add more connection actions here */}
+            </div>
+        )} 
+        {dragConn && dragMouse && (
+          <svg
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
+              zIndex: 1000
+            }}
+            width="100%"
+            height="100%"
+          >
             <path
               d={getConnectionPath(
                 { x: dragConn.fromX, y: dragConn.fromY },
@@ -527,8 +606,9 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
               fill="none"
               style={{ pointerEvents: "none" }}
             />
-          )}
-        </svg>
+          </svg>
+        )}
+
         {/* Draw glyphs */}
         {glyphsToRender.map(glyph => {
           const width = computeGlyphSize(glyph).w;
@@ -828,6 +908,26 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
               }}
             >
               Ungroup
+            </button>
+            <button
+              style={menuButtonStyle}
+              onClick={() => {
+                // Delete the glyph and its connections
+                const glyphId = glyphMenu.glyphId;
+                // Remove the glyph
+                const glyphIdx = activePage.glyphs.findIndex(g => g.id === glyphId);
+                if (glyphIdx !== -1) {
+                  activePage.glyphs.splice(glyphIdx, 1);
+                }
+                // Remove all connections associated with this glyph
+                activePage.connections = activePage.connections.filter(
+                  conn => conn.fromGlyphId !== glyphId && conn.toGlyphId !== glyphId
+                );
+                setGlyphMenu(null);
+                if (onMessage) onMessage(`Deleted glyph ${glyphId} and its connections`);
+              }}
+            >
+              Delete
             </button>
             {/* Goto page selection for flow-off-page-connector */}
             {(() => {

@@ -434,32 +434,68 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   );
 
   const renderGeneralTab = () => (
-    <div style={{ padding: "8px" }}> {/* Add padding to the container */}
-      <div style={{ marginBottom: "12px" }}>
+    <div style={{ padding: "8px" }}>
+      <div style={{ marginBottom: "12px", position: "relative" }}>
         <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Label</label>
-        <input
-          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          value={label}
-          onChange={e => setLabel(e.target.value)}
-        />
+        <div style={{ position: "relative" }}>
+          <input
+            style={{
+              width: "100%",
+              padding: "8px 32px 8px 8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxSizing: "border-box"
+            }}
+            value={label}
+            onChange={e => setLabel(e.target.value)}
+          />
+          {label && (
+            <span
+              style={{
+                position: "absolute",
+                right: "8px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                fontSize: "18px",
+                color: "#888",
+                background: "transparent",
+                borderRadius: "50%",
+                width: "22px",
+                height: "22px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "none",
+                zIndex: 2
+              }}
+              title="Clear label"
+              onClick={() => setLabel("")}
+            >
+              ×
+            </span>
+          )}
+        </div>
       </div>
-      <div style={{ marginBottom: "12px" }}>
-        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Inputs</label>
-        <input
-          type="number"
-          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          value={inputs}
-          onChange={e => setInputs(parseInt(e.target.value, 10) || 0)}
-        />
-      </div>
-      <div style={{ marginBottom: "12px" }}>
-        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Outputs</label>
-        <input
-          type="number"
-          style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
-          value={outputs}
-          onChange={e => setOutputs(parseInt(e.target.value, 10) || 0)}
-        />
+      <div style={{ marginBottom: "12px", display: "flex", gap: "32px" }}>
+        <div style={{ flex: 1 }}>
+          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Inputs</label>
+          <input
+            type="number"
+            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            value={inputs}
+            onChange={e => setInputs(parseInt(e.target.value, 10) || 0)}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Outputs</label>
+          <input
+            type="number"
+            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            value={outputs}
+            onChange={e => setOutputs(parseInt(e.target.value, 10) || 0)}
+          />
+        </div>
       </div>
       {/* Add page dropdown for flow-off-page-connector */}
       {glyph?.type === "flow-off-page-connector" && pages.length > 0 && (

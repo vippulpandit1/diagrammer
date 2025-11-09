@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { Glyph } from './glyph/Glyph'
 import { GlyphCanvas } from './GlyphCanvas'
 import { Toolbar } from './Toolbar'
@@ -41,7 +41,57 @@ function App() {
   const [panelHeight, setPanelHeight] = useState<number>(96);
   const [editingPageIdx, setEditingPageIdx] = useState<number | null>(null);
   const [editingPageName, setEditingPageName] = useState("");
+  const canvasRef = useRef<HTMLDivElement>(null);
 
+  const printCanvas = () => {
+    const canvasElement = canvasRef.current;
+    if (!canvasElement) return;
+    // Temporarily hide the toolbar
+    const toolbarElement = document.querySelector(".workspace-toolbar");
+    if (toolbarElement) {
+      toolbarElement.classList.add("hide-for-print");
+    }
+    const canvasContent = canvasElement.innerHTML;
+
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Canvas</title>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+            }
+            .workspace-canvas {
+              position: relative;
+              width: 100%;
+              height: 100%;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="workspace-canvas">
+            ${canvasContent}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+
+    printWindow.onload = () => {
+      printWindow.print();
+      printWindow.close();
+
+      // Restore the toolbar after printing
+      if (toolbarElement) {
+        toolbarElement.classList.remove("hide-for-print");
+      }
+    };
+  };
 
     // Handler for adding a new page
   const handleAddPage = () => {
@@ -212,11 +262,25 @@ function App() {
   const sendGlyphToBack = (glyphId: string) => {
     const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
     if (idx !== -1) {
+      // Move glyph to the back
       const newGlyphs = [...activePage.glyphs];
       const [glyph] = newGlyphs.splice(idx, 1);
-      newGlyphs.unshift(glyph); // Add to start (background)
+      newGlyphs.unshift(glyph);
       activePage.glyphs = newGlyphs;
-      addMessage(`Sent glyph ${glyphId} to back`);
+
+      // Find connections associated with this glyph
+      const newConnections = [...activePage.connections];
+      const glyphConnections = newConnections.filter(
+        conn => conn.fromGlyphId === glyphId || conn.toGlyphId === glyphId
+      );
+      const otherConnections = newConnections.filter(
+        conn => conn.fromGlyphId !== glyphId && conn.toGlyphId !== glyphId
+      );
+
+      // Place glyph's connections at the end so they render above the glyph
+      activePage.connections = [...otherConnections, ...glyphConnections];
+
+      addMessage(`Sent glyph ${glyphId} to back and brought its connections to front`);
     }
   };
   const handleGlyphClick = (glyph: Glyph) => {
@@ -246,30 +310,6 @@ function App() {
     addMessage(`Updated glyph ${id}`)
   };
   const handleAddGlyph = (type: string, x: number, y: number, inputs?: number, outputs?: number) => {
-/*    const newGlyph: Glyph = {
-      id: `glyph-${Date.now()}`,
-      type,
-      x,
-      y,
-      ports: [],
-      data: {},
-      label: "",
-      inputs: inputs ?? 1,
-      outputs: outputs ?? 1,
-      icon: type == "png-glyph" ? iconPng : undefined,
-    };
-    // Create a new pages array with the updated active page
-    const newPages = pages.map((page, index) => {
-      if (index === activePageIdx) {
-        // Add the new glyph to this page's glyphs array
-        addMessage(`Added glyph ${newGlyph.id} of type ${type} at (${x}, ${y})`);
-        return { ...page, glyphs: [...page.glyphs, newGlyph] };
-      }
-      return page;
-    });
-
-    updateHistory(newPages);
-*/
     const newGlyph = new Glyph(
       `glyph-${Date.now()}`,
       type,
@@ -343,17 +383,23 @@ function App() {
   return (
   <div className="workspace-root">
       {/* Header Bar */}
-      <HeaderBar         
-        onClear={() => { activePage.glyphs=[]; activePage.connections=[]; addMessage("Cleared canvas"); updateHistory(pages); }}
-        onZoomIn={() => {setZoom(z => Math.min(z + 0.1, 2));addMessage("Zoomed in");}}
-        onZoomOut={() => {setZoom(z => Math.max(z - 0.1, 0.2));addMessage("Zoomed out");}}
-        onSave={handleSave}
-        zoom={zoom}
-        onAutoArrange={handleAutoArrange}
+      <HeaderBar
+        onClear={() => console.log("Clear Canvas")}
+        onZoomIn={() => console.log("Zoom In")}
+        onZoomOut={() => console.log("Zoom Out")}
+        onSave={() => console.log("Save")}
+        zoom={1}
+        onAutoArrange={() => console.log("Auto Arrange")}
+        onPrint={printCanvas} // Pass the printCanvas function
       />
+      <div
+        ref={canvasRef}
+        className="workspace-canvas"
+        style={{ position: "relative", width: "100%", height: "100%", overflow: "auto" }}
+      >
       {/* Floating Toolbar */}
       {toolbarOpen && (
-        <div
+        <div className="workspace-toolbar"
           style={{
             position: "absolute",
             left: toolbarPos.x,
@@ -565,7 +611,7 @@ function App() {
           ＋ Add Page
         </button>
       </div>
-
+      </div>
       {/* Bottom message panel - pass handler to report height/collapse */}
       <BottomPanel
         messages={messages}
