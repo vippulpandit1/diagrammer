@@ -437,11 +437,11 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
     <div style={{ padding: "8px" }}>
       <div style={{ marginBottom: "12px", position: "relative" }}>
         <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Label</label>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
           <input
             style={{
               width: "100%",
-              padding: "8px 32px 8px 8px",
+              padding: "8px 80px 8px 8px", // extra space for 3 buttons
               border: "1px solid #ccc",
               borderRadius: "4px",
               boxSizing: "border-box"
@@ -453,7 +453,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
             <span
               style={{
                 position: "absolute",
-                right: "8px",
+                right: "72px",
                 top: "50%",
                 transform: "translateY(-50%)",
                 cursor: "pointer",
@@ -475,6 +475,82 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
               ×
             </span>
           )}
+          {/* Alignment buttons */}
+          <button
+            type="button"
+            style={{
+              position: "absolute",
+              right: "48px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "#f3f4f6",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "2px 6px",
+              cursor: "pointer",
+              fontSize: "14px",
+              zIndex: 2,
+              color: glyph?.data?.labelAlign === "left" ? "#2563eb" : "#888"
+            }}
+            title="Align Left"
+            onClick={() => {
+              if (glyph && onUpdateGlyph) {
+                onUpdateGlyph(glyph.id, { data: { ...glyph.data, labelAlign: "left" } });
+              }
+            }}
+          >
+            ⯇
+          </button>
+          <button
+            type="button"
+            style={{
+              position: "absolute",
+              right: "24px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "#f3f4f6",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "2px 6px",
+              cursor: "pointer",
+              fontSize: "14px",
+              zIndex: 2,
+              color: glyph?.data?.labelAlign === "center" || !glyph?.data?.labelAlign ? "#2563eb" : "#888"
+            }}
+            title="Align Center"
+            onClick={() => {
+              if (glyph && onUpdateGlyph) {
+                onUpdateGlyph(glyph.id, { data: { ...glyph.data, labelAlign: "center" } });
+              }
+            }}
+          >
+            ≡
+          </button>
+          <button
+            type="button"
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "#f3f4f6",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "2px 6px",
+              cursor: "pointer",
+              fontSize: "14px",
+              zIndex: 2,
+              color: glyph?.data?.labelAlign === "right" ? "#2563eb" : "#888"
+            }}
+            title="Align Right"
+            onClick={() => {
+              if (glyph && onUpdateGlyph) {
+                onUpdateGlyph(glyph.id, { data: { ...glyph.data, labelAlign: "right" } });
+              }
+            }}
+          >
+            ⯈
+          </button>
         </div>
       </div>
       <div style={{ marginBottom: "12px", display: "flex", gap: "32px" }}>
