@@ -140,7 +140,12 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
       }
       onUpdateGlyph(glyph.id, updates);
     } else if (connection && connection.id && onUpdateConnection) {
-      // ...existing connection update logic...
+      const updates: Partial<Connection> = { label, view: { ...connection.view, 
+                                  connectionType: connectorType,
+                                  color: connectionColor,
+                                  thickness: connectionThickness,
+                                  dashed: connectionDashed } };
+      onUpdateConnection(connection.id, updates);
     }
     window.alert("Properties saved successfully!");
     onClose();
