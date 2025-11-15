@@ -251,12 +251,33 @@ function App() {
   const bringGlyphToFront = (glyphId: string) => {
     const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
     if (idx !== -1) {
+      // Move glyph to the front (end of array)
       const newGlyphs = [...activePage.glyphs];
       const [glyph] = newGlyphs.splice(idx, 1);
       newGlyphs.push(glyph); // Add to end (foreground)
-      // Update your glyphs state here
       activePage.glyphs = newGlyphs;
-      addMessage(`Brought glyph ${glyphId} to front`);
+
+      // Get all glyphs that are now behind the selected glyph
+      const glyphsBehind = newGlyphs.slice(0, -1); // All glyphs except the one we just moved to front
+      const glyphIdsBehind = glyphsBehind.map(g => g.id);
+
+      // Move connections associated with glyphs behind the selected glyph to the back (start of array)
+      const newConnections = [...activePage.connections];
+      const connectionsForGlyphsBehind = newConnections.filter(
+        conn => 
+          glyphIdsBehind.includes(conn.fromGlyphId) || 
+          glyphIdsBehind.includes(conn.toGlyphId)
+      );
+      const otherConnections = newConnections.filter(
+        conn => 
+          !glyphIdsBehind.includes(conn.fromGlyphId) && 
+          !glyphIdsBehind.includes(conn.toGlyphId)
+      );
+      
+      // Place connections for glyphs behind at the beginning (rendered first/behind)
+      activePage.connections = [...connectionsForGlyphsBehind, ...otherConnections];
+
+      addMessage(`Brought glyph ${glyphId} to front and sent connections of glyphs behind to back`);
     }
   };
   const sendGlyphToBack = (glyphId: string) => {
