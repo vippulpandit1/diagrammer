@@ -19,6 +19,36 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <rect x={scale(8, "x")} y={scale(10, "y")} width={scale(24, "x")} height={scale(20, "y")} rx={scale(3, "x")} fill="#e0e7ef" stroke="#222" />
           <rect x={scale(12, "x")} y={scale(14, "y")} width={scale(16, "x")} height={scale(8, "y")} fill="#fff" stroke="#888" />
           <circle cx={scale(20, "x")} cy={scale(28, "y")} r={Math.min(sx, sy) * 2} fill="#888" />
+          <circle
+            cx={scale(28, "x")}
+            cy={scale(14, "y")}
+            r={scale(4, "x")}
+            fill="#6366f1"
+            stroke="#fff"
+            strokeWidth={1.5}
+          />
+          <text
+            x={scale(28, "x")}
+            y={scale(14.5, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#fff"
+            fontWeight={700}
+            dominantBaseline="middle"
+          >
+            I
+          </text>
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(36, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Network Server
+          </text>
         </g>
       );
     case "network-switch":
@@ -28,6 +58,17 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <circle cx={scale(14, "x")} cy={scale(20, "y")} r={Math.min(sx, sy) * 1.5} fill="#222" />
           <circle cx={scale(20, "x")} cy={scale(20, "y")} r={Math.min(sx, sy) * 1.5} fill="#222" />
           <circle cx={scale(26, "x")} cy={scale(20, "y")} r={Math.min(sx, sy) * 1.5} fill="#222" />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(30, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Switch
+          </text>
         </g>
       );
     case "network-router":
@@ -35,6 +76,17 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
         <g>
           <ellipse cx={scale(20, "x")} cy={scale(20, "y")} rx={scale(12, "x")} ry={scale(8, "y")} fill="#fef9c3" stroke="#222" />
           <rect x={scale(12, "x")} y={scale(24, "y")} width={scale(16, "x")} height={scale(4, "y")} fill="#fff" stroke="#888" />
+            {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(28, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Router
+          </text>
         </g>
       );
     case "network-firewall":
@@ -43,6 +95,17 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <rect x={scale(10, "x")} y={scale(12, "y")} width={scale(20, "x")} height={scale(16, "y")} fill="#fecaca" stroke="#b91c1c" />
           <rect x={scale(12, "x")} y={scale(14, "y")} width={scale(16, "x")} height={scale(4, "y")} fill="#fff" stroke="#b91c1c" />
           <rect x={scale(12, "x")} y={scale(20, "y")} width={scale(16, "x")} height={scale(4, "y")} fill="#fff" stroke="#b91c1c" />
+          {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(32, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Firewall
+          </text>
         </g>
       );
     case "network-pc":
@@ -50,6 +113,17 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
         <g>
           <rect x={scale(10, "x")} y={scale(14, "y")} width={scale(20, "x")} height={scale(12, "y")} rx={scale(2, "x")} fill="#e0e7ef" stroke="#222" />
           <rect x={scale(16, "x")} y={scale(26, "y")} width={scale(8, "x")} height={scale(2, "y")} fill="#888" />
+            {/* Label */}
+          <text
+            x={scale(20, "x")}
+            y={scale(32, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Network PC
+          </text>
         </g>
       );
     case "network-cloud":
@@ -58,6 +132,16 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <ellipse cx={scale(20, "x")} cy={scale(22, "y")} rx={scale(10, "x")} ry={scale(7, "y")} fill="#f0f9ff" stroke="#38bdf8" />
           <ellipse cx={scale(27, "x")} cy={scale(20, "y")} rx={scale(6, "x")} ry={scale(5, "y")} fill="#f0f9ff" stroke="#38bdf8" />
           <ellipse cx={scale(13, "x")} cy={scale(20, "y")} rx={scale(6, "x")} ry={scale(5, "y")} fill="#f0f9ff" stroke="#38bdf8" />
+          <text
+            x={scale(20, "x")}
+            y={scale(32, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Cloud
+          </text>
         </g>
       );
     case "network-database":
@@ -66,6 +150,16 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
           <ellipse cx={scale(20, "x")} cy={scale(14, "y")} rx={scale(10, "x")} ry={scale(4, "y")} fill="#fef3c7" stroke="#b45309" />
           <rect x={scale(10, "x")} y={scale(14, "y")} width={scale(20, "x")} height={scale(12, "y")} fill="#fef3c7" stroke="#b45309" />
           <ellipse cx={scale(20, "x")} cy={scale(26, "y")} rx={scale(10, "x")} ry={scale(4, "y")} fill="#fef3c7" stroke="#b45309" />
+          <text
+            x={scale(20, "x")}
+            y={scale(38, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Database
+          </text>
         </g>
       );
     case "network-laptop":
@@ -73,6 +167,16 @@ export const NetworkGlyph: React.FC<{ type: string; width?: number; height?: num
         <g>
           <rect x={scale(12, "x")} y={scale(16, "y")} width={scale(16, "x")} height={scale(8, "y")} rx={scale(2, "x")} fill="#e0e7ef" stroke="#222" />
           <rect x={scale(10, "x")} y={scale(24, "y")} width={scale(20, "x")} height={scale(3, "y")} fill="#888" />
+          <text
+            x={scale(20, "x")}
+            y={scale(32, "y")}
+            textAnchor="middle"
+            fontSize={scale(4, "y")}
+            fill="#6366f1"
+            fontWeight={600}
+          >
+            Laptop
+          </text>
         </g>
       );
     case "network-phone":

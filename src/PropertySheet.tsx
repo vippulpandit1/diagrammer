@@ -7,6 +7,7 @@ import { Connection } from "./glyph/Connection";
 import type { Page } from "./glyph/Page";
 import { Port } from "./glyph/Port";
 import { v4 as uuidv4 } from "uuid";
+import { glyphRegistry } from "./glyph/type/GlyphRegistry";
 
 const TYPE_OPTIONS = [
   "rect", "circle", "multi",
@@ -44,11 +45,13 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   onUpdateGlyph,
   onUpdateConnection,
   pages = [],
-  connections = [],
+  connections = []
 //  onUpdateConnectionType
 })  => {
   // --- State ---
   const [activeTab, setActiveTab] = useState<"General" | "Attributes" | "Methods">("General");
+  const CustomProps =
+    glyph && glyphRegistry[glyph.type as keyof typeof glyphRegistry]?.propertiesComponent;
 
   // Safely initialize state from props
   const [label, setLabel] = useState(glyph?.label ?? connection?.label ?? "");
@@ -651,7 +654,11 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
     </div>
 
   );
-
+  const handleUpdate = (updatedGlyph: Glyph) => {
+    if (onUpdateGlyph) {
+      onUpdateGlyph(updatedGlyph.id, updatedGlyph);
+    }
+  };
   const renderEmptyState = () => (  
     <div style={{ padding: "20px", color: "#64748b", textAlign: "center" }}>
       <p>Nothing selected</p>
@@ -671,15 +678,15 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   }
   if (connection && !glyph) {
     return (
-      <div className="property-sheet">
+      <div className="property-sheet" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <div className="property-sheet-header">
           <h3>Connection Properties</h3>
           <button onClick={onClose} className="close-btn">×</button>
         </div>
-        <div className="property-sheet-content">
+        <div className="property-sheet-content" style={{ flex: 1, overflowY: "auto" }}>
           {renderConnectionProperties()}
         </div>
-        <div className="property-sheet-footer">
+        <div className="property-sheet-footer" style={{ marginTop: "auto" }}>
           <button onClick={handleSave} className="save-btn">Apply</button>
         </div>
       </div>
@@ -710,8 +717,14 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
         ) : renderEmptyState()
       )}
 
+      {/* Render custom properties if available */}
+      {glyph && CustomProps && (
+        <div style={{ marginTop: 16 }}>
+          <CustomProps glyph={glyph} onUpdate={handleUpdate} />
+        </div>
+      )}
       {(glyph || connection) && (
-        <div className="property-sheet-footer">
+        <div className="property-sheet-footer" style={{ marginTop: "auto" }}>
           <button onClick={handleSave} className="save-btn">Apply</button>
         </div>
       )}

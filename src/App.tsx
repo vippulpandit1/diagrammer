@@ -18,6 +18,7 @@ const INITIAL_PAGE: Page = {
 };
 
 function App() {
+  
   const [pages, setPages] = useState<Page[]>([INITIAL_PAGE]);
   const [activePageIdx, setActivePageIdx] = useState(0);
 
