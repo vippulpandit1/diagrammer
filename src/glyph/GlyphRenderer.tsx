@@ -270,7 +270,20 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
     case "flow-internal-storage":
     case "flow-server":
       return <FlowchartGlyph type={type} width={width} height={height} />;
+    case "mcp-glyph":
+      return (
+        <rect
+          x={0}
+          y={0}
+          width={width}
+          height={height}
+          fill="#4ade80"
+          stroke="#166534"
+          strokeWidth={2}
+        />
+      );
     default:
-      return null;
+      return <rect x={0} y={0} width={width} height={height} fill="#ccc" />;
+
   }
 }

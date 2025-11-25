@@ -8,7 +8,8 @@ const STENCILS = [
   { key: "uml", label: "UML" }, 
   { key: "debug", label: "Debug" },
   { key: "network", label: "Network" },
-  { key: "flowchart", label: "Flowchart" }
+  { key: "flowchart", label: "Flowchart" },
+  { key: "mcp", label: "MCP" }
 ];
 // Add connection types for UML
 const UML_CONNECTION_TYPES = ["uml-association", "uml-inheritance"];

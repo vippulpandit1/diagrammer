@@ -47,7 +47,7 @@ const computeGlyphSize = (glyph: Glyph) => {
   const w = Math.max(labelWidth, 100);
   const h = Math.max(attrHeight, 60);
   if (glyph.type === "resizable-rectangle") {
-    return { w: glyph.width ?? 120, h: glyph.height ?? 80 }; 
+    return { w: glyph.width ?? 120, h: glyph.height ?? 80 };
   }
 
   if (typeof glyph.width === "number" && typeof glyph.height === "number") {
@@ -240,7 +240,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [dragConn, zoom]);  
+  }, [dragConn, zoom]);
   const getConnectionPathMulti = (
     from: { x: number; y: number },
     points: { x: number; y: number }[],
@@ -303,7 +303,13 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     let type = e.dataTransfer.getData("glyphType");
     let inputs: number | undefined = undefined;
     let outputs: number | undefined = undefined;
-    const json = e.dataTransfer.getData("glyphJSON");
+
+    // Try getting data from glyphJSON first, then fallback to text/plain for Safari
+    let json = e.dataTransfer.getData("glyphJSON");
+    if (!json) {
+      json = e.dataTransfer.getData("text/plain");
+    }
+
     if (json) {
       try {
         const parsed = JSON.parse(json);
@@ -333,11 +339,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       activePage.connections = activePage.connections.map(conn =>
         conn.id === draggedPoint.connId
           ? {
-              ...conn,
-              points: conn.points?.map((pt, i) =>
-                i === draggedPoint.idx ? { x: e.clientX, y: e.clientY } : pt
-              )
-            }
+            ...conn,
+            points: conn.points?.map((pt, i) =>
+              i === draggedPoint.idx ? { x: e.clientX, y: e.clientY } : pt
+            )
+          }
           : conn
       );
     };
@@ -355,7 +361,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     const rect = svg.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
 
     // Find the nearest connection and segment
     let nearestConn: Connection | null = null;
@@ -390,13 +396,13 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       activePage.connections = activePage.connections.map(conn =>
         conn.id === nearestConn?.id
           ? {
-              ...conn,
-              points: [
-                ...(conn.points ?? []).slice(0, nearestSegIdx),
-                { x, y },
-                ...(conn.points ?? []).slice(nearestSegIdx)
-              ]
-            }
+            ...conn,
+            points: [
+              ...(conn.points ?? []).slice(0, nearestSegIdx),
+              { x, y },
+              ...(conn.points ?? []).slice(nearestSegIdx)
+            ]
+          }
           : conn
       );
     }
@@ -404,28 +410,28 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   // Create a combined array of glyphs and connections with their render order
   const renderItems = (() => {
     const items: Array<{ type: 'glyph' | 'connection', data: Glyph | Connection, index: number }> = [];
-    
+
     // Add glyphs with their index as z-order
     glyphsToRender.forEach((glyph, idx) => {
       items.push({ type: 'glyph', data: glyph, index: idx });
     });
-    
+
     // Add connections with their index as z-order
     connectionsToRender.forEach((conn, idx) => {
       // Find the z-order of the connected glyphs
       const fromGlyphIdx = glyphsToRender.findIndex(g => g.id === conn.fromGlyphId);
       const toGlyphIdx = glyphsToRender.findIndex(g => g.id === conn.toGlyphId);
-      
+
       // Place connection at the minimum z-order of its connected glyphs
       // This ensures connections appear behind their glyphs by default
       const connectionZOrder = Math.min(
         fromGlyphIdx >= 0 ? fromGlyphIdx : 0,
         toGlyphIdx >= 0 ? toGlyphIdx : 0
       );
-      
+
       items.push({ type: 'connection', data: conn, index: connectionZOrder });
     });
-    
+
     // Sort by index (z-order)
     return items.sort((a, b) => a.index - b.index);
   })();
@@ -436,7 +442,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       ref={canvasRef}
       className="workspace-canvas"
       style={{ position: 'relative', width: '100%', height: '100%', overflow: 'auto' }}
-      onDragOver={e => e.preventDefault()}
+      onDragEnter={e => e.preventDefault()}
+      onDragOver={e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+      }}
       onDrop={handleDrop}
     >
       <div
@@ -539,8 +549,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     selectedGlyphId === glyph.id
                       ? "#2563eb"
                       : isGrouped
-                      ? "#38bdf8"
-                      : "transparent"
+                        ? "#38bdf8"
+                        : "transparent"
                   }
                   strokeWidth={
                     selectedGlyphId === glyph.id || isGrouped ? 4 : 0
@@ -558,7 +568,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                   attributes={glyph.attributes}
                   methods={glyph.methods}
                   hasConnections={hasConnections}
-                  glyph={glyph}          
+                  glyph={glyph}
                   onResize={newRect => {
                     if (typeof glyph.onUpdate === "function") {
                       // Only update label for text glyphs; otherwise, move glyph
@@ -568,7 +578,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                         onMoveGlyph(glyph.id, newRect.x, newRect.y);
                       }
                     } else {
-                      if(glyph.type === "resizable-rectangle") {
+                      if (glyph.type === "resizable-rectangle") {
                         console.log("Resized glyph:", glyph.id, newRect);
                         //newRect.x = glyph.x;
                         //newRect.y = glyph.y;
@@ -596,8 +606,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     glyph.data?.labelAlign === "left"
                       ? "start"
                       : glyph.data?.labelAlign === "right"
-                      ? "end"
-                      : "middle"
+                        ? "end"
+                        : "middle"
                   }
                   style={{
                     fontSize: glyph.data?.fontSize ?? 18,
@@ -648,9 +658,9 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                           onAddConnection({
                             id: crypto.randomUUID(),
                             fromGlyphId: dragConn.fromGlyphId,
-                            fromPortId: dragConn.fromPortIdx, 
+                            fromPortId: dragConn.fromPortIdx,
                             toGlyphId: glyph.id,
-                            toPortId:  glyph.ports?.[idx]?.id,
+                            toPortId: glyph.ports?.[idx]?.id,
                             type: "default",
                             view: {}, // Provide a default or appropriate view object
                           });
@@ -797,8 +807,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                       selectedConn === i
                         ? "#f87171"
                         : hoveredConn === i
-                        ? "#2563eb"
-                        : connectionColor === "black" ? "#f87171" : connectionColor
+                          ? "#2563eb"
+                          : connectionColor === "black" ? "#f87171" : connectionColor
                     }
                     strokeWidth={selectedConn === i || hoveredConn === i ? 5 : connectionThickness}
                     fill="none"
@@ -809,8 +819,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                         selectedConn === i
                           ? 'drop-shadow(0 0 4px #f87171)'
                           : hoveredConn === i
-                          ? 'drop-shadow(0 0 4px #2563eb)'
-                          : undefined
+                            ? 'drop-shadow(0 0 4px #2563eb)'
+                            : undefined
                     }}
                     onClick={e => {
                       e.stopPropagation();
@@ -1012,38 +1022,38 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
 
         {/* Draw connection context menu */}
         {connectionMenu && (
-            <div
-              style={{
-                position: "fixed",
-                left: connectionMenu.x,
-                top: connectionMenu.y,
-                background: "#fff",
-                border: "1px solid #ccc",
-                borderRadius: 6,
-                boxShadow: "0 2px 8px #0002",
-                zIndex: 10000,
-                minWidth: 120,
-                padding: "4px 0"
+          <div
+            style={{
+              position: "fixed",
+              left: connectionMenu.x,
+              top: connectionMenu.y,
+              background: "#fff",
+              border: "1px solid #ccc",
+              borderRadius: 6,
+              boxShadow: "0 2px 8px #0002",
+              zIndex: 10000,
+              minWidth: 120,
+              padding: "4px 0"
+            }}
+            onMouseLeave={() => setConnectionMenu(null)}
+          >
+            <button
+              style={menuButtonStyle}
+              onClick={() => {
+                // Delete the connection
+                const connIdx = activePage.connections.findIndex(c => c.id === connectionMenu.connId);
+                if (connIdx !== -1) {
+                  activePage.connections.splice(connIdx, 1);
+                }
+                setConnectionMenu(null);
+                if (onMessage) onMessage(`Deleted connection ${connectionMenu.connId}`);
               }}
-              onMouseLeave={() => setConnectionMenu(null)}
             >
-              <button
-                style={menuButtonStyle}
-                onClick={() => {
-                  // Delete the connection
-                  const connIdx = activePage.connections.findIndex(c => c.id === connectionMenu.connId);
-                  if (connIdx !== -1) {
-                    activePage.connections.splice(connIdx, 1);
-                  }
-                  setConnectionMenu(null);
-                  if (onMessage) onMessage(`Deleted connection ${connectionMenu.connId}`);
-                }}
-              >
-                Delete Connection
-              </button>
-              {/* You can add more connection actions here */}
-            </div>
-        )} 
+              Delete Connection
+            </button>
+            {/* You can add more connection actions here */}
+          </div>
+        )}
         {dragConn && dragMouse && (
           <svg
             style={{

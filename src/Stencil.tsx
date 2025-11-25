@@ -109,6 +109,9 @@ const STENCIL_GLYPHS = {
     { type: "flow-internal-storage", label: "Internal Storage", inputs: 1, outputs: 1 },
     { type: "flow-server", label: "Server", inputs: 1, outputs: 1 },
   ],
+  mcp: [
+    { type: "mcp-glyph", label: "MCP Glyph", inputs: 2, outputs: 2 },
+  ],
 };
 // small helper that returns a short explanation for a glyph type.
 // you can expand this mapping or add `description` to individual stencil entries.
@@ -147,9 +150,13 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
   });
   const handleDragStart = (e: React.DragEvent, g: { type: string; inputs?: number; outputs?: number }) => {
     // put both a simple type and a JSON payload (includes ports) onto the drag data
+    e.dataTransfer.effectAllowed = "copy";
     e.dataTransfer.setData("glyphType", g.type);
     try {
-      e.dataTransfer.setData("glyphJSON", JSON.stringify({ type: g.type, inputs: g.inputs, outputs: g.outputs }));
+      const jsonPayload = JSON.stringify({ type: g.type, inputs: g.inputs, outputs: g.outputs });
+      e.dataTransfer.setData("glyphJSON", jsonPayload);
+      // Safari often requires text/plain for drag and drop to work reliably
+      e.dataTransfer.setData("text/plain", jsonPayload);
     } catch (err) {
       // ignore
     }

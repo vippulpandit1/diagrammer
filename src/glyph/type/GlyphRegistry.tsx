@@ -1,4 +1,6 @@
 import { NetworkServerProperties } from './network/NetworkServerProperties';
+import { MCPProperties } from './mcp/MCPProperties';
+
 export const glyphRegistry = {
     'network-server': {
         icon: 'server',
@@ -39,4 +41,17 @@ export const glyphRegistry = {
         },
         propertiesComponent: 'NetworkSwitchProperties' // Reference to the properties component
     },
+    'mcp-glyph': {
+        icon: 'cube',
+        name: 'MCP Glyph',
+        description: 'A custom MCP glyph',
+        defaultProps: {
+            width: 120,
+            height: 80,
+            data: {
+                customField: 'defaultValue'
+            }
+        },
+        propertiesComponent: MCPProperties // Reference to the MCP properties component
+    }
 }
