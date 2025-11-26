@@ -5,9 +5,9 @@ import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection';
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
 import type { Page } from './glyph/Page';
 
-function distance(a: { x: number; y: number }, b: { x: number; y: number }) {
-  return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
-}
+// function distance(a: { x: number; y: number }, b: { x: number; y: number }) {
+//   return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+// }
 // --- Utility Functions ---
 const getConnectionPath = (
   from: { x: number; y: number },
@@ -177,7 +177,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   }>(null);
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null);
   // add rect state here (parent owns the rect)
-  const [rect, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
+  const [_, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
   // Your existing rendering logic now uses `activePage.glyphs` and `activePage.connections`
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
@@ -245,7 +245,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     from: { x: number; y: number },
     points: { x: number; y: number }[],
     to: { x: number; y: number },
-    type: "bezier" | "manhattan" | "line" = "bezier"
+    _type: "bezier" | "manhattan" | "line" = "bezier"
   ) => {
     // Start at 'from'
     let path = `M${from.x},${from.y}`;
@@ -300,16 +300,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   };
 
   const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
     let type = e.dataTransfer.getData("glyphType");
     let inputs: number | undefined = undefined;
     let outputs: number | undefined = undefined;
-
-    // Try getting data from glyphJSON first, then fallback to text/plain for Safari
     let json = e.dataTransfer.getData("glyphJSON");
     if (!json) {
+      // Fallback for Safari
       json = e.dataTransfer.getData("text/plain");
     }
-
     if (json) {
       try {
         const parsed = JSON.parse(json);
@@ -356,57 +355,6 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     };
   }, [draggedPoint, activePage.connections]);
 
-  const handleSvgClick = (e: React.MouseEvent) => {
-    const svg = e.currentTarget as SVGSVGElement;
-    const rect = svg.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-
-    // Find the nearest connection and segment
-    let nearestConn: Connection | null = null;
-    let minDist = Infinity;
-    let nearestSegIdx = 0;
-
-    connectionsToRender.forEach(conn => {
-      const fromGlyph = glyphsToRender.find(g => g.id === conn.fromGlyphId);
-      const toGlyph = glyphsToRender.find(g => g.id === conn.toGlyphId);
-      if (!fromGlyph || !toGlyph) return;
-
-      const fromSize = computeGlyphSize(fromGlyph);
-      const toSize = computeGlyphSize(toGlyph);
-      const from = getConnectorPos(fromGlyph, conn.fromPortId, fromSize.w, fromSize.h);
-      const to = getConnectorPos(toGlyph, conn.toPortId, toSize.w, toSize.h);
-
-      const pts = [from, ...(conn.points || []), to];
-      for (let i = 0; i < pts.length - 1; i++) {
-        const mx = (pts[i].x + pts[i + 1].x) / 2;
-        const my = (pts[i].y + pts[i + 1].y) / 2;
-        const d = distance({ x, y }, { x: mx, y: my });
-        if (d < minDist) {
-          minDist = d;
-          nearestConn = conn;
-          nearestSegIdx = i;
-        }
-      }
-    });
-
-    // If close enough, insert a new point
-    if (nearestConn && minDist < 30) {
-      activePage.connections = activePage.connections.map(conn =>
-        conn.id === nearestConn?.id
-          ? {
-            ...conn,
-            points: [
-              ...(conn.points ?? []).slice(0, nearestSegIdx),
-              { x, y },
-              ...(conn.points ?? []).slice(nearestSegIdx)
-            ]
-          }
-          : conn
-      );
-    }
-  };
   // Create a combined array of glyphs and connections with their render order
   const renderItems = (() => {
     const items: Array<{ type: 'glyph' | 'connection', data: Glyph | Connection, index: number }> = [];
@@ -417,7 +365,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     });
 
     // Add connections with their index as z-order
-    connectionsToRender.forEach((conn, idx) => {
+    connectionsToRender.forEach((conn) => {
       // Find the z-order of the connected glyphs
       const fromGlyphIdx = glyphsToRender.findIndex(g => g.id === conn.fromGlyphId);
       const toGlyphIdx = glyphsToRender.findIndex(g => g.id === conn.toGlyphId);
@@ -442,7 +390,6 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       ref={canvasRef}
       className="workspace-canvas"
       style={{ position: 'relative', width: '100%', height: '100%', overflow: 'auto' }}
-      onDragEnter={e => e.preventDefault()}
       onDragOver={e => {
         e.preventDefault();
         e.dataTransfer.dropEffect = "copy";
@@ -461,13 +408,13 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         {renderItems.map((item, renderIdx) => {
           if (item.type === 'glyph') {
             const glyph = item.data as Glyph;
-            const i = glyphsToRender.findIndex(g => g.id === glyph.id);
+            // const i = glyphsToRender.findIndex(g => g.id === glyph.id);
             const width = computeGlyphSize(glyph).w;
             const height = computeGlyphSize(glyph).h;
             const isTextGlyph = glyph.type === "text";
             const isEditing = editingTextId === glyph.id;
             const connectors = getConnectors(glyph, width, height);
-            const numInputs = glyph.inputs ?? 2;
+            // const numInputs = glyph.inputs ?? 2;
             const isGrouped =
               glyph.groupId &&
               glyphs.some(
@@ -649,7 +596,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                       }}
                       onMouseEnter={() => setHoveredPort({ glyphId: glyph.id, portIdx: idx })}
                       onMouseLeave={() => setHoveredPort(null)}
-                      onMouseUp={e => {
+                      onMouseUp={() => {
                         if (
                           dragConn &&
                           pt.type === 'input' &&

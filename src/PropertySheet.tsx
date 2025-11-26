@@ -561,6 +561,54 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
           </button>
         </div>
       </div>
+      {/* Font Family Dropdown */}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Font Family</label>
+        <select
+          style={{
+            width: "100%",
+            padding: "8px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            boxSizing: "border-box"
+          }}
+          value={glyph?.data?.fontFamily || "Arial"}
+          onChange={e => {
+            if (glyph && onUpdateGlyph) {
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontFamily: e.target.value } });
+            }
+          }}
+        >
+          {FONT_FAMILIES.map(font => (
+            <option key={font} value={font}>
+              {font}
+            </option>
+          ))}
+        </select>
+      </div>
+      {/* Font Size Input */}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Font Size</label>
+        <input
+          type="number"
+          style={{
+            width: "100%",
+            padding: "8px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            boxSizing: "border-box"
+          }}
+          value={glyph?.data?.fontSize || 18}
+          onChange={e => {
+            const fontSize = parseInt(e.target.value, 10) || 18;
+            if (glyph && onUpdateGlyph) {
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontSize } });
+            }
+          }}
+        />
+      </div>
+
+      {/* Inputs and Outputs */}
       <div style={{ marginBottom: "12px", display: "flex", gap: "32px" }}>
         <div style={{ flex: 1 }}>
           <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Inputs</label>
