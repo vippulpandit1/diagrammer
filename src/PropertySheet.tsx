@@ -65,6 +65,10 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   const [inputs, setInputs] = useState(glyph?.inputs ?? 0);
   const [outputs, setOutputs] = useState(glyph?.outputs ?? 0);
 
+  // Add local state for fontSize
+  const [fontSize, setFontSize] = useState(glyph?.data?.fontSize || 18);
+  const [fontFamily, setFontFamily] = useState<string>(glyph?.data?.fontFamily || "Arial");
+
   // UML-specific fields
   const [attributes, setAttributes] = useState<UMLAttr[]>(glyph?.attributes ?? []);
   const [methods, setMethods] = useState<UMLMethod[]>(glyph?.methods ?? []);
@@ -85,12 +89,23 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
     setConnectionColor(connection?.view?.color || "#000000");
     setConnectionThickness(connection?.view?.thickness || 2);
     setConnectionDashed(connection?.view?.dashed || false);
+    setFontSize(glyph?.data?.fontSize || 18); // Sync fontSize
+    setFontFamily(glyph?.data?.fontFamily || "Arial");   // Sync FontFamily
+
   }, [glyph, connection]);
 
   const handleSave = () => {
     if (glyph && onUpdateGlyph) {
       const updates: Partial<Glyph> = { label, inputs, outputs };
-
+      // Merge fontSize and other data properties
+      updates.data = {
+        ...glyph.data, // Preserve existing data
+        fontSize: fontSize,
+        fontFamily: glyph.data?.fontFamily || "Arial",
+        labelAlign: glyph.data?.labelAlign || "center",
+        textColor: glyph.data?.textColor || "#222",
+        ...(glyph.type === "flow-off-page-connector" ? { targetPageId } : {})
+      };
       // Keep existing ports, only add new ones if needed
       let ports = glyph.ports ? [...glyph.ports] : [];
       // Find ports that will be removed
@@ -138,8 +153,6 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
       if (glyph.type === "uml-class") {
         updates.attributes = attributes;
         updates.methods = methods;
-      } else if (glyph.type === "flow-off-page-connector") {
-        updates.data = { ...glyph.data, targetPageId };
       }
       onUpdateGlyph(glyph.id, updates);
     } else if (connection && connection.id && onUpdateConnection) {
@@ -572,8 +585,9 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
             borderRadius: "4px",
             boxSizing: "border-box"
           }}
-          value={glyph?.data?.fontFamily || "Arial"}
+          value={fontFamily}
           onChange={e => {
+            setFontFamily(e.target.value);
             if (glyph && onUpdateGlyph) {
               onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontFamily: e.target.value } });
             }
@@ -591,6 +605,8 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
         <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold", color: "#333" }}>Font Size</label>
         <input
           type="number"
+          min={6}
+          max={96}
           style={{
             width: "100%",
             padding: "8px",
@@ -598,9 +614,10 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
             borderRadius: "4px",
             boxSizing: "border-box"
           }}
-          value={glyph?.data?.fontSize || 18}
+          value={fontSize}
           onChange={e => {
             const fontSize = parseInt(e.target.value, 10) || 18;
+            setFontSize(fontSize);
             if (glyph && onUpdateGlyph) {
               onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontSize } });
             }
