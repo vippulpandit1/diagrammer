@@ -101,7 +101,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
       updates.data = {
         ...glyph.data, // Preserve existing data
         fontSize: fontSize,
-        fontFamily: glyph.data?.fontFamily || "Arial",
+        fontFamily: fontFamily || "Arial",
         labelAlign: glyph.data?.labelAlign || "center",
         textColor: glyph.data?.textColor || "#222",
         ...(glyph.type === "flow-off-page-connector" ? { targetPageId } : {})
@@ -589,7 +589,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
           onChange={e => {
             setFontFamily(e.target.value);
             if (glyph && onUpdateGlyph) {
-              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontFamily: e.target.value } });
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontFamily: e.target.value, fontSize: fontSize } });
             }
           }}
         >
@@ -619,7 +619,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
             const fontSize = parseInt(e.target.value, 10) || 18;
             setFontSize(fontSize);
             if (glyph && onUpdateGlyph) {
-              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontSize } });
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fontSize, fontFamily: fontFamily } });
             }
           }}
         />
