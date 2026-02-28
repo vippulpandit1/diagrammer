@@ -1,69 +1,85 @@
-# React + TypeScript + Vite
+# R_js_draw
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based diagramming application built with **Vite** and **TypeScript** 5.8. Allows users to create, connect, and customize "Glyphs" (SVG-based components) on a persistent canvas.
 
-Currently, two official plugins are available:
+## Architecture Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```mermaid
+graph TD
+    subgraph UI_Layer [UI Layer]
+        App[App.tsx - Central State & History]
+        Toolbar[Toolbar.tsx - Category Selection]
+        Stencil[Stencil.tsx - Draggable Glyphs]
+        HeaderBar[HeaderBar.tsx - Actions & Zoom]
+        PropertySheet[PropertySheet.tsx - Editor Panel]
+        BottomPanel[BottomPanel.tsx - Logs & Metrics]
+    end
 
-## Expanding the ESLint configuration
+    subgraph Canvas_Engine [Canvas Engine]
+        GlyphCanvas[GlyphCanvas.tsx - SVG Rendering & Math]
+        UnitsOverlay[UnitsOverlay.tsx - Grid & Scale]
+    end
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+    subgraph Glyph_System [Glyph System]
+        GlyphClass[Glyph.tsx - Data Model]
+        GlyphRenderer[GlyphRenderer.tsx - Component Dispatch]
+        GlyphRegistry[GlyphRegistry.tsx - Metadata & Props]
+        
+        subgraph Glyph_Types [Glyph Types]
+            Basic[Basic Glyphs]
+            Logic[Logic Gates]
+            Flowchart[Flowchart]
+            UML[UML Class/Interface]
+            Network[Network Icons]
+            MCP[MCP Components]
+        end
+    end
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    subgraph Infrastructure
+        Persistence[(sessionStorage - canvasData)]
+        History[Undo/Redo Stack]
+        MCP_Lib[use-mcp / MCP SDK]
+    end
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+    %% Data Flow
+    App -->|State| GlyphCanvas
+    App -->|Selected Item| PropertySheet
+    Toolbar -->|Selection| Stencil
+    Stencil -->|Add Glyph| App
+    GlyphCanvas -->|onUpdate| App
+    PropertySheet -->|onUpdate| App
+    
+    %% Internal Relations
+    GlyphCanvas --> GlyphRenderer
+    GlyphRenderer --> Basic
+    GlyphRenderer --> Logic
+    GlyphRenderer ...-> Glyph_Types
+    GlyphRenderer --> GlyphClass
+    
+    %% Connections
+    GlyphClass -->|Generates| Port[Port.tsx]
+    GlyphCanvas -->|Calculates| Connection[Connection.tsx]
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+    %% Persistence
+    App <--> Persistence
+    App <--> History
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Key Project Facts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **State Management**: Centralized in [src/App.tsx](src/App.tsx). Uses `Page` objects to support multiple canvas tabs. History (Undo/Redo) is manually tracked in a `history` stack.
+- **Persistence**: Application state is automatically persisted to `sessionStorage` under the key `canvasData`.
+- **Glyph System**: 
+  - **Model**: Defined by the `Glyph` class in [src/glyph/Glyph.tsx](src/glyph/Glyph.tsx).
+  - **Rendering**: Dispatched via [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx) based on `glyph.type`.
+  - **Registry**: [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx) maps glyph types to metadata and custom Property Sheet components.
+- **Canvas Engine**: [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) handles SVG rendering, coordinate normalization (Zoom/Pan), and connection line calculations (Bezier/Manhattan/Line).
+- **Technology Stack**: React 19, Vite, TypeScript, and **Model Context Protocol (MCP)** integration via `use-mcp`.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+```bash
+npm install
+npm run dev
 ```
+
