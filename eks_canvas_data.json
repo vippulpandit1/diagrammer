@@ -1,0 +1,161 @@
+[
+  {
+    "id": "eks-page",
+    "name": "EKS Traffic Flow",
+    "glyphs": [
+      {
+        "id": "glyph-user-browser",
+        "type": "rect",
+        "x": 400,
+        "y": 50,
+        "width": 120,
+        "height": 40,
+        "label": "User Browser",
+        "inputs": 0,
+        "outputs": 1,
+        "ports": [
+          { "id": "port-user-out", "type": "output" }
+        ],
+        "data": {},
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "glyph-route53",
+        "type": "rect",
+        "x": 400,
+        "y": 150,
+        "width": 120,
+        "height": 60,
+        "label": "Route 53 DNS",
+        "inputs": 1,
+        "outputs": 1,
+        "ports": [
+          { "id": "port-r53-in", "type": "input" },
+          { "id": "port-r53-out", "type": "output" }
+        ],
+        "data": { "subtext": "app.example.com" },
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "glyph-alb",
+        "type": "rect",
+        "x": 400,
+        "y": 280,
+        "width": 160,
+        "height": 80,
+        "label": "AWS ALB",
+        "inputs": 1,
+        "outputs": 1,
+        "ports": [
+          { "id": "port-alb-in", "type": "input" },
+          { "id": "port-alb-out", "type": "output" }
+        ],
+        "data": { "subnet": "Public" },
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "glyph-ingress",
+        "type": "rect",
+        "x": 400,
+        "y": 450,
+        "width": 160,
+        "height": 80,
+        "label": "Ingress Controller",
+        "inputs": 1,
+        "outputs": 1,
+        "ports": [
+          { "id": "port-ingress-in", "type": "input" },
+          { "id": "port-ingress-out", "type": "output" }
+        ],
+        "data": { "subnet": "Private", "provider": "NGINX" },
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "glyph-pods",
+        "type": "rect",
+        "x": 400,
+        "y": 600,
+        "width": 120,
+        "height": 60,
+        "label": "Pods",
+        "inputs": 1,
+        "outputs": 1,
+        "ports": [
+          { "id": "port-pods-in", "type": "input" },
+          { "id": "port-pods-out", "type": "output" }
+        ],
+        "data": { "app": "Running Application" },
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "glyph-rds",
+        "type": "rect",
+        "x": 400,
+        "y": 750,
+        "width": 120,
+        "height": 80,
+        "label": "RDS MySQL",
+        "inputs": 1,
+        "outputs": 0,
+        "ports": [
+          { "id": "port-rds-in", "type": "input" }
+        ],
+        "data": { "subnet": "Database" },
+        "attributes": [],
+        "methods": []
+      }
+    ],
+    "connections": [
+      {
+        "id": "conn-1",
+        "fromGlyphId": "glyph-user-browser",
+        "toGlyphId": "glyph-route53",
+        "fromPortId": "port-user-out",
+        "toPortId": "port-r53-in",
+        "label": "DNS Lookup",
+        "view": ["bezier", "#4285F4"]
+      },
+      {
+        "id": "conn-2",
+        "fromGlyphId": "glyph-route53",
+        "toGlyphId": "glyph-alb",
+        "fromPortId": "port-r53-out",
+        "toPortId": "port-alb-in",
+        "label": "Traffic",
+        "view": ["bezier", "#4285F4"]
+      },
+      {
+        "id": "conn-3",
+        "fromGlyphId": "glyph-alb",
+        "toGlyphId": "glyph-ingress",
+        "fromPortId": "port-alb-out",
+        "toPortId": "port-ingress-in",
+        "label": "Forward",
+        "view": ["bezier", "#4285F4"]
+      },
+      {
+        "id": "conn-4",
+        "fromGlyphId": "glyph-ingress",
+        "toGlyphId": "glyph-pods",
+        "fromPortId": "port-ingress-out",
+        "toPortId": "port-pods-in",
+        "label": "Route",
+        "view": ["bezier", "#4285F4"]
+      },
+      {
+        "id": "conn-5",
+        "fromGlyphId": "glyph-pods",
+        "toGlyphId": "glyph-rds",
+        "fromPortId": "port-pods-out",
+        "toPortId": "port-rds-in",
+        "label": "SQL Query",
+        "view": ["bezier", "#4285F4"]
+      }
+    ]
+  }
+]

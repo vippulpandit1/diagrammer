@@ -1,0 +1,114 @@
+{
+  "title": "The 7-Step Process to Build an AI Agent",
+  "version": "v2",
+  "date": "Oct 16, 2025",
+  "steps": [
+    {
+      "id": 1,
+      "name": "System prompt",
+      "subcomponents": [
+        "Goals",
+        "Role",
+        "Instructions"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "LLM",
+      "subcomponents": [
+        "Base model",
+        "Parameters"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Tools",
+      "subcomponents": [
+        "Simple (local)",
+        "API (web, apps, data)",
+        "MCP servers",
+        "AI agent as a tool"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Memory",
+      "subcomponents": [
+        "Episodic",
+        "Working memory",
+        "Vector database",
+        "SQL DB memory",
+        "File store"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Orchestration",
+      "subcomponents": [
+        "Routes / workflows",
+        "Triggers",
+        "Params",
+        "Message queues",
+        "Agent2Agent"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "UI",
+      "subcomponents": [
+        "Interface"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "AI Evals",
+      "subcomponents": [
+        "Analyze",
+        "Measure",
+        "Improve"
+      ]
+    }
+  ],
+  "common_frameworks": [
+    {
+      "name": "OpenAI Agent Builder",
+      "no_code": true,
+      "llm": "OpenAI",
+      "mcp": "Remote",
+      "tools": "Built-in",
+      "orchestration": "Managed"
+    },
+    {
+      "name": "Miorosoft AutoGen",
+      "no_code": false,
+      "llm": "Any",
+      "mcp": "Local, Remote",
+      "tools": "Predefined (REPL, code)",
+      "orchestration": "Multi-agent"
+    },
+    {
+      "name": "LangChain",
+      "no_code": false,
+      "llm": "Any",
+      "mcp": "Local, Remote",
+      "tools": "Custom defined",
+      "orchestration": "Manual chain"
+    },
+    {
+      "name": "CrewAI",
+      "no_code": false,
+      "llm": "Any",
+      "mcp": "Local, Remote",
+      "tools": "Predefined, 40+ integrations",
+      "orchestration": "Roles based"
+    },
+    {
+      "name": "n8n",
+      "no_code": true,
+      "llm": "Any",
+      "mcp": "Local, Remote",
+      "tools": "Predefined, 100+ integrations",
+      "orchestration": "Visual workflow"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "title": "AWS EKS Traffic Flow and Architecture",
+  "description": "EKS Traffic Flow Demystified: User -> Route 53 -> ALB -> Target Groups -> Node Group -> Pods -> RDS",
+  "subnets": [
+    {
+      "type": "Public Subnet",
+      "components": [
+        "AWS ALB (Application Load Balancer)",
+        "Security Group (ALB SG)",
+        "HTTP / HTTPS Listener",
+        "Listener Rules (Host/Path Based)",
+        "Target Groups",
+        "NAT Gateway",
+        "Internet Gateway (IGW)"
+      ]
+    },
+    {
+      "type": "Private Subnet",
+      "components": [
+        "Security Group (NodeGroup SG)",
+        "Ingress Controller (NGINX)",
+        "ClusterIP Service",
+        "Pods (Running Application)",
+        "NAT Gateway",
+        "NACLs: Security"
+      ]
+    },
+    {
+      "type": "Database Subnet",
+      "constraints": "No IGW Access",
+      "components": [
+        "Security Group (DB SG)",
+        "RDS Instance (Database - MySQL)",
+        "NACLs: Security"
+      ]
+    }
+  ],
+  "traffic_flow": [
+    {
+      "step": 1,
+      "source": "User Browser",
+      "destination": "Internet"
+    },
+    {
+      "step": 2,
+      "source": "Internet",
+      "destination": "Route 53 DNS",
+      "action": "Resolve app.example.com to ALB DNS"
+    },
+    {
+      "step": 3,
+      "source": "Route 53",
+      "destination": "AWS ALB (Public Subnet)"
+    },
+    {
+      "step": 4,
+      "source": "ALB",
+      "destination": "Target Groups",
+      "condition": "Host/Path Rules"
+    },
+    {
+      "step": 5,
+      "source": "Target Groups",
+      "destination": "NGINX Ingress Controller (Private Subnet)"
+    },
+    {
+      "step": 6,
+      "source": "Ingress Controller",
+      "destination": "ClusterIP Service"
+    },
+    {
+      "step": 7,
+      "source": "ClusterIP Service",
+      "destination": "Pods"
+    },
+    {
+      "step": 8,
+      "source": "Pods",
+      "destination": "RDS MySQL (Database Subnet)"
+    }
+  ],
+  "security_layers": [
+    {
+      "type": "NACLs",
+      "scope": "Subnet Level"
+    },
+    {
+      "type": "Security Groups",
+      "scope": "Resource Level (ALB, Nodes, DB)"
+    }
+  ]
+}
