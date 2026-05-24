@@ -14,7 +14,8 @@ export class Connection {
  
   public label?: string = ""; // Optional label for the connection
   public type: "association" | "inheritance" | "default" = "default";
-  // Hashmap for view-specific properties
+  // Hashmap for view-specific properties (intentionally flexible for runtime config)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public view: { [key: string]: any } = {};
 
   constructor(
@@ -25,6 +26,7 @@ export class Connection {
     toPortId: string,
     label: string = "",
     type: "association" | "inheritance" | "default" = "default",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     view?: { [key: string]: any }
   ) {
     this.id = id;
@@ -39,6 +41,7 @@ export class Connection {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(obj: any): Connection {
     return new Connection(obj.id, obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.type || "default", obj.label || "");
   }

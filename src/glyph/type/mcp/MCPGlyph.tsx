@@ -1,4 +1,3 @@
-import * as React from "react";
 import type { JSX } from "react";
 
 export interface MCPGlyph {
@@ -9,6 +8,7 @@ export interface MCPGlyph {
   width?: number;
   height?: number;
   label?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: Record<string, any>;
   groupId?: string;
   ports?: Array<{

@@ -28,17 +28,15 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
     pointerIdRef.current = e.pointerId;
     const startX = e.clientX;
     const startY = e.clientY;
-    const glyphOriginX = x ?? 0;
-    const glyphOriginY = y ?? 0;
     const startRect = { x: x ?? 0, y: y ?? 0, width, height };
 
     const onPointerMove = (ev: PointerEvent) => {
-      if (pointerIdRef.current !== (ev as any).pointerId && pointerIdRef.current != null) return;
+      if (pointerIdRef.current !== ev.pointerId && pointerIdRef.current != null) return;
       ev.preventDefault();
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
       console.log("Dragging", dx, dy);
-      let newRect = { ...startRect };
+      const newRect = { ...startRect };
 
       if (corner === "tl") {
         console.log("Top-left drag");
@@ -71,13 +69,13 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
     };
 
     const onPointerUp = (upEv: PointerEvent) => {
-      if (pointerIdRef.current !== (upEv as any).pointerId && pointerIdRef.current != null) return;
+      if (pointerIdRef.current !== upEv.pointerId && pointerIdRef.current != null) return;
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
       pointerIdRef.current = null;
       try {
         (e.target as Element).releasePointerCapture(e.pointerId);
-      } catch {}
+      } catch { /* release may fail if capture was not acquired */ }
     };
 
     window.addEventListener("pointermove", onPointerMove);

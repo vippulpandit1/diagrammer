@@ -177,7 +177,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   }>(null);
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null);
   // add rect state here (parent owns the rect)
-  const [_, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
+  const [, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
   // Your existing rendering logic now uses `activePage.glyphs` and `activePage.connections`
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
@@ -315,7 +315,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         if (parsed.type) type = parsed.type;
         if (typeof parsed.inputs === "number") inputs = parsed.inputs;
         if (typeof parsed.outputs === "number") outputs = parsed.outputs;
-      } catch (err) {
+      } catch (_err) {
         // ignore
       }
     }

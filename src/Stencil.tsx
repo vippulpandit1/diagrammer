@@ -156,12 +156,12 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
       e.dataTransfer.setData("glyphJSON", json);
       // Add text/plain for Safari compatibility
       e.dataTransfer.setData("text/plain", json);
-    } catch (err) {
+    } catch (_err) {
       // ignore
     }
     if (onGlyphDragStart) onGlyphDragStart(g.type);
   };
-  const showTooltip = (e: React.MouseEvent, g: any) => {
+  const showTooltip = (e: React.MouseEvent, g: { type: string; label?: string; description?: string }) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = rect.right + 8; // place tooltip to the right of glyph
     const y = rect.top;

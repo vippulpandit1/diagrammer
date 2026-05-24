@@ -9,12 +9,6 @@ import { Port } from "./glyph/Port";
 import { v4 as uuidv4 } from "uuid";
 import { glyphRegistry } from "./glyph/type/GlyphRegistry";
 
-const TYPE_OPTIONS = [
-  "rect", "circle", "multi",
-  "and", "or", "not", "nand", "nor", "xor", "xnor",
-  "uml-class", "uml-interface", "uml-abstract", "uml-enum", "uml-package", "uml-association", "uml-inheritance"
-];
-
 const FONT_FAMILIES = [
   "Arial", "Helvetica", "Times New Roman", "Courier New", "Georgia", "Verdana", "Tahoma", "Trebuchet MS", "Impact"
 ];
@@ -107,7 +101,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
         ...(glyph.type === "flow-off-page-connector" ? { targetPageId } : {})
       };
       // Keep existing ports, only add new ones if needed
-      let ports = glyph.ports ? [...glyph.ports] : [];
+      const ports = glyph.ports ? [...glyph.ports] : [];
       // Find ports that will be removed
       const removedInputPorts = ports.filter(p => p.type === "input").slice(inputs);
       const removedOutputPorts = ports.filter(p => p.type === "output").slice(outputs);
@@ -446,7 +440,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
             fontSize: 15,
             cursor: "pointer"
           }}
-          onClick={() => setActiveTab(tab as any)}
+          onClick={() => setActiveTab(tab as "General" | "Attributes" | "Methods")}
         >
           {tab}
         </button>

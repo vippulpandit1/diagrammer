@@ -6,6 +6,7 @@ export class MCPGlyph implements MCPGlyph {
   width?: number;
   height?: number;
   label?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: Record<string, any>;
   groupId?: string;
   ports?: Array<{
@@ -50,7 +51,7 @@ export class MCPGlyph implements MCPGlyph {
   }
 
   // Update glyph properties
-  onUpdate(id: string, updates: Partial<MCPGlyph>) {
+  onUpdate(_id: string, updates: Partial<MCPGlyph>) {
     Object.assign(this, updates);
   }
 

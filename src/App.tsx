@@ -27,7 +27,7 @@ function App() {
   const [toolbarOpen, setToolbarOpen] = useState(true)
   const [toolbarPos, setToolbarPos] = useState({ x: 40, y: 100 });
   const [draggingToolbar, setDraggingToolbar] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Glyph | Connection | null>(null);
+  const [, setSelectedItem] = useState<Glyph | Connection | null>(null);
 
   const [selectedConnection, setSelectedConnection] = useState<Connection | null>(null) // for new connection in progress
   const [selectedGlyph, setSelectedGlyph] = useState<Glyph | null>(null);
@@ -133,7 +133,7 @@ function App() {
     }
   };
   // 1. History Stack
-  const [history, setHistory] = useState<Page[][]>([pages]);
+  const [, setHistory] = useState<Page[][]>([pages]);
   // 2. Current Index
   const [historyIndex, setHistoryIndex] = useState(0);
   const addMessage = useCallback((msg: string) => {
@@ -155,31 +155,6 @@ function App() {
     [historyIndex]
   );
 
-  // 3. Undo Function
-  const undo = useCallback(() => {
-    if (historyIndex > 0) {
-      setHistoryIndex(prevIndex => prevIndex - 1);
-      setPages(history[historyIndex - 1]);
-    }
-  }, [history, historyIndex]);
-
-  // 4. Redo Function
-  const redo = useCallback(() => {
-    if (historyIndex < history.length - 1) {
-      setHistoryIndex(prevIndex => prevIndex + 1);
-      setPages(history[historyIndex + 1]);
-    }
-  }, [history, historyIndex]);
-
-  const handleUpdateConnectionType = (connId: string, newType: "bezier" | "manhattan" | "line") => {
-    activePage.connections.map(conn =>{
-          if (conn.id === connId) {
-            conn.view[CONNECTION_TYPE_INDEX] = (newType);
-            return conn;
-          }
-          return conn;
-        });
-  };
   const handleUpdateConnection = (connId: string, updates: Partial<Connection>) => {
     const newPages = pages.map(page => ({
       ...page,
@@ -204,6 +179,8 @@ function App() {
     if(!saved) return;
     try {
       const parsed = JSON.parse(saved);
+      // Guard: reject payloads that could exploit prototype pollution
+      if (parsed === null || typeof parsed !== "object") return;
       // support older format (array of pages) or { pages: [...] } envelope
       const newPages: Page[] = Array.isArray(parsed)
         ? parsed
@@ -217,8 +194,8 @@ function App() {
         setActivePageIdx(idx => Math.min(idx, newPages.length - 1));
         addMessage(`Loaded ${newPages.length} page(s) from sessionStorage`);
       }
-    } catch (err) {
-      console.warn("Failed to parse saved canvasData:", err);
+    } catch (_err) {
+      console.warn("Failed to parse saved canvasData");
       addMessage("Failed to load canvas data from sessionStorage");
     }
   }, []);
@@ -305,21 +282,13 @@ function App() {
       addMessage(`Sent glyph ${glyphId} to back and brought its connections to front`);
     }
   };
-  const handleGlyphClick = (glyph: Glyph) => {
-    setSelectedItem(glyph);
-  };
-
-  const handleConnectionClick = (connection: Connection) => {
-    setSelectedItem(connection);
-  };
-
   const handleClosePropertySheet = () => {
     setSelectedItem(null);
     setPropertySheetOpen(false);
     addMessage("Closed PropertySheet");
   };
     // handler passed to BottomPanel
-  const handlePanelCollapseChange = (collapsed: boolean, height: number) => {
+  const handlePanelCollapseChange = (_collapsed: boolean, height: number) => {
     setPanelHeight(height);
   };
   // Handler to update glyph properties

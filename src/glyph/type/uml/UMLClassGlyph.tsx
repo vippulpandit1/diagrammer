@@ -24,8 +24,6 @@ export const UMLClassGlyph: React.FC<{ width: number; height?: number; label?: s
   // Method section starts after attributes and separator
   const METHOD_START_Y = ATTR_START_Y + (attributes?.length || 0) * 20 + 8;
   
-  const maxLabelChars = 5;//Math.floor(size / 10); // Estimate max chars that fit
-
   return (
    <g>
     <rect x={0} y={0} width={width} height={height} rx={6} fill="#fff" stroke="#222" strokeWidth={2}/>

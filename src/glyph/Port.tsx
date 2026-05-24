@@ -17,6 +17,7 @@ export class Port {
     this.y = y;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(obj: any): Port {
     return new Port(obj.id, obj.type, obj.x, obj.y);
   }

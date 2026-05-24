@@ -12,14 +12,13 @@ const STENCILS = [
   { key: "mcp", label: "MCP" }
 ];
 // Add connection types for UML
-const UML_CONNECTION_TYPES = ["uml-association", "uml-inheritance"];
 
 export const Toolbar: React.FC<{
   stencilType: string;
   setStencilType: (type: string) => void;
   connectionType: string;
   setConnectionType: (type: string) => void;
-}> = ({ stencilType, setStencilType, connectionType, setConnectionType })  => {
+}> = ({ stencilType: _stencilType, setStencilType: _setStencilType, connectionType, setConnectionType })  => {
   const [selectedStencil, setSelectedStencil] = useState<"basic" | "logic" | "uml">("basic");
 
   return (

@@ -1,5 +1,3 @@
-import React from "react";
-
 export type UMLVisibility = "public" | "private" | "protected";
 export type UMLDataType = "string" | "number" | "boolean" | "date" | "object" | "array" | "custom";
 

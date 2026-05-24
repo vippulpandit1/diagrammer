@@ -1,5 +1,3 @@
-import type { UMLAttr } from "./UMLAttr";
-
 type UMLVisibility = "public" | "private" | "protected";
 type UMLDataType = "string" | "number" | "boolean" | "date" | "object" | "array" | "custom";
 

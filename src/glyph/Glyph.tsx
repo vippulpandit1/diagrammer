@@ -12,6 +12,7 @@ export class Glyph {
   width?: number;
   height?: number;
   ports: Port[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>;
   label: string = '';
   inputs: number = 2; // Number of input ports (for logic gates)
@@ -28,6 +29,7 @@ export class Glyph {
     x: number,
     y: number,
     ports: Port[] = [],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: Record<string, any> = {},
     label: string = "",
     inputs: number = 2,
@@ -59,16 +61,17 @@ export class Glyph {
     this.methods = methods;
     // Always generate ports based on inputs/outputs
     this.ports = [
-      ...Array.from({ length: this.inputs }, (_, i) =>
+      ...Array.from({ length: this.inputs }, (_) =>
         new Port(`input-${uuidv4()}`, "input")
       ),
-      ...Array.from({ length: this.outputs }, (_, i) =>
+      ...Array.from({ length: this.outputs }, (_) =>
         new Port(`output-${uuidv4()}`, "output")
       ),
     ];
     this.icon = icon;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(obj: any): Glyph {
     return new Glyph(
       obj.id,

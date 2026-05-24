@@ -14,6 +14,7 @@ export class GlyphDocument {
     this.connections = connections;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(obj: any): GlyphDocument {
     return new GlyphDocument(
       (obj.glyphs || []).map(Glyph.fromJSON),

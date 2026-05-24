@@ -1,4 +1,3 @@
-import React from "react";
 import { RectGlyph } from "./type/basic/RectGlyph";
 import { CircleGlyph } from "./type/basic/CircleGlyph";
 import { AndGateGlyph } from "./type/logic/AndGateGlyph";
