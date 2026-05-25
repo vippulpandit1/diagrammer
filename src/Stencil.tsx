@@ -189,20 +189,20 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
           className="stencil-glyph"
           title={g.label}
         >
-          <svg width={45} height={45}>
-            <GlyphRenderer type={g.type} width={40} height={40} />
+          <svg width={38} height={38}>
+            <GlyphRenderer type={g.type} width={34} height={34} />
             {/* port preview overlay based on stencil defaults */}
             <g className="stencil-ports">
               {(() => {
                 const inputs = typeof g.inputs === "number" ? g.inputs : 0;
                 const outputs = typeof g.outputs === "number" ? g.outputs : 0;
-                const yStart = 10;
-                const yEnd = 30;
+                const yStart = 8;
+                const yEnd = 26;
                 const renderPorts = (count: number, side: "left" | "right") => {
                   if (count <= 0) return null;
                   if (count === 1) {
                     const y = (yStart + yEnd) / 2;
-                    const cx = side === "left" ? 6 : 34;
+                    const cx = side === "left" ? 4 : 30;
                     return (
                       <circle key={`${side}-0`} cx={cx} cy={y} r={2.2} fill="#222" />
                     );
@@ -210,8 +210,8 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
                   const step = (yEnd - yStart) / (count - 1);
                   return new Array(count).fill(0).map((_, i) => {
                     const y = yStart + step * i;
-                    const cx = side === "left" ? 6 : 34;
-                    return <circle key={`${side}-${i}`} cx={cx} cy={y} r={2.2} fill="#222" />;
+                    const cx = side === "left" ? 4 : 30;
+                    return <circle key={`${side}-${i}`} cx={cx} cy={y} r={2} fill="#222" />;
                   });
                 };
                 return (
@@ -223,7 +223,7 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
               })()}
             </g>
           </svg>
-          <div style={{ fontSize: 12, textAlign: "center" }}>{g.label}</div>
+          <div style={{ fontSize: 10, textAlign: "center", lineHeight: 1.2, wordBreak: "break-word" }}>{g.label}</div>
         </div>
       ))}
       {tooltip.visible && (

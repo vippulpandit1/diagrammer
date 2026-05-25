@@ -425,21 +425,11 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   
 
   const renderTabs = () => (
-    <div style={{ display: "flex", borderBottom: "1px solid #e5e7eb", marginBottom: 8 }}>
+    <div className="ps-tab-bar">
       {["General", "Attributes", "Methods"].map(tab => (
         <button
           key={tab}
-          style={{
-            flex: 1,
-            padding: "8px 0",
-            background: activeTab === tab ? "#e0e7ef" : "transparent",
-            border: "none",
-            borderBottom: activeTab === tab ? "2px solid #2563eb" : "2px solid transparent",
-            color: activeTab === tab ? "#2563eb" : "#64748b",
-            fontWeight: activeTab === tab ? 700 : 500,
-            fontSize: 15,
-            cursor: "pointer"
-          }}
+          className={`ps-tab${activeTab === tab ? " ps-tab-active" : ""}`}
           onClick={() => setActiveTab(tab as "General" | "Attributes" | "Methods")}
         >
           {tab}

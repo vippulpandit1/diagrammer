@@ -1,5 +1,5 @@
 // Copyright (c) 2025 Vippul Pandit. All rights reserved.
-import React, { useState } from 'react';
+import React from 'react';
 import { Stencil } from "./Stencil";
 
 const STENCILS = [
@@ -10,23 +10,23 @@ const STENCILS = [
   { key: "network", label: "Network" },
   { key: "flowchart", label: "Flowchart" },
   { key: "mcp", label: "MCP" }
-];
+] as const;
+
+type StencilType = (typeof STENCILS)[number]["key"];
 // Add connection types for UML
 
 export const Toolbar: React.FC<{
-  stencilType: string;
-  setStencilType: (type: string) => void;
+  stencilType: StencilType;
+  setStencilType: (type: StencilType) => void;
   connectionType: string;
   setConnectionType: (type: string) => void;
-}> = ({ stencilType: _stencilType, setStencilType: _setStencilType, connectionType, setConnectionType })  => {
-  const [selectedStencil, setSelectedStencil] = useState<"basic" | "logic" | "uml">("basic");
-
+}> = ({ stencilType, setStencilType, connectionType, setConnectionType })  => {
   return (
     <div className="workspace-toolbar">
       <div style={{ marginBottom: 8 }}>
         <select
-          value={selectedStencil}
-          onChange={e => setSelectedStencil(e.target.value as "basic" | "logic"| "uml")}
+          value={stencilType}
+          onChange={e => setStencilType(e.target.value as StencilType)}
           style={{ width: "100%", padding: 4, borderRadius: 4 }}
         >
           {STENCILS.map(s => (
@@ -35,7 +35,7 @@ export const Toolbar: React.FC<{
         </select>
       </div>
       {/* Only show connection type selector for UML stencil */}
-`    {selectedStencil === "uml" && (
+      {stencilType === "uml" && (
       <div style={{ marginBottom: 8 }}>
         <label style={{ fontSize: 12, fontWeight: 600 }}>Connection:</label>
         <select
@@ -52,8 +52,8 @@ export const Toolbar: React.FC<{
           <option value="composition">Composition</option>
         </select>
       </div>
-    )}`
-      <Stencil stencilType={selectedStencil} />
+      )}
+      <Stencil stencilType={stencilType} />
     </div>
   );
 };

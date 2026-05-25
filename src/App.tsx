@@ -17,6 +17,8 @@ const INITIAL_PAGE: Page = {
   connections: [/* your initial connections can go here */],
 };
 
+type StencilType = "basic" | "logic" | "uml" | "debug" | "network" | "flowchart" | "mcp";
+
 function App() {
   
   const [pages, setPages] = useState<Page[]>([INITIAL_PAGE]);
@@ -33,7 +35,7 @@ function App() {
   const [selectedGlyph, setSelectedGlyph] = useState<Glyph | null>(null);
   const [propertySheetOpen, setPropertySheetOpen] = useState(false);
   const [connectionType, setConnectionType] = useState<"association" | "inheritance" | "default">("association");
-  const [stencilType, setStencilType] = useState("basic");  
+  const [stencilType, setStencilType] = useState<StencilType>("basic");  
   const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
   const [messages, setMessages] = useState<string[]>([]);
   // Handler for switching pages
@@ -192,6 +194,14 @@ function App() {
         setPages(newPages);
         // ensure activePageIdx is within bounds after load
         setActivePageIdx(idx => Math.min(idx, newPages.length - 1));
+        if (!Array.isArray(parsed)) {
+          if (typeof parsed.stencilType === "string") {
+            setStencilType(parsed.stencilType as StencilType);
+          }
+          if (typeof parsed.connectionType === "string") {
+            setConnectionType(parsed.connectionType as "association" | "inheritance" | "default");
+          }
+        }
         addMessage(`Loaded ${newPages.length} page(s) from sessionStorage`);
       }
     } catch (_err) {
@@ -356,7 +366,7 @@ function App() {
   };
 
   const handleSave = () => {
-    const json = JSON.stringify(pages);
+    const json = JSON.stringify({ pages, stencilType, connectionType });
     sessionStorage.setItem("canvasData", json);
     addMessage("Canvas data saved to sessionStorage");
 /*
