@@ -22,6 +22,7 @@ const DATA_TYPES: UMLDataType[] = [
 interface PropertySheetProps {
   glyph?: Glyph;
   connection?: Connection;
+  bottomInset?: number;
   onClose: () => void;
   onUpdateGlyph?: (id: string, updates: Partial<Glyph>) => void;
   onUpdateConnection?: (id: string, updates: Partial<Connection>) => void;
@@ -35,6 +36,7 @@ interface PropertySheetProps {
 export const PropertySheet: React.FC<PropertySheetProps> = ({
   glyph,
   connection,
+  bottomInset = 0,
   onClose,
   onUpdateGlyph,
   onUpdateConnection,
@@ -42,6 +44,11 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   connections = []
 //  onUpdateConnectionType
 })  => {
+  const panelStyle = {
+    bottom: bottomInset,
+    height: `calc(100% - ${bottomInset}px)`
+  } as const;
+
   // --- State ---
   const [activeTab, setActiveTab] = useState<"General" | "Attributes" | "Methods">("General");
   const CustomProps =
@@ -717,7 +724,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   // --- Main Render ---
   if (!glyph && !connection) {
     return (
-      <div className="property-sheet">
+      <div className="property-sheet" style={panelStyle}>
         <div style={{ padding: "20px", color: "#64748b", textAlign: "center" }}>
           <p>Nothing selected</p>
           <small>Click on a shape or a line to see its properties.</small>
@@ -727,7 +734,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
   }
   if (connection && !glyph) {
     return (
-      <div className="property-sheet" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <div className="property-sheet" style={panelStyle}>
         <div className="property-sheet-header">
           <h3>Connection Properties</h3>
           <button onClick={onClose} className="close-btn">×</button>
@@ -744,7 +751,7 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
 
 
   return (
-    <div className="property-sheet">
+    <div className="property-sheet" style={panelStyle}>
       <div className="property-sheet-header">
         <h3>Properties</h3>
         <button onClick={onClose} className="close-btn">×</button>

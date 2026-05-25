@@ -628,6 +628,7 @@ function App() {
             <PropertySheet
               glyph={selectedGlyph}
               connection={selectedConnection!}
+              bottomInset={panelHeight + 44}
               onClose={handleClosePropertySheet}
               onUpdateGlyph={handleUpdateGlyph}
               connectorType={selectedConnection?.view?.[CONNECTION_TYPE_INDEX] || connectorType}
@@ -640,6 +641,7 @@ function App() {
             <PropertySheet
               glyph={selectedGlyph!}
               connection={selectedConnection}
+              bottomInset={panelHeight + 44}
               onClose={handleClosePropertySheet}
               onUpdateGlyph={handleUpdateGlyph}
               onUpdateConnection={handleUpdateConnection}

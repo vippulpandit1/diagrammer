@@ -129,6 +129,27 @@
   border-color: transparent !important;
   color: #38bdf8 !important;
 }
+.workspace-header-btn-primary {
+  width: auto !important;
+  min-width: 70px;
+  padding: 0 12px !important;
+  gap: 7px;
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%) !important;
+  color: #eff6ff !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.workspace-header-btn-primary:hover {
+  background: linear-gradient(135deg, #4cc9ff 0%, #3b82f6 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.34);
+}
+.workspace-header-btn-primary svg {
+  flex-shrink: 0;
+}
 .workspace-header-divider {
   width: 1px;
   height: 22px;
