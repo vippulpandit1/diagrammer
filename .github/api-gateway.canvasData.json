@@ -1,0 +1,1109 @@
+{
+  "pages": [
+    {
+      "id": "page-api-gateway",
+      "name": "API Gateway Diagram",
+      "glyphs": [
+        {
+          "id": "title",
+          "type": "text",
+          "x": 110,
+          "y": 20,
+          "width": 420,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "textColor": "#111111"
+          },
+          "label": "What does API Gateway do?",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "client-shell",
+          "type": "flow-process",
+          "x": 110,
+          "y": 95,
+          "width": 640,
+          "height": 150,
+          "ports": [
+            {
+              "id": "client-shell-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "client-label",
+          "type": "text",
+          "x": 365,
+          "y": 82,
+          "width": 90,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fontSize": 18,
+            "fontFamily": "Arial",
+            "textColor": "#1e3a8a"
+          },
+          "label": "Client",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "web-icon",
+          "type": "network-cloud",
+          "x": 170,
+          "y": 130,
+          "width": 90,
+          "height": 90,
+          "ports": [],
+          "data": {},
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "web-label",
+          "type": "text",
+          "x": 182,
+          "y": 210,
+          "width": 70,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#222222"
+          },
+          "label": "Web",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "mobile-icon",
+          "type": "network-phone",
+          "x": 385,
+          "y": 130,
+          "width": 90,
+          "height": 90,
+          "ports": [],
+          "data": {},
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "mobile-label",
+          "type": "text",
+          "x": 384,
+          "y": 210,
+          "width": 85,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#222222"
+          },
+          "label": "Mobile",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pc-icon",
+          "type": "network-pc",
+          "x": 595,
+          "y": 130,
+          "width": 90,
+          "height": 90,
+          "ports": [],
+          "data": {},
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pc-label",
+          "type": "text",
+          "x": 610,
+          "y": 210,
+          "width": 55,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#222222"
+          },
+          "label": "PC",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "http-request",
+          "type": "text",
+          "x": 325,
+          "y": 245,
+          "width": 170,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#374151"
+          },
+          "label": "HTTP Request",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "api-gateway-box",
+          "type": "flow-predefined-process",
+          "x": 330,
+          "y": 290,
+          "width": 210,
+          "height": 90,
+          "ports": [
+            {
+              "id": "api-gateway-in-1",
+              "type": "input"
+            },
+            {
+              "id": "api-gateway-out-1",
+              "type": "output"
+            },
+            {
+              "id": "api-gateway-out-2",
+              "type": "output"
+            },
+            {
+              "id": "api-gateway-out-3",
+              "type": "output"
+            },
+            {
+              "id": "api-gateway-out-4",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 4,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "api-gateway-label",
+          "type": "text",
+          "x": 348,
+          "y": 315,
+          "width": 170,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fontSize": 18,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "API Gateway",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "parameter-validation-box",
+          "type": "flow-process",
+          "x": 70,
+          "y": 400,
+          "width": 190,
+          "height": 95,
+          "ports": [
+            {
+              "id": "parameter-validation-in-1",
+              "type": "input"
+            },
+            {
+              "id": "parameter-validation-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "parameter-validation-label",
+          "type": "text",
+          "x": 88,
+          "y": 426,
+          "width": 150,
+          "height": 40,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Parameter Validation",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "allow-list-box",
+          "type": "flow-process",
+          "x": 325,
+          "y": 400,
+          "width": 210,
+          "height": 95,
+          "ports": [
+            {
+              "id": "allow-list-in-1",
+              "type": "input"
+            },
+            {
+              "id": "allow-list-out-1",
+              "type": "output"
+            },
+            {
+              "id": "allow-list-out-2",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 2,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "allow-list-label",
+          "type": "text",
+          "x": 346,
+          "y": 425,
+          "width": 165,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Allow-list / Deny-list",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "auth-box",
+          "type": "flow-process",
+          "x": 585,
+          "y": 400,
+          "width": 220,
+          "height": 95,
+          "ports": [
+            {
+              "id": "auth-in-1",
+              "type": "input"
+            },
+            {
+              "id": "auth-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "auth-label",
+          "type": "text",
+          "x": 610,
+          "y": 425,
+          "width": 170,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Authentication / Authorization",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "service-discovery-box",
+          "type": "flow-process",
+          "x": 70,
+          "y": 525,
+          "width": 190,
+          "height": 95,
+          "ports": [
+            {
+              "id": "service-discovery-in-1",
+              "type": "input"
+            },
+            {
+              "id": "service-discovery-out-1",
+              "type": "output"
+            },
+            {
+              "id": "service-discovery-out-2",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 2,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "service-discovery-label",
+          "type": "text",
+          "x": 94,
+          "y": 552,
+          "width": 140,
+          "height": 40,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Service Discovery",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dynamic-routing-box",
+          "type": "flow-process",
+          "x": 325,
+          "y": 525,
+          "width": 210,
+          "height": 95,
+          "ports": [
+            {
+              "id": "dynamic-routing-in-1",
+              "type": "input"
+            },
+            {
+              "id": "dynamic-routing-in-2",
+              "type": "input"
+            },
+            {
+              "id": "dynamic-routing-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 2,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dynamic-routing-label",
+          "type": "text",
+          "x": 361,
+          "y": 552,
+          "width": 135,
+          "height": 40,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Dynamic Routing",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rate-limit-box",
+          "type": "flow-action",
+          "x": 585,
+          "y": 525,
+          "width": 220,
+          "height": 95,
+          "ports": [
+            {
+              "id": "rate-limit-in-1",
+              "type": "input"
+            },
+            {
+              "id": "rate-limit-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rate-limit-label",
+          "type": "text",
+          "x": 642,
+          "y": 552,
+          "width": 105,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Rate Limit",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "protocol-conversion-box",
+          "type": "flow-process",
+          "x": 70,
+          "y": 650,
+          "width": 190,
+          "height": 95,
+          "ports": [
+            {
+              "id": "protocol-conversion-in-1",
+              "type": "input"
+            },
+            {
+              "id": "protocol-conversion-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "protocol-conversion-label",
+          "type": "text",
+          "x": 86,
+          "y": 677,
+          "width": 155,
+          "height": 40,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Protocol Conversion",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "error-handling-box",
+          "type": "flow-action",
+          "x": 325,
+          "y": 650,
+          "width": 210,
+          "height": 95,
+          "ports": [
+            {
+              "id": "error-handling-in-1",
+              "type": "input"
+            },
+            {
+              "id": "error-handling-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "error-handling-label",
+          "type": "text",
+          "x": 376,
+          "y": 678,
+          "width": 110,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Error Handling",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "circuit-break-box",
+          "type": "flow-action",
+          "x": 585,
+          "y": 650,
+          "width": 220,
+          "height": 95,
+          "ports": [
+            {
+              "id": "circuit-break-in-1",
+              "type": "input"
+            },
+            {
+              "id": "circuit-break-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "circuit-break-label",
+          "type": "text",
+          "x": 638,
+          "y": 678,
+          "width": 115,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Circuit Break",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "logging-monitoring-box",
+          "type": "flow-action",
+          "x": 325,
+          "y": 775,
+          "width": 210,
+          "height": 95,
+          "ports": [
+            {
+              "id": "logging-monitoring-in-1",
+              "type": "input"
+            },
+            {
+              "id": "logging-monitoring-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "logging-monitoring-label",
+          "type": "text",
+          "x": 347,
+          "y": 800,
+          "width": 165,
+          "height": 40,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Logging / Monitoring",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "cache-box",
+          "type": "flow-action",
+          "x": 585,
+          "y": 775,
+          "width": 220,
+          "height": 95,
+          "ports": [
+            {
+              "id": "cache-in-1",
+              "type": "input"
+            },
+            {
+              "id": "cache-out-1",
+              "type": "output"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "cache-label",
+          "type": "text",
+          "x": 653,
+          "y": 805,
+          "width": 80,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Cache",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "microservices-icon",
+          "type": "network-server-rack",
+          "x": 120,
+          "y": 900,
+          "width": 95,
+          "height": 95,
+          "ports": [
+            {
+              "id": "microservices-in-1",
+              "type": "input"
+            },
+            {
+              "id": "microservices-in-2",
+              "type": "input"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 2,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "microservices-label",
+          "type": "text",
+          "x": 98,
+          "y": 990,
+          "width": 145,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#1d4ed8"
+          },
+          "label": "Microservices",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "elastic-icon",
+          "type": "network-database",
+          "x": 385,
+          "y": 900,
+          "width": 95,
+          "height": 95,
+          "ports": [
+            {
+              "id": "elastic-in-1",
+              "type": "input"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "elastic-label",
+          "type": "text",
+          "x": 394,
+          "y": 990,
+          "width": 78,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Elastic",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "redis-icon",
+          "type": "network-database",
+          "x": 645,
+          "y": 900,
+          "width": 95,
+          "height": 95,
+          "ports": [
+            {
+              "id": "redis-in-1",
+              "type": "input"
+            }
+          ],
+          "data": {},
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "redis-label",
+          "type": "text",
+          "x": 659,
+          "y": 990,
+          "width": 65,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "textColor": "#111827"
+          },
+          "label": "Redis",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "conn-client-to-gateway",
+          "fromGlyphId": "client-shell",
+          "fromPortId": "client-shell-out-1",
+          "toGlyphId": "api-gateway-box",
+          "toPortId": "api-gateway-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-gateway-to-parameter",
+          "fromGlyphId": "api-gateway-box",
+          "fromPortId": "api-gateway-out-1",
+          "toGlyphId": "parameter-validation-box",
+          "toPortId": "parameter-validation-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-parameter-to-allow",
+          "fromGlyphId": "parameter-validation-box",
+          "fromPortId": "parameter-validation-out-1",
+          "toGlyphId": "allow-list-box",
+          "toPortId": "allow-list-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-allow-to-auth",
+          "fromGlyphId": "allow-list-box",
+          "fromPortId": "allow-list-out-1",
+          "toGlyphId": "auth-box",
+          "toPortId": "auth-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-auth-to-rate",
+          "fromGlyphId": "auth-box",
+          "fromPortId": "auth-out-1",
+          "toGlyphId": "rate-limit-box",
+          "toPortId": "rate-limit-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-gateway-to-discovery",
+          "fromGlyphId": "api-gateway-box",
+          "fromPortId": "api-gateway-out-2",
+          "toGlyphId": "service-discovery-box",
+          "toPortId": "service-discovery-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-discovery-to-routing",
+          "fromGlyphId": "service-discovery-box",
+          "fromPortId": "service-discovery-out-1",
+          "toGlyphId": "dynamic-routing-box",
+          "toPortId": "dynamic-routing-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-rate-to-routing",
+          "fromGlyphId": "rate-limit-box",
+          "fromPortId": "rate-limit-out-1",
+          "toGlyphId": "dynamic-routing-box",
+          "toPortId": "dynamic-routing-in-2",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-routing-to-microservices",
+          "fromGlyphId": "dynamic-routing-box",
+          "fromPortId": "dynamic-routing-out-1",
+          "toGlyphId": "microservices-icon",
+          "toPortId": "microservices-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-discovery-to-protocol",
+          "fromGlyphId": "service-discovery-box",
+          "fromPortId": "service-discovery-out-2",
+          "toGlyphId": "protocol-conversion-box",
+          "toPortId": "protocol-conversion-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-protocol-to-microservices",
+          "fromGlyphId": "protocol-conversion-box",
+          "fromPortId": "protocol-conversion-out-1",
+          "toGlyphId": "microservices-icon",
+          "toPortId": "microservices-in-2",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-gateway-to-error",
+          "fromGlyphId": "api-gateway-box",
+          "fromPortId": "api-gateway-out-3",
+          "toGlyphId": "error-handling-box",
+          "toPortId": "error-handling-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-error-to-logging",
+          "fromGlyphId": "error-handling-box",
+          "fromPortId": "error-handling-out-1",
+          "toGlyphId": "logging-monitoring-box",
+          "toPortId": "logging-monitoring-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-logging-to-elastic",
+          "fromGlyphId": "logging-monitoring-box",
+          "fromPortId": "logging-monitoring-out-1",
+          "toGlyphId": "elastic-icon",
+          "toPortId": "elastic-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-gateway-to-circuit",
+          "fromGlyphId": "api-gateway-box",
+          "fromPortId": "api-gateway-out-4",
+          "toGlyphId": "circuit-break-box",
+          "toPortId": "circuit-break-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-circuit-to-cache",
+          "fromGlyphId": "circuit-break-box",
+          "fromPortId": "circuit-break-out-1",
+          "toGlyphId": "cache-box",
+          "toPortId": "cache-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "conn-cache-to-redis",
+          "fromGlyphId": "cache-box",
+          "fromPortId": "cache-out-1",
+          "toGlyphId": "redis-icon",
+          "toPortId": "redis-in-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#374151",
+            "thickness": 2,
+            "dashed": false
+          }
+        }
+      ]
+    }
+  ],
+  "stencilType": "flowchart",
+  "connectionType": "association"
+}

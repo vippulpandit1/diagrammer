@@ -1,0 +1,87 @@
+{
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Page 1",
+      "glyphs": [
+        {
+          "id": "glyph-1",
+          "type": "rect",
+          "x": 120,
+          "y": 100,
+          "width": 120,
+          "height": 80,
+          "ports": [
+            {
+              "id": "input-glyph-1-1",
+              "type": "input"
+            },
+            {
+              "id": "output-glyph-1-1",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 18,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#222222"
+          },
+          "label": "Start",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "glyph-2",
+          "type": "circle",
+          "x": 360,
+          "y": 100,
+          "width": 100,
+          "height": 100,
+          "ports": [
+            {
+              "id": "input-glyph-2-1",
+              "type": "input"
+            },
+            {
+              "id": "output-glyph-2-1",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 18,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#222222"
+          },
+          "label": "End",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "conn-1",
+          "fromGlyphId": "glyph-1",
+          "fromPortId": "output-glyph-1-1",
+          "toGlyphId": "glyph-2",
+          "toPortId": "input-glyph-2-1",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "bezier",
+            "color": "#000000",
+            "thickness": 2,
+            "dashed": false
+          }
+        }
+      ]
+    }
+  ],
+  "stencilType": "basic",
+  "connectionType": "association"
+}
