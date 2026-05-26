@@ -140,7 +140,7 @@ function getGlyphDescription(type: string, label?: string) {
 }
 type StencilType = keyof typeof STENCIL_GLYPHS;
 
-export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (type: string) => void }> = ({ stencilType, onGlyphDragStart }) => {
+export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (type: string) => void; orientation?: "vertical" | "horizontal" }> = ({ stencilType, onGlyphDragStart, orientation = "vertical" }) => {
   const glyphs = STENCIL_GLYPHS[stencilType] || [];
   const [tooltip, setTooltip] = useState<{ visible: boolean; x: number; y: number; text: string }>({
     visible: false,
@@ -177,7 +177,7 @@ export const Stencil: React.FC<{ stencilType: StencilType; onGlyphDragStart?: (t
   const hideTooltip = () => setTooltip(t => ({ ...t, visible: false }));
 
   return (
-    <div className="stencil">
+    <div className={`stencil${orientation === "horizontal" ? " stencil--horizontal" : ""}`}>
       {glyphs.map(g => (
         <div
           key={g.type}

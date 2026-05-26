@@ -20,40 +20,42 @@ export const Toolbar: React.FC<{
   setStencilType: (type: StencilType) => void;
   connectionType: string;
   setConnectionType: (type: string) => void;
-}> = ({ stencilType, setStencilType, connectionType, setConnectionType })  => {
+  orientation?: "vertical" | "horizontal";
+}> = ({ stencilType, setStencilType, connectionType, setConnectionType, orientation = "vertical" })  => {
+  const isHorizontal = orientation === "horizontal";
   return (
-    <div className="workspace-toolbar">
-      <div style={{ marginBottom: 8 }}>
+    <div style={isHorizontal ? { display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 8 } : {}}>
+      <div style={isHorizontal ? { display: "flex", flexDirection: "column", gap: 4, flexShrink: 0 } : { marginBottom: 8 }}>
         <select
           value={stencilType}
           onChange={e => setStencilType(e.target.value as StencilType)}
-          style={{ width: "100%", padding: 4, borderRadius: 4 }}
+          style={{ width: isHorizontal ? 110 : "100%", padding: 4, borderRadius: 4 }}
         >
           {STENCILS.map(s => (
             <option key={s.key} value={s.key}>{s.label}</option>
           ))}
         </select>
+        {/* Only show connection type selector for UML stencil */}
+        {stencilType === "uml" && (
+        <div style={{ marginBottom: isHorizontal ? 0 : 8 }}>
+          <label style={{ fontSize: 12, fontWeight: 600 }}>Connection:</label>
+          <select
+            value={connectionType}
+            onChange={e => setConnectionType(e.target.value)}
+            style={{ width: isHorizontal ? 110 : "100%", marginTop: 4 }}
+          >
+            // https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
+            <option value="association">Association</option>
+            <option value="inheritance">Inheritance</option>
+            <option value="realization">Realization</option>
+            <option value="dependency">Dependency</option>
+            <option value="aggregation">Aggregation</option>
+            <option value="composition">Composition</option>
+          </select>
+        </div>
+        )}
       </div>
-      {/* Only show connection type selector for UML stencil */}
-      {stencilType === "uml" && (
-      <div style={{ marginBottom: 8 }}>
-        <label style={{ fontSize: 12, fontWeight: 600 }}>Connection:</label>
-        <select
-          value={connectionType}
-          onChange={e => setConnectionType(e.target.value)}
-          style={{ width: "100%", marginTop: 4 }}
-        >
-          // https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
-          <option value="association">Association</option>
-          <option value="inheritance">Inheritance</option>
-          <option value="realization">Realization</option>
-          <option value="dependency">Dependency</option>
-          <option value="aggregation">Aggregation</option>
-          <option value="composition">Composition</option>
-        </select>
-      </div>
-      )}
-      <Stencil stencilType={stencilType} />
+      <Stencil stencilType={stencilType} orientation={orientation} />
     </div>
   );
 };

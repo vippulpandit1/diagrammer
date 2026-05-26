@@ -29,6 +29,7 @@ function App() {
   const [toolbarOpen, setToolbarOpen] = useState(true)
   const [toolbarPos, setToolbarPos] = useState({ x: 40, y: 100 });
   const [draggingToolbar, setDraggingToolbar] = useState(false);
+  const [toolbarOrientation, setToolbarOrientation] = useState<"vertical" | "horizontal">("vertical");
   const [, setSelectedItem] = useState<Glyph | Connection | null>(null);
 
   const [selectedConnection, setSelectedConnection] = useState<Connection | null>(null) // for new connection in progress
@@ -201,6 +202,9 @@ function App() {
           if (typeof parsed.connectionType === "string") {
             setConnectionType(parsed.connectionType as "association" | "inheritance" | "default");
           }
+          if (parsed.toolbarOrientation === "vertical" || parsed.toolbarOrientation === "horizontal") {
+            setToolbarOrientation(parsed.toolbarOrientation);
+          }
         }
         addMessage(`Loaded ${newPages.length} page(s) from sessionStorage`);
       }
@@ -366,7 +370,7 @@ function App() {
   };
 
   const handleSave = () => {
-    const json = JSON.stringify({ pages, stencilType, connectionType });
+    const json = JSON.stringify({ pages, stencilType, connectionType, toolbarOrientation });
     sessionStorage.setItem("canvasData", json);
     addMessage("Canvas data saved to sessionStorage");
 /*
@@ -400,7 +404,7 @@ function App() {
       >
       {/* Floating Toolbar */}
       {toolbarOpen && (
-        <div className="workspace-toolbar"
+        <div className={`workspace-toolbar workspace-toolbar--${toolbarOrientation}`}
           style={{
             position: "absolute",
             left: toolbarPos.x,
@@ -409,11 +413,11 @@ function App() {
             cursor: draggingToolbar ? "move" : "default",
             userSelect: "none",
           }}
-        >   
-        <div
+        >
+          <div
             style={{
               width: "100%",
-              height: 18,
+              height: 22,
               cursor: "grab",
               background: "#e0e7ef",
               borderTopLeftRadius: 8,
@@ -421,13 +425,18 @@ function App() {
               marginBottom: 2,
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "space-between",
+              paddingLeft: 8,
+              paddingRight: 4,
               fontSize: 12,
               color: "#334155",
               fontWeight: 600,
               letterSpacing: 1,
+              flexShrink: 0,
             }}
             onPointerDown={e => {
+              // Don't drag when clicking the orientation button
+              if ((e.target as HTMLElement).closest("button")) return;
               setDraggingToolbar(true);
               const startX = e.clientX;
               const startY = e.clientY;
@@ -449,15 +458,46 @@ function App() {
               window.addEventListener("mouseup", handleMouseUp);
             }}
           >
-            Toolbar
+            <span>Toolbar</span>
+            <button
+              title={toolbarOrientation === "vertical" ? "Switch to horizontal" : "Switch to vertical"}
+              onClick={() => setToolbarOrientation(o => o === "vertical" ? "horizontal" : "vertical")}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "1px 3px",
+                borderRadius: 4,
+                color: "#334155",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {toolbarOrientation === "vertical" ? (
+                /* Horizontal layout icon */
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="1" y="3" width="4" height="10" rx="1"/>
+                  <rect x="6" y="3" width="4" height="10" rx="1"/>
+                  <rect x="11" y="3" width="4" height="10" rx="1"/>
+                </svg>
+              ) : (
+                /* Vertical layout icon */
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="3" y="1" width="10" height="4" rx="1"/>
+                  <rect x="3" y="6" width="10" height="4" rx="1"/>
+                  <rect x="3" y="11" width="10" height="4" rx="1"/>
+                </svg>
+              )}
+            </button>
           </div>
-`         <Toolbar
+          <Toolbar
             stencilType={stencilType}
             setStencilType={setStencilType}
             connectionType={connectionType}
             setConnectionType={(type: string) => setConnectionType(type as "default" | "association" | "inheritance")}
-          />`
-          </div>
+            orientation={toolbarOrientation}
+          />
+        </div>
         )}
         {!toolbarOpen && (
           <button
