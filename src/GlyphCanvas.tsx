@@ -384,6 +384,17 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     return items.sort((a, b) => a.index - b.index);
   })();
 
+  // --- Canvas content bounds (for scrolling) ---
+  const CANVAS_PADDING = 200;
+  const canvasContentWidth = glyphsToRender.reduce((max, glyph) => {
+    const { w } = computeGlyphSize(glyph);
+    return Math.max(max, glyph.x + w + CANVAS_PADDING);
+  }, CANVAS_PADDING);
+  const canvasContentHeight = glyphsToRender.reduce((max, glyph) => {
+    const { h } = computeGlyphSize(glyph);
+    return Math.max(max, glyph.y + h + CANVAS_PADDING);
+  }, CANVAS_PADDING);
+
   // --- Render ---
   return (
     <div
@@ -400,6 +411,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
         style={{
           transform: `scale(${zoom})`,
           transformOrigin: '0 0',
+          minWidth: canvasContentWidth,
+          minHeight: canvasContentHeight,
           width: '100%',
           height: '100%',
           position: 'relative',
