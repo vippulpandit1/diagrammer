@@ -112,6 +112,37 @@ const STENCIL_GLYPHS = {
   mcp: [
     { type: "mcp-glyph", label: "MCP Glyph", inputs: 2, outputs: 2 },
   ],
+  bpmn: [
+    // Events
+    { type: "bpmn-start-event",        label: "Start",            inputs: 0, outputs: 1 },
+    { type: "bpmn-end-event",          label: "End",              inputs: 1, outputs: 0 },
+    { type: "bpmn-intermediate-event", label: "Intermediate",     inputs: 1, outputs: 1 },
+    { type: "bpmn-start-message",      label: "Msg Start",        inputs: 0, outputs: 1 },
+    { type: "bpmn-end-message",        label: "Msg End",          inputs: 1, outputs: 0 },
+    { type: "bpmn-intermediate-timer", label: "Timer",            inputs: 1, outputs: 1 },
+    { type: "bpmn-start-error",        label: "Error Start",      inputs: 0, outputs: 1 },
+    { type: "bpmn-start-signal",       label: "Signal Start",     inputs: 0, outputs: 1 },
+    // Activities
+    { type: "bpmn-task",               label: "Task",             inputs: 1, outputs: 1 },
+    { type: "bpmn-subprocess",         label: "Sub-Process",      inputs: 1, outputs: 1 },
+    { type: "bpmn-call-activity",      label: "Call Activity",    inputs: 1, outputs: 1 },
+    { type: "bpmn-user-task",          label: "User Task",        inputs: 1, outputs: 1 },
+    { type: "bpmn-service-task",       label: "Service Task",     inputs: 1, outputs: 1 },
+    { type: "bpmn-send-task",          label: "Send Task",        inputs: 1, outputs: 1 },
+    { type: "bpmn-receive-task",       label: "Receive Task",     inputs: 1, outputs: 1 },
+    { type: "bpmn-script-task",        label: "Script Task",      inputs: 1, outputs: 1 },
+    // Gateways
+    { type: "bpmn-exclusive-gateway",  label: "Exclusive (XOR)",  inputs: 1, outputs: 2 },
+    { type: "bpmn-parallel-gateway",   label: "Parallel (AND)",   inputs: 1, outputs: 2 },
+    { type: "bpmn-inclusive-gateway",  label: "Inclusive (OR)",   inputs: 1, outputs: 2 },
+    { type: "bpmn-event-gateway",      label: "Event Gateway",    inputs: 1, outputs: 2 },
+    // Data
+    { type: "bpmn-data-object",        label: "Data Object",      inputs: 0, outputs: 0 },
+    { type: "bpmn-data-store",         label: "Data Store",       inputs: 0, outputs: 0 },
+    // Swimlanes
+    { type: "bpmn-pool",               label: "Pool",             inputs: 0, outputs: 0 },
+    { type: "bpmn-lane",               label: "Lane",             inputs: 0, outputs: 0 },
+  ],
 };
 // small helper that returns a short explanation for a glyph type.
 // you can expand this mapping or add `description` to individual stencil entries.

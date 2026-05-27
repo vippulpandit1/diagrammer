@@ -9,7 +9,8 @@ const STENCILS = [
   { key: "debug", label: "Debug" },
   { key: "network", label: "Network" },
   { key: "flowchart", label: "Flowchart" },
-  { key: "mcp", label: "MCP" }
+  { key: "mcp", label: "MCP" },
+  { key: "bpmn", label: "BPMN" },
 ] as const;
 
 type StencilType = (typeof STENCILS)[number]["key"];

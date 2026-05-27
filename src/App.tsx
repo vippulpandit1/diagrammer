@@ -17,7 +17,7 @@ const INITIAL_PAGE: Page = {
   connections: [/* your initial connections can go here */],
 };
 
-type StencilType = "basic" | "logic" | "uml" | "debug" | "network" | "flowchart" | "mcp";
+type StencilType = "basic" | "logic" | "uml" | "debug" | "network" | "flowchart" | "mcp" | "bpmn";
 
 function App() {
   
@@ -205,6 +205,13 @@ function App() {
           if (parsed.toolbarOrientation === "vertical" || parsed.toolbarOrientation === "horizontal") {
             setToolbarOrientation(parsed.toolbarOrientation);
           }
+          if (
+            parsed.toolbarPos &&
+            typeof parsed.toolbarPos.x === "number" &&
+            typeof parsed.toolbarPos.y === "number"
+          ) {
+            setToolbarPos(parsed.toolbarPos);
+          }
         }
         addMessage(`Loaded ${newPages.length} page(s) from sessionStorage`);
       }
@@ -370,7 +377,7 @@ function App() {
   };
 
   const handleSave = () => {
-    const json = JSON.stringify({ pages, stencilType, connectionType, toolbarOrientation });
+    const json = JSON.stringify({ pages, stencilType, connectionType, toolbarOrientation, toolbarPos });
     sessionStorage.setItem("canvasData", json);
     addMessage("Canvas data saved to sessionStorage");
 /*

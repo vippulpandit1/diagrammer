@@ -525,7 +525,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                         onMoveGlyph(glyph.id, newRect.x, newRect.y);
                       }
                     } else {
-                      if (glyph.type === "resizable-rectangle") {
+                      if (glyph.type === "resizable-rectangle" || glyph.type === "bpmn-pool" || glyph.type === "bpmn-lane") {
                         console.log("Resized glyph:", glyph.id, newRect);
                         //newRect.x = glyph.x;
                         //newRect.y = glyph.y;

@@ -22,6 +22,7 @@ import type { Glyph } from "./Glyph";
 import { NetworkGlyph } from "./type/network/NetworkGlyph";
 import { TextGlyph } from "./type/basic/TextGlyph";
 import { FlowchartGlyph } from "./type/flowchart/FlowchartGlyph";
+import { BPMNGlyph } from "./type/bpmn/BPMNGlyph";
 import ResizableRectangleGlyph from "./type/basic/ResizableRectangleGlyph";
 import PngGlyph from "./type/basic/PngGlyph";
 import iconPng from '../image/free-sample.png';
@@ -281,6 +282,32 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
           strokeWidth={2}
         />
       );
+    case "bpmn-start-event":
+    case "bpmn-end-event":
+    case "bpmn-intermediate-event":
+    case "bpmn-start-message":
+    case "bpmn-end-message":
+    case "bpmn-intermediate-timer":
+    case "bpmn-start-error":
+    case "bpmn-start-signal":
+    case "bpmn-task":
+    case "bpmn-subprocess":
+    case "bpmn-call-activity":
+    case "bpmn-user-task":
+    case "bpmn-service-task":
+    case "bpmn-send-task":
+    case "bpmn-receive-task":
+    case "bpmn-script-task":
+    case "bpmn-exclusive-gateway":
+    case "bpmn-parallel-gateway":
+    case "bpmn-inclusive-gateway":
+    case "bpmn-event-gateway":
+    case "bpmn-data-object":
+    case "bpmn-data-store":
+      return <BPMNGlyph type={type} width={width} height={height} />;
+    case "bpmn-pool":
+    case "bpmn-lane":
+      return <BPMNGlyph type={type} width={width} height={height} selected={true} onResize={onResize} />;
     default:
       return <rect x={0} y={0} width={width} height={height} fill="#ccc" />;
 
