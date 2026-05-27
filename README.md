@@ -32,6 +32,7 @@ graph TD
             UML[UML Class/Interface]
             Network[Network Icons]
             MCP[MCP Components]
+            BPMN[BPMN]
         end
     end
 
@@ -53,6 +54,7 @@ graph TD
     GlyphCanvas --> GlyphRenderer
     GlyphRenderer --> Basic
     GlyphRenderer --> Logic
+    GlyphRenderer --> BPMN
     GlyphRenderer ...-> Glyph_Types
     GlyphRenderer --> GlyphClass
     
@@ -73,8 +75,22 @@ graph TD
   - **Model**: Defined by the `Glyph` class in [src/glyph/Glyph.tsx](src/glyph/Glyph.tsx).
   - **Rendering**: Dispatched via [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx) based on `glyph.type`.
   - **Registry**: [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx) maps glyph types to metadata and custom Property Sheet components.
-- **Canvas Engine**: [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) handles SVG rendering, coordinate normalization (Zoom/Pan), and connection line calculations (Bezier/Manhattan/Line).
+- **Canvas Engine**: [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) handles SVG rendering, coordinate normalization (Zoom/Pan), connection line calculations (Bezier/Manhattan/Line), and auto-expanding scroll area when glyphs are placed beyond the visible viewport.
 - **Technology Stack**: React 19, Vite, TypeScript, and **Model Context Protocol (MCP)** integration via `use-mcp`.
+
+## BPMN Support
+
+BPMN glyphs are split into individual category files under `src/glyph/type/bpmn/`:
+
+| File | Contents |
+|------|----------|
+| `BPMNEvents.tsx` | Start, End, Intermediate, Message, Timer, Error, Signal events |
+| `BPMNActivities.tsx` | Task, Sub-Process, Call Activity, User/Service/Send/Receive/Script tasks |
+| `BPMNGateways.tsx` | Exclusive, Parallel, Inclusive, Event-Based gateways |
+| `BPMNDataObjects.tsx` | Data Object, Data Store |
+| `BPMNSwimlanes.tsx` | Pool, Lane — both resizable via corner drag handles |
+| `BPMNGlyphs.tsx` | Barrel re-export of all the above |
+| `BPMNGlyph.tsx` | Central switch-case renderer dispatching to the above components |
 
 ## Getting Started
 
