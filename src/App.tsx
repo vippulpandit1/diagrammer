@@ -55,46 +55,35 @@ function App() {
     if (toolbarElement) {
       toolbarElement.classList.add("hide-for-print");
     }
-    const canvasContent = canvasElement.innerHTML;
 
     const printWindow = window.open("", "_blank");
-    if (!printWindow) return;
+    if (!printWindow) {
+      if (toolbarElement) toolbarElement.classList.remove("hide-for-print");
+      return;
+    }
 
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Canvas</title>
-          <style>
-            body {
-              margin: 0;
-              padding: 0;
-            }
-            .workspace-canvas {
-              position: relative;
-              width: 100%;
-              height: 100%;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="workspace-canvas">
-            ${canvasContent}
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
+    // Build the print document using DOM APIs instead of document.write()
+    // to avoid XSS via innerHTML interpolation (OWASP A03).
+    const doc = printWindow.document;
+    doc.title = "Print Canvas";
 
-    printWindow.onload = () => {
-      printWindow.print();
-      printWindow.close();
+    const style = doc.createElement("style");
+    style.textContent =
+      "body { margin: 0; padding: 0; } .workspace-canvas { position: relative; width: 100%; height: 100%; }";
+    doc.head.appendChild(style);
 
-      // Restore the toolbar after printing
-      if (toolbarElement) {
-        toolbarElement.classList.remove("hide-for-print");
-      }
-    };
+    const wrapper = doc.createElement("div");
+    wrapper.className = "workspace-canvas";
+    // cloneNode + importNode copies the live DOM without going through innerHTML serialization
+    wrapper.appendChild(doc.importNode(canvasElement.cloneNode(true) as HTMLElement, true));
+    doc.body.appendChild(wrapper);
+
+    printWindow.print();
+    printWindow.close();
+
+    if (toolbarElement) {
+      toolbarElement.classList.remove("hide-for-print");
+    }
   };
 
     // Handler for adding a new page
