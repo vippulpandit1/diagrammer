@@ -158,7 +158,9 @@ function App() {
   // Load zoom from sessionStorage or default to 1
   const [zoom, setZoom] = useState(() => {
     const saved = sessionStorage.getItem("zoomRatio");
-    return saved ? Number(saved) : 1;
+    const parsed = saved ? Number(saved) : 1;
+    // Guard against NaN / Infinity / out-of-range values from tampered storage
+    return Number.isFinite(parsed) ? Math.min(Math.max(parsed, 0.2), 2) : 1;
   });
 
   // Save zoom to sessionStorage whenever it changes
@@ -235,6 +237,11 @@ function App() {
       addMessage(`Moved glyph ${id} to (${x}, ${y})`);
       activePage.glyphs = activePage.glyphs.map(g => (g.id === id ? { ...g, x, y } : g));
     }
+  };
+  const handleResizeGlyph = (id: string, x: number, y: number, width: number, height: number) => {
+    activePage.glyphs = activePage.glyphs.map(g =>
+      g.id === id ? { ...g, x, y, width, height } : g
+    );
   };
   const bringGlyphToFront = (glyphId: string) => {
     const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
@@ -514,6 +521,7 @@ function App() {
             glyphs={activePage.glyphs}
             connections={activePage.connections}
             onMoveGlyph={handleMoveGlyph}
+            onResizeGlyph={handleResizeGlyph}
             onAddConnection={conn => {
               activePage.connections = [...activePage.connections, conn];
             }}

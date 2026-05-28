@@ -136,6 +136,7 @@ interface GlyphCanvasProps {
   connectorType: "bezier" | "manhattan" | "line";
   onConnectionClick?: (conn: Connection) => void;
   onMessage?: (msg: string) => void;
+  onResizeGlyph?: (id: string, x: number, y: number, width: number, height: number) => void;
 }
 
 export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
@@ -156,7 +157,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   ungroupGlyphs,
   connectorType,
   onConnectionClick,
-  onMessage
+  onMessage,
+  onResizeGlyph,
 }) => {
   // --- State ---
   const activePage = pages[activePageIdx];
@@ -178,6 +180,17 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const [hoveredPort, setHoveredPort] = useState<null | { glyphId: string, portIdx: number }>(null);
   // add rect state here (parent owns the rect)
   const [, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
+  const [resizing, setResizing] = useState<{
+    id: string;
+    handle: 'tl' | 'tr' | 'bl' | 'br' | 'tc' | 'bc' | 'ml' | 'mr';
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    origW: number;
+    origH: number;
+  } | null>(null);
+  const [, setResizeMouse] = useState<{ x: number; y: number } | null>(null);
   // Your existing rendering logic now uses `activePage.glyphs` and `activePage.connections`
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
@@ -241,6 +254,41 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [dragConn, zoom]);
+  useEffect(() => {
+    if (!resizing) return;
+    const handlePointerMove = (e: PointerEvent) => {
+      const dx = (e.clientX - resizing.startX) / zoom;
+      const dy = (e.clientY - resizing.startY) / zoom;
+      let x = resizing.origX;
+      let y = resizing.origY;
+      let w = resizing.origW;
+      let h = resizing.origH;
+      switch (resizing.handle) {
+        case 'tl': x = resizing.origX + dx; y = resizing.origY + dy; w = resizing.origW - dx; h = resizing.origH - dy; break;
+        case 'tr': y = resizing.origY + dy; w = resizing.origW + dx; h = resizing.origH - dy; break;
+        case 'bl': x = resizing.origX + dx; w = resizing.origW - dx; h = resizing.origH + dy; break;
+        case 'br': w = resizing.origW + dx; h = resizing.origH + dy; break;
+        case 'tc': y = resizing.origY + dy; h = resizing.origH - dy; break;
+        case 'bc': h = resizing.origH + dy; break;
+        case 'ml': x = resizing.origX + dx; w = resizing.origW - dx; break;
+        case 'mr': w = resizing.origW + dx; break;
+      }
+      w = Math.max(40, w);
+      h = Math.max(40, h);
+      onResizeGlyph?.(resizing.id, x, y, w, h);
+      setResizeMouse({ x: e.clientX, y: e.clientY });
+    };
+    const handlePointerUp = () => {
+      setResizing(null);
+      setResizeMouse(null);
+    };
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [resizing, zoom, onResizeGlyph]);
   const getConnectionPathMulti = (
     from: { x: number; y: number },
     points: { x: number; y: number }[],
@@ -259,44 +307,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   };
   // --- Handlers ---
   const handleMouseDown = (e: React.MouseEvent, glyph: Glyph) => {
-    if (glyph.type === "resizable-rectangle") {
-      // Check if the click is on a corner handle
-      const { x, y } = glyph;
-      const width = glyph.width ?? 120;
-      const height = glyph.height ?? 80;
-      const HANDLE_RADIUS = 6; // Same as the handle radius in ResizableRectangleGlyph
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-
-      // Define the positions of the corner handles
-      const handles = [
-        { cx: x, cy: y }, // Top-left
-        { cx: x + width, cy: y }, // Top-right
-        { cx: x, cy: y + height }, // Bottom-left
-        { cx: x + width, cy: y + height }, // Bottom-right
-      ];
-
-      // Check if the mouse is within any handle
-      const isOnHandle = handles.some(
-        handle =>
-          Math.abs(mouseX - handle.cx) <= HANDLE_RADIUS &&
-          Math.abs(mouseY - handle.cy) <= HANDLE_RADIUS
-      );
-
-      if (isOnHandle) {
-        console.log("Clicked on handle, not starting drag");
-        // If the click is on a handle, do not start dragging
-        return;
-      }
-    }
-
-    // Default dragging logic
     setDragging({
       id: glyph.id,
       offsetX: e.clientX - glyph.x,
       offsetY: e.clientY - glyph.y,
     });
-
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -555,6 +570,47 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     // width and height are constants and should not be reassigned here
                   }}
                 />
+                {/* Resize handles for selected glyph */}
+                {selectedGlyphId === glyph.id && (
+                  <g>
+                    {([
+                      { h: 'tl' as const, cx: 0, cy: 0, cursor: 'nwse-resize' },
+                      { h: 'tr' as const, cx: width, cy: 0, cursor: 'nesw-resize' },
+                      { h: 'bl' as const, cx: 0, cy: height, cursor: 'nesw-resize' },
+                      { h: 'br' as const, cx: width, cy: height, cursor: 'nwse-resize' },
+                      { h: 'tc' as const, cx: width / 2, cy: 0, cursor: 'n-resize' },
+                      { h: 'bc' as const, cx: width / 2, cy: height, cursor: 's-resize' },
+                      { h: 'ml' as const, cx: 0, cy: height / 2, cursor: 'w-resize' },
+                      { h: 'mr' as const, cx: width, cy: height / 2, cursor: 'e-resize' },
+                    ]).map(handle => (
+                      <rect
+                        key={handle.h}
+                        x={handle.cx - 4}
+                        y={handle.cy - 4}
+                        width={8}
+                        height={8}
+                        fill="#fff"
+                        stroke="#2563eb"
+                        strokeWidth={1.5}
+                        rx={1}
+                        style={{ cursor: handle.cursor, touchAction: 'none' }}
+                        onPointerDown={e => {
+                          e.stopPropagation();
+                          setResizing({
+                            id: glyph.id,
+                            handle: handle.h,
+                            startX: e.clientX,
+                            startY: e.clientY,
+                            origX: glyph.x,
+                            origY: glyph.y,
+                            origW: width,
+                            origH: height,
+                          });
+                        }}
+                      />
+                    ))}
+                  </g>
+                )}
                 <text
                   x={(() => {
                     if (glyph.data?.labelAlign === "left") return 8;

@@ -35,7 +35,7 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
     case "circle":
       return <CircleGlyph size={width} />;
     case "resizable-rectangle":
-      return <ResizableRectangleGlyph width={width} height={height ?? width} selected={true} onResize={onResize}/>;
+      return <ResizableRectangleGlyph width={width} height={height ?? width} selected={false} onResize={onResize}/>;
     case "png-glyph":
       return <PngGlyph
           x={0}
