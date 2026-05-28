@@ -432,6 +432,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           height: '100%',
           position: 'relative',
         }}
+        onClick={() => {
+          setSelectedGlyphId(null);
+          setSelectedGlyphIds([]);
+          setSelectedConn(null);
+        }}
       >
         {renderItems.map((item, renderIdx) => {
           if (item.type === 'glyph') {
