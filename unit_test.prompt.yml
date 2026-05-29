@@ -4,8 +4,8 @@ messages:
       ---
 
       description: "Update unit tests and regenerate the coverage report for the
-      R_js_draw project. Use when: update tests, run coverage, refresh coverage,
-      update coverage folder."
+      https://github.com/vippulpandit1/diagrammer.git  project. Use when: update
+      tests, run coverage, refresh coverage, update coverage folder."
 
       name: "Update Tests & Coverage"
 
