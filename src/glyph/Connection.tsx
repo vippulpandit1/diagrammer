@@ -43,6 +43,6 @@ export class Connection {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(obj: any): Connection {
-    return new Connection(obj.id, obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.type || "default", obj.label || "");
+    return new Connection(obj.id, obj.fromGlyphId, obj.fromPortId, obj.toGlyphId, obj.toPortId, obj.label || "", obj.type || "default");
   }
 }

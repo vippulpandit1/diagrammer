@@ -1,0 +1,223 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for src/glyph/type/bpmn/BPMNGlyph.tsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/glyph/type/bpmn</a> BPMNGlyph.tsx</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/39</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/39</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright (c) 2025 Vippul Pandit. All rights reserved.
+<span class="cstat-no" title="statement not covered" >import React from "react";</span>
+<span class="cstat-no" title="statement not covered" >import { BPMNStartEvent, BPMNEndEvent, BPMNIntermediateEvent, BPMNStartMessageEvent, BPMNEndMessageEvent, BPMNIntermediateTimerEvent, BPMNStartErrorEvent, BPMNStartSignalEvent } from "./BPMNEvents";</span>
+<span class="cstat-no" title="statement not covered" >import { BPMNTask, BPMNSubProcess, BPMNCallActivity, BPMNUserTask, BPMNServiceTask, BPMNSendTask, BPMNReceiveTask, BPMNScriptTask } from "./BPMNActivities";</span>
+<span class="cstat-no" title="statement not covered" >import { BPMNExclusiveGateway, BPMNParallelGateway, BPMNInclusiveGateway, BPMNEventBasedGateway } from "./BPMNGateways";</span>
+<span class="cstat-no" title="statement not covered" >import { BPMNDataObject, BPMNDataStore } from "./BPMNDataObjects";</span>
+<span class="cstat-no" title="statement not covered" >import { BPMNPool, BPMNLane } from "./BPMNSwimlanes";</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const BPMNGlyph: React.FC&lt;{ type: string; width?: number; height?: number; selected?: boolean; onResize?: (rect: { x: number; y: number; width: number; height: number }) =&gt; void }&gt; = ({</span>
+<span class="cstat-no" title="statement not covered" >  type, width = 40, height = 40, selected, onResize,</span>
+<span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const p = { width, height };</span>
+<span class="cstat-no" title="statement not covered" >  switch (type) {</span>
+    // Events
+<span class="cstat-no" title="statement not covered" >    case "bpmn-start-event":           return &lt;BPMNStartEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-end-event":             return &lt;BPMNEndEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-intermediate-event":    return &lt;BPMNIntermediateEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-start-message":         return &lt;BPMNStartMessageEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-end-message":           return &lt;BPMNEndMessageEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-intermediate-timer":    return &lt;BPMNIntermediateTimerEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-start-error":           return &lt;BPMNStartErrorEvent {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-start-signal":          return &lt;BPMNStartSignalEvent {...p} /&gt;;</span>
+    // Activities
+<span class="cstat-no" title="statement not covered" >    case "bpmn-task":                  return &lt;BPMNTask {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-subprocess":            return &lt;BPMNSubProcess {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-call-activity":         return &lt;BPMNCallActivity {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-user-task":             return &lt;BPMNUserTask {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-service-task":          return &lt;BPMNServiceTask {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-send-task":             return &lt;BPMNSendTask {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-receive-task":          return &lt;BPMNReceiveTask {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-script-task":           return &lt;BPMNScriptTask {...p} /&gt;;</span>
+    // Gateways
+<span class="cstat-no" title="statement not covered" >    case "bpmn-exclusive-gateway":     return &lt;BPMNExclusiveGateway {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-parallel-gateway":      return &lt;BPMNParallelGateway {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-inclusive-gateway":     return &lt;BPMNInclusiveGateway {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-event-gateway":         return &lt;BPMNEventBasedGateway {...p} /&gt;;</span>
+    // Data
+<span class="cstat-no" title="statement not covered" >    case "bpmn-data-object":           return &lt;BPMNDataObject {...p} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-data-store":            return &lt;BPMNDataStore {...p} /&gt;;</span>
+    // Swimlanes
+<span class="cstat-no" title="statement not covered" >    case "bpmn-pool":                  return &lt;BPMNPool {...p} selected={selected} onResize={onResize} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    case "bpmn-lane":                  return &lt;BPMNLane {...p} selected={selected} onResize={onResize} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    default:</span>
+<span class="cstat-no" title="statement not covered" >      return &lt;rect x={0} y={0} width={width} height={height} fill="#f0f9ff" stroke="#0369a1" strokeWidth={1.5} /&gt;;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-05-29T03:19:24.553Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    
