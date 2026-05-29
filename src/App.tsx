@@ -372,6 +372,31 @@ function App() {
     );
   };
 
+  const handleImport = (json: string) => {
+    try {
+      const parsed = JSON.parse(json);
+      if (parsed === null || typeof parsed !== "object") throw new Error("Invalid JSON");
+      const newPages: Page[] = Array.isArray(parsed)
+        ? parsed
+        : Array.isArray(parsed.pages)
+        ? parsed.pages
+        : null;
+      if (!newPages || newPages.length === 0) throw new Error("No pages found");
+      setPages(newPages);
+      setActivePageIdx(0);
+      if (!Array.isArray(parsed)) {
+        if (typeof parsed.stencilType === "string") setStencilType(parsed.stencilType as StencilType);
+        if (typeof parsed.connectionType === "string") setConnectionType(parsed.connectionType as "association" | "inheritance" | "default");
+        if (parsed.toolbarOrientation === "vertical" || parsed.toolbarOrientation === "horizontal") setToolbarOrientation(parsed.toolbarOrientation);
+        if (parsed.toolbarPos && typeof parsed.toolbarPos.x === "number" && typeof parsed.toolbarPos.y === "number") setToolbarPos(parsed.toolbarPos);
+      }
+      sessionStorage.setItem("canvasData", json);
+      addMessage(`Imported ${newPages.length} page(s) from file`);
+    } catch (err) {
+      addMessage(`Import failed: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
+  };
+
   const handleSave = () => {
     const json = JSON.stringify({ pages, stencilType, connectionType, toolbarOrientation, toolbarPos });
     sessionStorage.setItem("canvasData", json);
@@ -398,7 +423,8 @@ function App() {
         onSave={handleSave}
         zoom={zoom}
         onAutoArrange={handleAutoArrange}
-        onPrint={printCanvas} // Pass the printCanvas function
+        onPrint={printCanvas}
+        onImport={handleImport}
       />
       <div
         ref={canvasRef}

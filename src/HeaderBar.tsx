@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 interface HeaderBarProps {
   onClear: () => void;
@@ -7,7 +7,8 @@ interface HeaderBarProps {
   onSave: () => void;
   zoom: number;
   onAutoArrange: () => void;
-  onPrint: () => void; // Add onPrint prop
+  onPrint: () => void;
+  onImport: (json: string) => void;
 }
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({
@@ -17,8 +18,25 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onSave,
   zoom,
   onAutoArrange,
-  onPrint, // Destructure onPrint
-}) => (
+  onPrint,
+  onImport,
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = ev.target?.result;
+      if (typeof text === "string") onImport(text);
+    };
+    reader.readAsText(file);
+    // reset so the same file can be re-imported
+    e.target.value = "";
+  };
+
+  return (
   <header className="workspace-header">
     <span className="workspace-title">
       {/* App icon */}
@@ -96,6 +114,25 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
 
       <span className="workspace-header-divider" />
 
+      {/* Import JSON */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json,application/json"
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
+      <button title="Import JSON" onClick={() => fileInputRef.current?.click()}>
+        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <span>Import</span>
+      </button>
+
+      <span className="workspace-header-divider" />
+
       {/* Clear — destructive */}
       <button title="Clear Canvas" className="workspace-header-btn-danger" onClick={onClear}>
         <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
@@ -107,4 +144,5 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
       </button>
     </div>
   </header>
-);
+  );
+};
