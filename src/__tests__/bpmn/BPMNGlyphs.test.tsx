@@ -401,6 +401,45 @@ describe("BPMNPool", () => {
     fireEvent.pointerMove(window, { pointerId: 1, clientX: 650, clientY: 200 });
     expect(onResize).toHaveBeenCalled();
   });
+
+  it("calls onResize when tl handle is pointer-dragged", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <BPMNPool width={600} height={160} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[0]; // tl
+    (handle as SVGElement & { setPointerCapture: (id: number) => void }).setPointerCapture =
+      vi.fn();
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 50, clientY: 50 });
+    expect(onResize).toHaveBeenCalled();
+  });
+
+  it("calls onResize when tr handle is pointer-dragged", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <BPMNPool width={600} height={160} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[1]; // tr
+    (handle as SVGElement & { setPointerCapture: (id: number) => void }).setPointerCapture =
+      vi.fn();
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 600, clientY: 0 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 650, clientY: 50 });
+    expect(onResize).toHaveBeenCalled();
+  });
+
+  it("calls onResize when bl handle is pointer-dragged", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <BPMNPool width={600} height={160} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[2]; // bl
+    (handle as SVGElement & { setPointerCapture: (id: number) => void }).setPointerCapture =
+      vi.fn();
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 0, clientY: 160 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 50, clientY: 200 });
+    expect(onResize).toHaveBeenCalled();
+  });
 });
 
 describe("BPMNLane", () => {
@@ -432,6 +471,19 @@ describe("BPMNLane", () => {
       <BPMNLane width={600} height={80} selected={false} />
     );
     expect(container.querySelectorAll("circle")).toHaveLength(0);
+  });
+
+  it("calls onResize when br handle is pointer-dragged", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <BPMNLane width={600} height={80} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[3]; // br corner
+    (handle as SVGElement & { setPointerCapture: (id: number) => void }).setPointerCapture =
+      vi.fn();
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 600, clientY: 80 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 650, clientY: 120 });
+    expect(onResize).toHaveBeenCalled();
   });
 });
 
