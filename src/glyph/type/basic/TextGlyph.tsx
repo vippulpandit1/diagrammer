@@ -19,14 +19,19 @@ export const TextGlyph: React.FC<TextGlyphProps> = ({
   fontFamily = "Arial",
   textColor = "#222"
 }) => {
-  // If no explicit fontSize, fit the text to the current box dimensions
-  const effectiveFontSize = fontSize ?? Math.max(
-    8,
-    Math.floor(Math.min(
-      height * 0.5,
-      label.length > 0 ? width / (label.length * 0.55) : width
-    ))
-  );
+  const sourceText = fullLabel ?? label;
+
+  // Font size: explicit value or derived from box height
+  const effectiveFontSize = fontSize ?? Math.max(8, Math.floor(height * 0.5));
+
+  // How many characters fit given the current width at this font size
+  const charWidth = effectiveFontSize * 0.55;
+  const maxChars = Math.max(1, Math.floor(width / charWidth));
+
+  const displayText =
+    sourceText.length <= maxChars
+      ? sourceText
+      : sourceText.slice(0, Math.max(1, maxChars - 3)) + "...";
   return (
     <g>
       <title>{fullLabel ?? label}</title>
@@ -49,7 +54,7 @@ export const TextGlyph: React.FC<TextGlyphProps> = ({
         fill={textColor}
         style={{ pointerEvents: "none", userSelect: "none" }}
       >
-        {label}
+        {displayText}
       </text>
     </g>
   );
