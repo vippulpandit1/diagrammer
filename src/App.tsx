@@ -1,23 +1,24 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { Glyph } from './glyph/Glyph'
 import { GlyphCanvas } from './GlyphCanvas'
-import { Toolbar } from './Toolbar'
-import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection' // or your connection model
+import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection'
 import { HeaderBar } from './HeaderBar'
 import { PropertySheet } from './PropertySheet'
 import { BottomPanel } from './BottomPanel'
+import { FloatingToolbar } from './FloatingToolbar'
+import { PageTabs } from './PageTabs'
+import { useGlyphActions } from './hooks/useGlyphActions'
+import { usePageManagement } from './hooks/usePageManagement'
+import type { StencilType } from './Toolbar'
 import './App.css'
 import type { Page } from './glyph/Page'
-import iconPng from './image/free-sample.png';
 
 const INITIAL_PAGE: Page = {
-  id: "page-1",
-  name: "Page 1",
-  glyphs: [/* your initial glyphs can go here */],
-  connections: [/* your initial connections can go here */],
+  id: 'page-1',
+  name: 'Page 1',
+  glyphs: [],
+  connections: [],
 };
-
-type StencilType = "basic" | "logic" | "uml" | "debug" | "network" | "flowchart" | "mcp" | "bpmn";
 
 function App() {
   
@@ -40,12 +41,18 @@ function App() {
   const [connectorType, setConnectorType] = useState<"bezier" | "manhattan" | "line">("bezier");
   const [messages, setMessages] = useState<string[]>([]);
   // Handler for switching pages
-  const handlePageChange = (idx: number) => setActivePageIdx(idx);
   // track bottom panel height so tabs can sit above it
   const [panelHeight, setPanelHeight] = useState<number>(96);
-  const [editingPageIdx, setEditingPageIdx] = useState<number | null>(null);
-  const [editingPageName, setEditingPageName] = useState("");
   const canvasRef = useRef<HTMLDivElement>(null);
+  const {
+    editingPageIdx,
+    editingPageName,
+    setEditingPageName,
+    handleAddPage,
+    handleStartEditPage,
+    handleSaveEditPage,
+    handleEditPageKeyDown,
+  } = usePageManagement(pages, setPages, setActivePageIdx);
 
   const printCanvas = () => {
     const canvasElement = canvasRef.current;
@@ -87,43 +94,6 @@ function App() {
   };
 
     // Handler for adding a new page
-  const handleAddPage = () => {
-    const newPage = {
-      id: `page-${Date.now()}`,
-      name: `Page ${pages.length + 1}`,
-      glyphs: [],
-      connections: [],
-    };
-    setPages([...pages, newPage]);
-    setActivePageIdx(pages.length);
-  };
-  // Handler for starting page name edit
-  const handleStartEditPage = (idx: number, name: string) => {
-    setEditingPageIdx(idx);
-    setEditingPageName(name);
-  };
-
-  // Handler for saving page name edit
-  const handleSaveEditPage = () => {
-    if (editingPageIdx !== null && editingPageName.trim()) {
-      setPages(pages =>
-        pages.map((p, idx) =>
-          idx === editingPageIdx ? { ...p, name: editingPageName } : p
-        )
-      );
-    }
-    setEditingPageIdx(null);
-    setEditingPageName("");
-  };
-
-  // Handler for blur or Enter key
-  const handleEditPageKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleSaveEditPage();
-    if (e.key === "Escape") {
-      setEditingPageIdx(null);
-      setEditingPageName("");
-    }
-  };
   // 1. History Stack
   const [, setHistory] = useState<Page[][]>([pages]);
   // 2. Current Index
@@ -211,94 +181,18 @@ function App() {
       addMessage("Failed to load canvas data from sessionStorage");
     }
   }, []);
-  const groupGlyphs = (glyphIds: string[]) => {
-    const newGroupId = "group-" + Date.now();
-    activePage.glyphs = activePage.glyphs.map(g =>
-      glyphIds.includes(g.id) ? { ...g, groupId: newGroupId } : g
-    );
-  };
-  const ungroupGlyphs = (glyphIds: string[]) => {
-    activePage.glyphs = activePage.glyphs.map(g =>
-      glyphIds.includes(g.id) ? { ...g, groupId: undefined } : g
-    );
-  };
-  const handleMoveGlyph = (id: string, x: number, y: number) => {
-    const glyph = activePage.glyphs.find(g => g.id === id);
-    if (glyph?.groupId) {
-      const dx = x - glyph.x;
-      const dy = y - glyph.y;
-      activePage.glyphs = activePage.glyphs.map(g =>
-        g.groupId === glyph.groupId
-          ? { ...g, x: g.x + dx, y: g.y + dy }
-          : g
-      );
-      addMessage(`Moved group ${glyph.groupId}`);
-    } else {
-      addMessage(`Moved glyph ${id} to (${x}, ${y})`);
-      activePage.glyphs = activePage.glyphs.map(g => (g.id === id ? { ...g, x, y } : g));
-    }
-  };
-  const handleResizeGlyph = (id: string, x: number, y: number, width: number, height: number) => {
-    activePage.glyphs = activePage.glyphs.map(g =>
-      g.id === id ? { ...g, x, y, width, height } : g
-    );
-  };
-  const bringGlyphToFront = (glyphId: string) => {
-    const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
-    if (idx !== -1) {
-      // Move glyph to the front (end of array)
-      const newGlyphs = [...activePage.glyphs];
-      const [glyph] = newGlyphs.splice(idx, 1);
-      newGlyphs.push(glyph); // Add to end (foreground)
-      activePage.glyphs = newGlyphs;
+  const {
+    groupGlyphs,
+    ungroupGlyphs,
+    handleMoveGlyph,
+    handleResizeGlyph,
+    bringGlyphToFront,
+    sendGlyphToBack,
+    handleAutoArrange,
+    handleAddGlyph,
+    handleUpdateGlyph,
+  } = useGlyphActions(activePage, pages, activePageIdx, addMessage, updateHistory);
 
-      // Get all glyphs that are now behind the selected glyph
-      const glyphsBehind = newGlyphs.slice(0, -1); // All glyphs except the one we just moved to front
-      const glyphIdsBehind = glyphsBehind.map(g => g.id);
-
-      // Move connections associated with glyphs behind the selected glyph to the back (start of array)
-      const newConnections = [...activePage.connections];
-      const connectionsForGlyphsBehind = newConnections.filter(
-        conn => 
-          glyphIdsBehind.includes(conn.fromGlyphId) || 
-          glyphIdsBehind.includes(conn.toGlyphId)
-      );
-      const otherConnections = newConnections.filter(
-        conn => 
-          !glyphIdsBehind.includes(conn.fromGlyphId) && 
-          !glyphIdsBehind.includes(conn.toGlyphId)
-      );
-      
-      // Place connections for glyphs behind at the beginning (rendered first/behind)
-      activePage.connections = [...connectionsForGlyphsBehind, ...otherConnections];
-
-      addMessage(`Brought glyph ${glyphId} to front and sent connections of glyphs behind to back`);
-    }
-  };
-  const sendGlyphToBack = (glyphId: string) => {
-    const idx = activePage.glyphs.findIndex(g => g.id === glyphId);
-    if (idx !== -1) {
-      // Move glyph to the back
-      const newGlyphs = [...activePage.glyphs];
-      const [glyph] = newGlyphs.splice(idx, 1);
-      newGlyphs.unshift(glyph);
-      activePage.glyphs = newGlyphs;
-
-      // Find connections associated with this glyph
-      const newConnections = [...activePage.connections];
-      const glyphConnections = newConnections.filter(
-        conn => conn.fromGlyphId === glyphId || conn.toGlyphId === glyphId
-      );
-      const otherConnections = newConnections.filter(
-        conn => conn.fromGlyphId !== glyphId && conn.toGlyphId !== glyphId
-      );
-
-      // Place glyph's connections at the end so they render above the glyph
-      activePage.connections = [...otherConnections, ...glyphConnections];
-
-      addMessage(`Sent glyph ${glyphId} to back and brought its connections to front`);
-    }
-  };
   const handleClosePropertySheet = () => {
     setSelectedItem(null);
     setPropertySheetOpen(false);
@@ -307,61 +201,6 @@ function App() {
     // handler passed to BottomPanel
   const handlePanelCollapseChange = (_collapsed: boolean, height: number) => {
     setPanelHeight(height);
-  };
-  // Handler to update glyph properties
-  const handleUpdateGlyph = (id: string, updates: Partial<Glyph>) => {
-    const newPages = pages.map(page => ({
-      ...page,
-      glyphs: page.glyphs.map(glyph => (glyph.id === id ? { ...glyph, ...updates } : glyph)),
-    }));
-    updateHistory(newPages);
-    addMessage(`Updated glyph ${id}`)
-  };
-  const handleAddGlyph = (type: string, x: number, y: number, inputs?: number, outputs?: number) => {
-    const newGlyph = new Glyph(
-      `glyph-${Date.now()}`,
-      type,
-      x,
-      y,
-      [],
-      {},
-      "",
-      inputs ?? 1,
-      outputs ?? 1,
-      [],
-      [],
-      undefined,
-      undefined,
-      type == "png-glyph" ? iconPng : undefined
-    );
-    // Create a new pages array with the updated active page
-    const newPages = pages.map((page, index) => {
-      if (index === activePageIdx) {
-        addMessage(`Added glyph ${newGlyph.id} of type ${type} at (${x}, ${y})`);
-        return { ...page, glyphs: [...page.glyphs, newGlyph] };
-      }
-      return page;
-    });
-
-    updateHistory(newPages);
-  };
-  const handleAutoArrange = () => {
-    const glyphSize = 80; // space between glyphs
-    const cols = Math.ceil(Math.sqrt(activePage.glyphs.length));
-    activePage.glyphs = activePage.glyphs.map((g, i) => {
-      const row = Math.floor(i / cols);
-      const col = i % cols;
-      return new Glyph(
-        g.id,
-        g.type,
-        60 + col * glyphSize,
-        60 + row * glyphSize,
-        g.ports,
-        g.data,
-        g.label
-      );
-    });
-    addMessage("Auto-arranged glyphs");
   };
   const handleOpenPropertySheet = (glyph?: Glyph, connection?: Connection) => {
     setPropertySheetOpen(true);
@@ -432,112 +271,20 @@ function App() {
         style={{ position: "relative", width: "100%", height: "100%", overflow: "auto" }}
       >
       {/* Floating Toolbar */}
-      {toolbarOpen && (
-        <div className={`workspace-toolbar workspace-toolbar--${toolbarOrientation}`}
-          style={{
-            position: "absolute",
-            left: toolbarPos.x,
-            top: toolbarPos.y,
-            zIndex: 20,
-            cursor: draggingToolbar ? "move" : "default",
-            userSelect: "none",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              height: 22,
-              cursor: "grab",
-              background: "#e0e7ef",
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              marginBottom: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              paddingLeft: 8,
-              paddingRight: 4,
-              fontSize: 12,
-              color: "#334155",
-              fontWeight: 600,
-              letterSpacing: 1,
-              flexShrink: 0,
-            }}
-            onPointerDown={e => {
-              // Don't drag when clicking the orientation button
-              if ((e.target as HTMLElement).closest("button")) return;
-              setDraggingToolbar(true);
-              const startX = e.clientX;
-              const startY = e.clientY;
-              const origX = toolbarPos.x;
-              const origY = toolbarPos.y;
-
-              const handleMouseMove = (moveEvent: MouseEvent) => {
-                setToolbarPos({
-                  x: origX + (moveEvent.clientX - startX),
-                  y: origY + (moveEvent.clientY - startY),
-                });
-              };
-              const handleMouseUp = () => {
-                setDraggingToolbar(false);
-                window.removeEventListener("mousemove", handleMouseMove);
-                window.removeEventListener("mouseup", handleMouseUp);
-              };
-              window.addEventListener("mousemove", handleMouseMove);
-              window.addEventListener("mouseup", handleMouseUp);
-            }}
-          >
-            <span>Toolbar</span>
-            <button
-              title={toolbarOrientation === "vertical" ? "Switch to horizontal" : "Switch to vertical"}
-              onClick={() => setToolbarOrientation(o => o === "vertical" ? "horizontal" : "vertical")}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: "1px 3px",
-                borderRadius: 4,
-                color: "#334155",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {toolbarOrientation === "vertical" ? (
-                /* Horizontal layout icon */
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="1" y="3" width="4" height="10" rx="1"/>
-                  <rect x="6" y="3" width="4" height="10" rx="1"/>
-                  <rect x="11" y="3" width="4" height="10" rx="1"/>
-                </svg>
-              ) : (
-                /* Vertical layout icon */
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="3" y="1" width="10" height="4" rx="1"/>
-                  <rect x="3" y="6" width="10" height="4" rx="1"/>
-                  <rect x="3" y="11" width="10" height="4" rx="1"/>
-                </svg>
-              )}
-            </button>
-          </div>
-          <Toolbar
-            stencilType={stencilType}
-            setStencilType={setStencilType}
-            connectionType={connectionType}
-            setConnectionType={(type: string) => setConnectionType(type as "default" | "association" | "inheritance")}
-            orientation={toolbarOrientation}
-          />
-        </div>
-        )}
-        {!toolbarOpen && (
-          <button
-            className="workspace-toolbar-fab"
-            title="Show Toolbar"
-            onClick={() => setToolbarOpen(true)}
-          >
-            {/* Show icon */}
-            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" style={{ pointerEvents: "all", touchAction: "none" }}><rect x="6" y="12" width="16" height="4" rx="2"/></svg>
-          </button>
-        )}
+      <FloatingToolbar
+        toolbarOpen={toolbarOpen}
+        setToolbarOpen={setToolbarOpen}
+        toolbarPos={toolbarPos}
+        setToolbarPos={setToolbarPos}
+        draggingToolbar={draggingToolbar}
+        setDraggingToolbar={setDraggingToolbar}
+        toolbarOrientation={toolbarOrientation}
+        setToolbarOrientation={setToolbarOrientation}
+        stencilType={stencilType}
+        setStencilType={setStencilType}
+        connectionType={connectionType}
+        setConnectionType={(type: string) => setConnectionType(type as "default" | "association" | "inheritance")}
+      />
 
         {/* Glyph Canvas */}
         <GlyphCanvas
@@ -576,112 +323,20 @@ function App() {
             }}
         />
 
-      
       {/* Tabs for pages positioned relative to BottomPanel */}
-      <div
-        style={{
-          position: "fixed",
-          left: 0,
-          right: 0,
-          bottom: panelHeight, // use dynamic height from BottomPanel
-          background: "#f8fafc",
-          borderTop: "1px solid #e6e9ee",
-          borderBottom: "1px solid #e6e9ee",
-          zIndex: 1201,
-          display: "flex",
-          alignItems: "center",
-          height: 44,
-          boxShadow: "0 -1px 4px rgba(16,24,40,0.03)",
-        }}
-      >
-        {pages.map((page, idx) => (
-          <div
-            key={page.id}
-            onClick={() => handlePageChange(idx)}
-            style={{
-              padding: "0 32px",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-              background: idx === activePageIdx ? "#fff" : "transparent",
-              borderBottom: idx === activePageIdx ? "3px solid #2563eb" : "3px solid transparent",
-              fontWeight: idx === activePageIdx ? 700 : 500,
-              color: idx === activePageIdx ? "#2563eb" : "#64748b",
-              fontSize: 16,
-              letterSpacing: 0.2,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              marginRight: 4,
-              marginLeft: idx === 0 ? 16 : 0,
-              boxShadow: idx === activePageIdx ? "0 -2px 8px rgba(37,99,235,0.04)" : undefined,
-              transition: "background 0.18s, color 0.18s, border-bottom 0.18s",
-              position: "relative",
-              userSelect: "none"
-            }}
-            onDoubleClick={e => {
-              e.stopPropagation();
-              handleStartEditPage(idx, page.name);
-            }}
-          >
-           {editingPageIdx === idx ? (
-              <input
-                type="text"
-                value={editingPageName}
-                autoFocus
-                onChange={e => setEditingPageName(e.target.value)}
-                onBlur={handleSaveEditPage}
-                onKeyDown={handleEditPageKeyDown}
-                style={{
-                  fontSize: 16,
-                  fontWeight: 700,
-                  color: "#2563eb",
-                  border: "1px solid #2563eb",
-                  borderRadius: 6,
-                  padding: "2px 8px",
-                  width: 120,
-                  margin: "0 -8px",
-                  background: "#fff"
-                }}
-              />
-            ) : (
-              <>
-                {page.name}
-                {idx === activePageIdx && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      left: 8,
-                      top: 8,
-                      width: 8,
-                      height: 8,
-                      borderRadius: "50%",
-                      background: "#2563eb22",
-                      boxShadow: "0 0 0 2px #2563eb11",
-                      display: "inline-block",
-                    }}
-                  />
-                )}
-              </>
-            )}
-          </div>
-        ))}
-        <button
-          onClick={handleAddPage}
-          style={{
-            marginLeft: 16,
-            padding: "4px 12px",
-            border: "1px solid #e5e7eb",
-            borderRadius: 6,
-            background: "#f1f5f9",
-            cursor: "pointer",
-            fontSize: 15,
-            color: "#2563eb",
-          }}
-        >
-          ＋ Add Page
-        </button>
-      </div>
+      <PageTabs
+        pages={pages}
+        activePageIdx={activePageIdx}
+        panelHeight={panelHeight}
+        editingPageIdx={editingPageIdx}
+        editingPageName={editingPageName}
+        onPageChange={idx => setActivePageIdx(idx)}
+        onAddPage={handleAddPage}
+        onEditPageNameChange={setEditingPageName}
+        onStartEditPage={handleStartEditPage}
+        onSaveEditPage={handleSaveEditPage}
+        onEditPageKeyDown={handleEditPageKeyDown}
+      />
       </div>
       {/* Bottom message panel - pass handler to report height/collapse */}
       <BottomPanel

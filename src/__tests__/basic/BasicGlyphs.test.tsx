@@ -335,6 +335,75 @@ describe("ResizableRectangleGlyph", () => {
     expect(newRect.height).toBeGreaterThan(0);
   });
 
+  it("calls onResize for top-left (tl) corner drag", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <ResizableRectangleGlyph x={0} y={0} width={100} height={60} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[0]; // tl handle
+    (handle as any).setPointerCapture = vi.fn();
+
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 10, clientY: 10 });
+
+    expect(onResize).toHaveBeenCalled();
+    const rect = onResize.mock.calls[0][0];
+    expect(rect.width).toBeGreaterThan(0);
+    expect(rect.height).toBeGreaterThan(0);
+  });
+
+  it("calls onResize for top-right (tr) corner drag", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <ResizableRectangleGlyph x={0} y={0} width={100} height={60} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[1]; // tr handle
+    (handle as any).setPointerCapture = vi.fn();
+
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 100, clientY: 0 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 120, clientY: 10 });
+
+    expect(onResize).toHaveBeenCalled();
+    const rect = onResize.mock.calls[0][0];
+    expect(rect.width).toBeGreaterThan(0);
+    expect(rect.height).toBeGreaterThan(0);
+  });
+
+  it("calls onResize for bottom-left (bl) corner drag", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <ResizableRectangleGlyph x={0} y={0} width={100} height={60} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[2]; // bl handle
+    (handle as any).setPointerCapture = vi.fn();
+
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 0, clientY: 60 });
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 10, clientY: 80 });
+
+    expect(onResize).toHaveBeenCalled();
+    const rect = onResize.mock.calls[0][0];
+    expect(rect.width).toBeGreaterThan(0);
+    expect(rect.height).toBeGreaterThan(0);
+  });
+
+  it("removes event listeners and resets state on pointerUp", () => {
+    const onResize = vi.fn();
+    const { container } = renderInSvg(
+      <ResizableRectangleGlyph x={0} y={0} width={100} height={60} selected onResize={onResize} />
+    );
+    const handle = container.querySelectorAll("circle")[3]; // br handle
+    (handle as any).setPointerCapture = vi.fn();
+    (handle as any).releasePointerCapture = vi.fn();
+
+    fireEvent.pointerDown(handle, { pointerId: 1, clientX: 100, clientY: 60 });
+    // pointerUp should clean up listeners
+    fireEvent.pointerUp(window, { pointerId: 1 });
+    // No further onResize calls after pointerUp
+    const callCountAfterUp = onResize.mock.calls.length;
+    fireEvent.pointerMove(window, { pointerId: 1, clientX: 150, clientY: 100 });
+    expect(onResize.mock.calls.length).toBe(callCountAfterUp);
+  });
+
   it("does not call onResize when no handler is provided", () => {
     const { container } = renderInSvg(
       <ResizableRectangleGlyph x={0} y={0} width={100} height={60} selected />

@@ -13,7 +13,7 @@ const STENCILS = [
   { key: "bpmn", label: "BPMN" },
 ] as const;
 
-type StencilType = (typeof STENCILS)[number]["key"];
+export type StencilType = (typeof STENCILS)[number]["key"];
 // Add connection types for UML
 
 export const Toolbar: React.FC<{

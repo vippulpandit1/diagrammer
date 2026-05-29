@@ -100,4 +100,69 @@ describe("HeaderBar", () => {
     fireEvent.click(screen.getByTitle("Print Canvas"));
     expect(onPrint).toHaveBeenCalledOnce();
   });
+
+  // ── File import (handleFileChange) ─────────────────────────────────────────
+  it("reads a selected file and calls onImport with its text content", () => {
+    const onImport = vi.fn();
+    render(<HeaderBar {...defaultProps} onImport={onImport} />);
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    // Mock FileReader to synchronously invoke onload
+    const readerInstance = {
+      onload: null as any,
+      readAsText(_file: File) {
+        if (this.onload) {
+          this.onload({ target: { result: "file content" } } as any);
+        }
+      },
+    };
+    const spy = vi.spyOn(global, "FileReader").mockImplementation(
+      () => readerInstance as any
+    );
+
+    const mockFile = new File(["file content"], "test.json", { type: "application/json" });
+    Object.defineProperty(fileInput, "files", { value: [mockFile], configurable: true });
+    fireEvent.change(fileInput);
+
+    expect(onImport).toHaveBeenCalledWith("file content");
+    spy.mockRestore();
+  });
+
+  it("does nothing when no file is selected", () => {
+    const onImport = vi.fn();
+    render(<HeaderBar {...defaultProps} onImport={onImport} />);
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    Object.defineProperty(fileInput, "files", { value: [], configurable: true });
+    fireEvent.change(fileInput);
+
+    expect(onImport).not.toHaveBeenCalled();
+  });
+
+  it("does not call onImport when FileReader result is not a string", () => {
+    const onImport = vi.fn();
+    render(<HeaderBar {...defaultProps} onImport={onImport} />);
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const readerInstance = {
+      onload: null as any,
+      readAsText(_file: File) {
+        if (this.onload) {
+          this.onload({ target: { result: null } } as any);
+        }
+      },
+    };
+    const spy = vi.spyOn(global, "FileReader").mockImplementation(
+      () => readerInstance as any
+    );
+
+    const mockFile = new File([""], "empty.json");
+    Object.defineProperty(fileInput, "files", { value: [mockFile], configurable: true });
+    fireEvent.change(fileInput);
+
+    expect(onImport).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
 });
