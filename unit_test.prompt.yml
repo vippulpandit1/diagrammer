@@ -159,4 +159,4 @@ messages:
         const renderInSvg = (ui: React.ReactElement) => render(<svg>{ui}</svg>);
         ```
         If a shared version is needed, create it at `src/__tests__/testUtils.ts` and import from there.
-model: openai/gpt-4o
+model: deepseek/deepseek-v3-0324
