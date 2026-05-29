@@ -1,5 +1,6 @@
 // Copyright (c) 2025 Vippul Pandit. All rights reserved.
 import React, { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Glyph } from './glyph/Glyph';
 import { Connection, CONNECTION_TYPE_INDEX } from './glyph/Connection';
 import { GlyphRenderer } from "./glyph/GlyphRenderer";
@@ -903,7 +904,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           }
         })}
         {/* Glyph context menu */}
-        {glyphMenu && (
+        {glyphMenu && createPortal(
           <div
             style={{
               position: "fixed",
@@ -1044,11 +1045,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
               return null;
             })()}
           </div>
-        )}
+        , document.body)}
         {/* Draw connections */}
 
         {/* Draw connection context menu */}
-        {connectionMenu && (
+        {connectionMenu && createPortal(
           <div
             style={{
               position: "fixed",
@@ -1080,7 +1081,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
             </button>
             {/* You can add more connection actions here */}
           </div>
-        )}
+        , document.body)}
         {dragConn && dragMouse && (
           <svg
             style={{
