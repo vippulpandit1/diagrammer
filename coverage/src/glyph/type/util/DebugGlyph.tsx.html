@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -83,46 +83,46 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import React from "react";<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
-<span class="cstat-no" title="statement not covered" >export const DebugGlyph: React.FC&lt;{ size: number, height?: number, hasConnections?: boolean  }&gt; = ({ size, height = 50, hasConnections=false  }) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;g&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;rect x={0} y={0} width={size} height={height} </span>
-<span class="cstat-no" title="statement not covered" >        fill={hasConnections ? "#ffcccc" : "#ffe066"} // Red tint if breakpoint active</span>
-<span class="cstat-no" title="statement not covered" >        stroke={hasConnections ? "#ff0000" : "#222"} // Red border if active</span>
-<span class="cstat-no" title="statement not covered" >        strokeWidth={hasConnections ? 4 : 2} // Thicker border if active</span>
-<span class="cstat-no" title="statement not covered" >        rx={8}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;     {/* Input ports */}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;text</span>
-<span class="cstat-no" title="statement not covered" >        x={size / 2}</span>
-<span class="cstat-no" title="statement not covered" >        y={height / 2}</span>
-<span class="cstat-no" title="statement not covered" >        textAnchor="middle"</span>
-<span class="cstat-no" title="statement not covered" >        dominantBaseline="middle"</span>
-<span class="cstat-no" title="statement not covered" >        fontSize={size * 0.2}</span>
-<span class="cstat-no" title="statement not covered" >        fill="#222"</span>
-<span class="cstat-no" title="statement not covered" >      &gt;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
+export const DebugGlyph: React.FC&lt;{ size: number, height?: number, hasConnections?: boolean  }&gt; = ({ size, height = 50, hasConnections=false  }) =&gt; (
+    &lt;g&gt;
+      &lt;rect x={0} y={0} width={size} height={height} 
+        fill={hasConnections ? "#ffcccc" : "#ffe066"} // Red tint if breakpoint active
+        stroke={hasConnections ? "#ff0000" : "#222"} // Red border if active
+        strokeWidth={hasConnections ? 4 : 2} // Thicker border if active
+        rx={8}
+      /&gt;     {/* Input ports */}
+      &lt;text
+        x={size / 2}
+        y={height / 2}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize={size * 0.2}
+        fill="#222"
+      &gt;
         Debug
-<span class="cstat-no" title="statement not covered" >      &lt;/text&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/g&gt;</span>
+      &lt;/text&gt;
+    &lt;/g&gt;
 );</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -130,7 +130,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-29T03:19:24.553Z
+                at 2026-05-29T03:50:04.517Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
