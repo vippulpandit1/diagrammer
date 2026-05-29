@@ -49,6 +49,7 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return (
         <TextGlyph
           label={label}
+          fullLabel={orinLabel ?? label}
           width={width}
           height={height ?? 40}
           fontSize={glyph?.data?.fontSize}

@@ -36,6 +36,9 @@ const getConnectionPath = (
 const computeGlyphSize = (glyph: Glyph) => {
   const defaultTileSize = 60;
   if (glyph.type === "text") {
+    if (typeof glyph.width === "number" && typeof glyph.height === "number") {
+      return { w: glyph.width, h: glyph.height };
+    }
     const fontSize = glyph.data?.fontSize ?? 20;
     const label = glyph.label ?? "Text";
     const width = Math.max(60, label.length * (fontSize * 0.6) + 32);
@@ -504,7 +507,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                   if (isTextGlyph) {
                     setEditingTextId(glyph.id);
                     setEditingTextValue(glyph.label ?? "");
-                  } else if (onGlyphClick) {
+                  }
+                  if (onGlyphClick) {
                     onGlyphClick(glyph);
                   }
                 }}
@@ -616,6 +620,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                     ))}
                   </g>
                 )}
+                {!isTextGlyph && (
                 <text
                   x={(() => {
                     if (glyph.data?.labelAlign === "left") return 8;
@@ -642,6 +647,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 >
                   {glyph.label}
                 </text>
+                )}
                 {/* Connectors */}
                 {connectors.map((pt, idx) => (
                   <g key={idx}>
