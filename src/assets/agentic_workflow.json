@@ -1,0 +1,325 @@
+{
+  "pages": [
+    {
+      "id": "page-agentic-workflow",
+      "name": "Agentic Workflow",
+      "glyphs": [
+        {
+          "id": "g-enterprise",
+          "type": "rect",
+          "x": 30,
+          "y": 230,
+          "width": 130,
+          "height": 90,
+          "ports": [
+            { "id": "output-g-enterprise-1", "type": "output" },
+            { "id": "output-g-enterprise-2", "type": "output" }
+          ],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Enterprise context",
+          "inputs": 0,
+          "outputs": 2,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-orchestration",
+          "type": "resizable-rectangle",
+          "x": 200,
+          "y": 80,
+          "width": 640,
+          "height": 70,
+          "ports": [
+            { "id": "input-g-orchestration-1", "type": "input" },
+            { "id": "input-g-orchestration-2", "type": "input" },
+            { "id": "output-g-orchestration-1", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agentic orchestration layer",
+          "inputs": 2,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-workforce",
+          "type": "resizable-rectangle",
+          "x": 200,
+          "y": 195,
+          "width": 640,
+          "height": 145,
+          "ports": [
+            { "id": "input-g-workforce-1", "type": "input" },
+            { "id": "input-g-workforce-2", "type": "input" },
+            { "id": "output-g-workforce-1", "type": "output" },
+            { "id": "output-g-workforce-2", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agentic workforce",
+          "inputs": 2,
+          "outputs": 2,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-agent-1",
+          "type": "rect",
+          "x": 215,
+          "y": 240,
+          "width": 85,
+          "height": 60,
+          "ports": [],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agent",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-agent-2",
+          "type": "rect",
+          "x": 318,
+          "y": 240,
+          "width": 85,
+          "height": 60,
+          "ports": [],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agent",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-agent-3",
+          "type": "rect",
+          "x": 421,
+          "y": 240,
+          "width": 85,
+          "height": 60,
+          "ports": [],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agent",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-agent-4",
+          "type": "rect",
+          "x": 524,
+          "y": 240,
+          "width": 85,
+          "height": 60,
+          "ports": [],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agent",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-agent-5",
+          "type": "rect",
+          "x": 627,
+          "y": 240,
+          "width": 85,
+          "height": 60,
+          "ports": [],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Agent",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-toolbox",
+          "type": "resizable-rectangle",
+          "x": 200,
+          "y": 395,
+          "width": 640,
+          "height": 65,
+          "ports": [
+            { "id": "input-g-toolbox-1", "type": "input" },
+            { "id": "output-g-toolbox-1", "type": "output" },
+            { "id": "output-g-toolbox-2", "type": "output" },
+            { "id": "output-g-toolbox-3", "type": "output" },
+            { "id": "output-g-toolbox-4", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Toolbox and data connections",
+          "inputs": 1,
+          "outputs": 4,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-legacy",
+          "type": "rect",
+          "x": 200,
+          "y": 520,
+          "width": 135,
+          "height": 110,
+          "ports": [
+            { "id": "input-g-legacy-1", "type": "input" }
+          ],
+          "data": { "fontSize": 12, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Legacy systems",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-purpose",
+          "type": "rect",
+          "x": 350,
+          "y": 520,
+          "width": 140,
+          "height": 110,
+          "ports": [
+            { "id": "input-g-purpose-1", "type": "input" }
+          ],
+          "data": { "fontSize": 12, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Purpose-built solutions",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-datarepo",
+          "type": "rect",
+          "x": 505,
+          "y": 520,
+          "width": 130,
+          "height": 110,
+          "ports": [
+            { "id": "input-g-datarepo-1", "type": "input" }
+          ],
+          "data": { "fontSize": 12, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Data repository",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "g-apps",
+          "type": "rect",
+          "x": 650,
+          "y": 520,
+          "width": 140,
+          "height": 110,
+          "ports": [
+            { "id": "input-g-apps-1", "type": "input" }
+          ],
+          "data": { "fontSize": 12, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#1a237e" },
+          "label": "Applications",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "c-ent-orch",
+          "fromGlyphId": "g-enterprise",
+          "fromPortId": "output-g-enterprise-1",
+          "toGlyphId": "g-orchestration",
+          "toPortId": "input-g-orchestration-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-ent-wf",
+          "fromGlyphId": "g-enterprise",
+          "fromPortId": "output-g-enterprise-2",
+          "toGlyphId": "g-workforce",
+          "toPortId": "input-g-workforce-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-orch-wf",
+          "fromGlyphId": "g-orchestration",
+          "fromPortId": "output-g-orchestration-1",
+          "toGlyphId": "g-workforce",
+          "toPortId": "input-g-workforce-2",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-wf-orch",
+          "fromGlyphId": "g-workforce",
+          "fromPortId": "output-g-workforce-1",
+          "toGlyphId": "g-orchestration",
+          "toPortId": "input-g-orchestration-2",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-wf-tb",
+          "fromGlyphId": "g-workforce",
+          "fromPortId": "output-g-workforce-2",
+          "toGlyphId": "g-toolbox",
+          "toPortId": "input-g-toolbox-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-tb-legacy",
+          "fromGlyphId": "g-toolbox",
+          "fromPortId": "output-g-toolbox-1",
+          "toGlyphId": "g-legacy",
+          "toPortId": "input-g-legacy-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-tb-purpose",
+          "fromGlyphId": "g-toolbox",
+          "fromPortId": "output-g-toolbox-2",
+          "toGlyphId": "g-purpose",
+          "toPortId": "input-g-purpose-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-tb-datarepo",
+          "fromGlyphId": "g-toolbox",
+          "fromPortId": "output-g-toolbox-3",
+          "toGlyphId": "g-datarepo",
+          "toPortId": "input-g-datarepo-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "c-tb-apps",
+          "fromGlyphId": "g-toolbox",
+          "fromPortId": "output-g-toolbox-4",
+          "toGlyphId": "g-apps",
+          "toPortId": "input-g-apps-1",
+          "label": "",
+          "type": "default",
+          "view": { "connectionType": "line", "color": "#1a237e", "thickness": 2, "dashed": false }
+        }
+      ]
+    }
+  ],
+  "stencilType": "basic",
+  "connectionType": "association"
+}
