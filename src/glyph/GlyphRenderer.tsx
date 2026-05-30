@@ -31,7 +31,7 @@ import iconPng from '../image/free-sample.png';
 export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph, onResize }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph, onResize?: (rect: { x: number; y: number; width: number; height: number }) => void }) {
   switch (type) {
     case "rect":
-      return <RectGlyph size={width} />;
+      return <RectGlyph width={width} height={height ?? width} />;
     case "circle":
       return <CircleGlyph size={width} />;
     case "resizable-rectangle":

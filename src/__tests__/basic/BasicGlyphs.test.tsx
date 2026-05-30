@@ -44,29 +44,29 @@ describe("CircleGlyph", () => {
 // ─── RectGlyph ────────────────────────────────────────────────────────────────
 describe("RectGlyph", () => {
   it("renders a <rect> element", () => {
-    const { container } = renderInSvg(<RectGlyph size={100} />);
+    const { container } = renderInSvg(<RectGlyph width={100} height={80} />);
     expect(container.querySelector("rect")).toBeTruthy();
   });
 
-  it("sets width and height to the size prop", () => {
-    const { container } = renderInSvg(<RectGlyph size={90} />);
+  it("sets width and height from props", () => {
+    const { container } = renderInSvg(<RectGlyph width={90} height={60} />);
     const rect = container.querySelector("rect")!;
     expect(rect.getAttribute("width")).toBe("90");
-    expect(rect.getAttribute("height")).toBe("90");
+    expect(rect.getAttribute("height")).toBe("60");
   });
 
   it("fills with sky-blue #38bdf8", () => {
-    const { container } = renderInSvg(<RectGlyph size={40} />);
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} />);
     expect(container.querySelector("rect")!.getAttribute("fill")).toBe("#38bdf8");
   });
 
   it("has rounded corners (rx=8)", () => {
-    const { container } = renderInSvg(<RectGlyph size={40} />);
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} />);
     expect(container.querySelector("rect")!.getAttribute("rx")).toBe("8");
   });
 
   it("is positioned at origin (x=0, y=0)", () => {
-    const { container } = renderInSvg(<RectGlyph size={40} />);
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} />);
     const rect = container.querySelector("rect")!;
     expect(rect.getAttribute("x")).toBe("0");
     expect(rect.getAttribute("y")).toBe("0");

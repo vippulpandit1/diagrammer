@@ -84,6 +84,21 @@ describe("computeGlyphSize", () => {
     expect(h).toBeGreaterThanOrEqual(40);
   });
 
+  it("uses default fontSize=20 when data has no fontSize", () => {
+    const g = new Glyph("t3", "text", 0, 0, [], {}, "Hi");
+    // No data.fontSize → uses default 20
+    const { w, h } = computeGlyphSize(g);
+    expect(w).toBeGreaterThanOrEqual(60);
+    expect(h).toBeGreaterThanOrEqual(40);
+  });
+
+  it("uses 'Text' as default label for text glyph when label is empty string", () => {
+    const g = new Glyph("t4", "text", 0, 0, [], {}, "");
+    // label is "" which is falsy, fallback to "Text" (4 chars)
+    const { w } = computeGlyphSize(g);
+    expect(w).toBeGreaterThanOrEqual(60);
+  });
+
   it("calculates size based on label length for generic glyph", () => {
     const label = "A".repeat(20); // long label
     const g = makeGlyph("r1", "rect", 0, 0, 1, 1, label);
@@ -189,6 +204,22 @@ describe("getConnectors", () => {
     const g = makeGlyph("g0", "rect", 0, 0, 0, 0);
     const conns = getConnectors(g, 120, 80);
     expect(conns).toHaveLength(0);
+  });
+
+  it("skips attribute-outbound connectors when uml-class attributes is not an array", () => {
+    const g = new Glyph("u2", "uml-class", 0, 0, [], {}, "NullAttr", 1, 1, undefined);
+    // attributes will be undefined / not set — no attribute-outbound connectors
+    const conns = getConnectors(g, 120, 80);
+    const attrConns = conns.filter(c => c.type === "attribute-outbound");
+    expect(attrConns).toHaveLength(0);
+  });
+
+  it("skips attribute-outbound connectors for non-self-defined attribute types", () => {
+    const attrs = [{ name: "x", type: "string" as const, visibility: "public" as const }];
+    const g = new Glyph("u3", "uml-class", 0, 0, [], {}, "Cls", 1, 1, attrs);
+    const conns = getConnectors(g, 120, 80);
+    const attrConns = conns.filter(c => c.type === "attribute-outbound");
+    expect(attrConns).toHaveLength(0);
   });
 });
 

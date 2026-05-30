@@ -5,7 +5,7 @@ import { GlyphRenderer } from "../glyph/GlyphRenderer";
 
 // Stub all child glyph components so tests are fast and isolated
 vi.mock("../glyph/type/basic/RectGlyph", () => ({
-  RectGlyph: ({ size }: { size: number }) => <rect data-testid="rect-glyph" width={size} />,
+  RectGlyph: ({ width, height }: { width: number; height: number }) => <rect data-testid="rect-glyph" width={width} height={height} />,
 }));
 vi.mock("../glyph/type/basic/CircleGlyph", () => ({
   CircleGlyph: ({ size }: { size: number }) => <circle data-testid="circle-glyph" r={size} />,
@@ -320,9 +320,15 @@ describe("GlyphRenderer", () => {
   });
 
   // ── Prop forwarding ─────────────────────────────────────────────────────
-  it("forwards width to RectGlyph as size", () => {
-    const { getByTestId } = renderInSvg(<GlyphRenderer type="rect" width={150} />);
+  it("forwards width and height to RectGlyph", () => {
+    const { getByTestId } = renderInSvg(<GlyphRenderer type="rect" width={150} height={100} />);
     expect(getByTestId("rect-glyph")).toHaveAttribute("width", "150");
+    expect(getByTestId("rect-glyph")).toHaveAttribute("height", "100");
+  });
+
+  it("falls back to width when height is omitted for type rect", () => {
+    const { getByTestId } = renderInSvg(<GlyphRenderer type="rect" width={80} />);
+    expect(getByTestId("rect-glyph")).toHaveAttribute("height", "80");
   });
 
   it('uses height fallback to width when height is omitted for type "resizable-rectangle"', () => {

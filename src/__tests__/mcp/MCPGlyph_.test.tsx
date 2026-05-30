@@ -53,4 +53,27 @@ describe("MCPGlyph class", () => {
     expect(container.querySelector("rect")).toBeTruthy();
     expect(container.querySelector("text")?.textContent).toBe("Test");
   });
+
+  it("onRender falls back to 100x100 when width/height are not set", () => {
+    const g = new MCPGlyph({ id: "g2", label: "NoSize" });
+    const element = g.onRender();
+    const { container } = render(element);
+    const svg = container.querySelector("svg");
+    expect(svg?.getAttribute("width")).toBe("100");
+    expect(svg?.getAttribute("height")).toBe("100");
+  });
+
+  it("stores groupId, ports, attributes, methods when provided", () => {
+    const g = new MCPGlyph({
+      id: "g3",
+      groupId: "grp-1",
+      ports: [{ id: "p1", type: "input" }],
+      attributes: [{ name: "x", type: "string" }],
+      methods: [{ name: "run", returnType: "void" }],
+    });
+    expect(g.groupId).toBe("grp-1");
+    expect(g.ports).toHaveLength(1);
+    expect(g.attributes).toHaveLength(1);
+    expect(g.methods).toHaveLength(1);
+  });
 });
