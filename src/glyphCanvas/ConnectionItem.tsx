@@ -11,6 +11,7 @@ export interface ConnectionItemProps {
   renderIdx: number;
   selectedConn: number | null;
   hoveredConn: number | null;
+  hoveredPortId: string | null;
   glyphsToRender: Glyph[];
   connectorType: "bezier" | "manhattan" | "line";
   onSelect: (i: number) => void;
@@ -27,6 +28,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
   renderIdx,
   selectedConn,
   hoveredConn,
+  hoveredPortId,
   glyphsToRender,
   connectorType,
   onSelect,
@@ -44,6 +46,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
   const connectionThickness = conn.view?.thickness || 2;
   const connectionDashed = conn.view?.dashed || false;
   const isHovered = hoveredConn === i;
+  const isPortHovered = !!(hoveredPortId && (conn.fromPortId === hoveredPortId || conn.toPortId === hoveredPortId));
 
   const fromGlyph = glyphsToRender.find(g => g.id === conn.fromGlyphId);
   const toGlyph = glyphsToRender.find(g => g.id === conn.toGlyphId);
@@ -107,11 +110,13 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
           stroke={
             selectedConn === i
               ? "#f87171"
-              : hoveredConn === i
-                ? "#2563eb"
-                : connectionColor === "black" ? "#f87171" : connectionColor
+              : isPortHovered
+                ? "#38bdf8"
+                : hoveredConn === i
+                  ? "#2563eb"
+                  : connectionColor === "black" ? "#f87171" : connectionColor
           }
-          strokeWidth={selectedConn === i || hoveredConn === i ? 5 : connectionThickness}
+          strokeWidth={selectedConn === i || isPortHovered || hoveredConn === i ? 5 : connectionThickness}
           fill="none"
           style={{
             cursor: 'pointer',
@@ -119,9 +124,11 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
             filter:
               selectedConn === i
                 ? 'drop-shadow(0 0 4px #f87171)'
-                : hoveredConn === i
-                  ? 'drop-shadow(0 0 4px #2563eb)'
-                  : undefined,
+                : isPortHovered
+                  ? 'drop-shadow(0 0 4px #38bdf8)'
+                  : hoveredConn === i
+                    ? 'drop-shadow(0 0 4px #2563eb)'
+                    : undefined,
           }}
           onClick={e => {
             e.stopPropagation();

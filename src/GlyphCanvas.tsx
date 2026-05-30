@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
 import { Connection } from './glyph/Connection';
-import { computeGlyphSize, getConnectionPath } from './glyphCanvas/canvasUtils';
+import { computeGlyphSize, getConnectionPath, getConnectors } from './glyphCanvas/canvasUtils';
 import { GlyphItem } from './glyphCanvas/GlyphItem';
 import { ConnectionItem } from './glyphCanvas/ConnectionItem';
 import { ContextMenus } from './glyphCanvas/ContextMenus';
@@ -52,6 +52,16 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
   const selectedConnId = selectedConn !== null ? (connectionsToRender[selectedConn]?.id ?? null) : null;
+
+  const hoveredPortId = hoveredPort
+    ? (() => {
+        const g = glyphsToRender.find(gl => gl.id === hoveredPort.glyphId);
+        if (!g) return null;
+        const { w, h } = computeGlyphSize(g);
+        const connectors = getConnectors(g, w, h);
+        return connectors[hoveredPort.portIdx]?.id ?? null;
+      })()
+    : null;
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
   // --- Effects ---
@@ -340,6 +350,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 renderIdx={renderIdx}
                 selectedConn={selectedConn}
                 hoveredConn={hoveredConn}
+                hoveredPortId={hoveredPortId}
                 glyphsToRender={glyphsToRender}
                 connectorType={connectorType}
                 onSelect={idx => setSelectedConn(selectedConn === idx ? null : idx)}
