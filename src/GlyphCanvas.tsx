@@ -51,6 +51,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
 
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
+  const selectedConnId = selectedConn !== null ? (connectionsToRender[selectedConn]?.id ?? null) : null;
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
   // --- Effects ---
@@ -271,6 +272,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 renderIdx={renderIdx}
                 selectedGlyphId={selectedGlyphId}
                 selectedGlyphIds={selectedGlyphIds}
+                selectedConnId={selectedConnId}
                 hoveredPort={hoveredPort}
                 dragConn={dragConn}
                 editingTextId={editingTextId}

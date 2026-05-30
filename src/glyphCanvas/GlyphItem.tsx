@@ -12,6 +12,7 @@ export interface GlyphItemProps {
   // Render state
   selectedGlyphId: string | null;
   selectedGlyphIds: string[];
+  selectedConnId: string | null;
   hoveredPort: { glyphId: string; portIdx: number } | null;
   dragConn: DragConnState | null;
   editingTextId: string | null;
@@ -44,6 +45,7 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
   renderIdx,
   selectedGlyphId,
   selectedGlyphIds,
+  selectedConnId,
   hoveredPort,
   dragConn,
   editingTextId,
@@ -250,14 +252,22 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
             cy={pt.cy}
             r={7}
             fill={
-              hoveredPort &&
-              hoveredPort.glyphId === glyph.id &&
-              hoveredPort.portIdx === idx
+              hoveredPort && hoveredPort.glyphId === glyph.id && hoveredPort.portIdx === idx
                 ? "#38bdf8"
-                : "#fff"
+                : selectedConnId && allConnections.find(c => c.id === selectedConnId && (c.fromPortId === pt.id || c.toPortId === pt.id))
+                  ? "#fecaca"
+                  : "#fff"
             }
-            stroke="#222"
-            strokeWidth={2}
+            stroke={
+              selectedConnId && allConnections.find(c => c.id === selectedConnId && (c.fromPortId === pt.id || c.toPortId === pt.id))
+                ? "#f87171"
+                : "#222"
+            }
+            strokeWidth={
+              selectedConnId && allConnections.find(c => c.id === selectedConnId && (c.fromPortId === pt.id || c.toPortId === pt.id))
+                ? 3
+                : 2
+            }
             style={{ cursor: pt.type === 'output' ? 'crosshair' : 'pointer' }}
             onPointerDown={e => {
               e.stopPropagation();
