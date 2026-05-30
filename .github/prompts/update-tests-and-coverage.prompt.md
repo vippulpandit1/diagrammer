@@ -30,7 +30,7 @@ If any tests fail:
 
 #### 3a. Identify files with insufficient coverage
 
-Read `coverage/index.html` and list all files with **below 80% statement coverage**.
+Read `coverage/index.html` **and each subfolder `index.html`** (e.g. `coverage/src/glyph/index.html`, `coverage/src/glyph/type/basic/index.html`, `coverage/src/hooks/index.html`, `coverage/src/glyphCanvas/index.html`, etc.) to get per-file data for every source subdirectory. List all files with **below 80% statement coverage**.
 
 #### 3b. Filter out non-testable files
 
@@ -64,6 +64,7 @@ Run `npm run coverage`. If the command exits with a non-zero code, report the fu
 
 On success, report the final coverage table showing:
 - Overall % Stmts, % Branch, % Funcs, % Lines
+- Per-subfolder breakdown (e.g. `src/`, `src/glyph/`, `src/glyph/type/basic/`, `src/glyph/type/bpmn/`, `src/glyph/type/flowchart/`, `src/glyph/type/logic/`, `src/glyph/type/mcp/`, `src/glyph/type/network/`, `src/glyph/type/uml/`, `src/glyphCanvas/`, `src/hooks/`)
 - Per-file breakdown for files that changed
 
 ### Key conventions

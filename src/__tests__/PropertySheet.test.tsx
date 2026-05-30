@@ -351,4 +351,194 @@ describe("PropertySheet — port count changes", () => {
     const updates = onUpdateGlyph.mock.calls[0][1];
     expect(updates.ports?.filter((p: { type: string }) => p.type === "input").length).toBe(3);
   });
+
+  it("increasing outputs and clicking Apply calls onUpdateGlyph with updated output ports", () => {
+    const onUpdateGlyph = vi.fn();
+    render(
+      <PropertySheet glyph={makeGlyph()} onClose={vi.fn()} onUpdateGlyph={onUpdateGlyph} />
+    );
+    // Spinbuttons: [0]=fontSize(18), [1]=inputs(1), [2]=outputs(1)
+    const spinners = screen.getAllByRole("spinbutton") as HTMLInputElement[];
+    fireEvent.change(spinners[2], { target: { value: "2" } });
+    fireEvent.click(screen.getByText("Apply"));
+    expect(onUpdateGlyph).toHaveBeenCalledTimes(1);
+    const updates = onUpdateGlyph.mock.calls[0][1];
+    expect(updates.ports?.filter((p: { type: string }) => p.type === "output").length).toBe(2);
+  });
+});
+
+// ── UML attribute inline field changes ────────────────────────────────────────
+describe("PropertySheet — UML attribute inline field changes", () => {
+  it("changing attribute visibility updates the select value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Attributes"));
+    const visSelect = screen.getByTitle("Visibility") as HTMLSelectElement;
+    fireEvent.change(visSelect, { target: { value: "private" } });
+    expect((screen.getByTitle("Visibility") as HTMLSelectElement).value).toBe("private");
+  });
+
+  it("changing attribute name updates the input value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Attributes"));
+    const nameInput = screen.getByPlaceholderText("Attribute") as HTMLInputElement;
+    fireEvent.change(nameInput, { target: { value: "username" } });
+    expect((screen.getByPlaceholderText("Attribute") as HTMLInputElement).value).toBe("username");
+  });
+
+  it("changing attribute datatype updates the select value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Attributes"));
+    const dtSelect = screen.getByTitle("Datatype") as HTMLSelectElement;
+    fireEvent.change(dtSelect, { target: { value: "boolean" } });
+    expect((screen.getByTitle("Datatype") as HTMLSelectElement).value).toBe("boolean");
+  });
+});
+
+// ── UML method inline field changes ──────────────────────────────────────────
+describe("PropertySheet — UML method inline field changes", () => {
+  it("changing method visibility updates the select value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    const visSelect = screen.getByTitle("Visibility") as HTMLSelectElement;
+    fireEvent.change(visSelect, { target: { value: "protected" } });
+    expect((screen.getByTitle("Visibility") as HTMLSelectElement).value).toBe("protected");
+  });
+
+  it("changing method name updates the input value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    const nameInput = screen.getByPlaceholderText("Method Name") as HTMLInputElement;
+    fireEvent.change(nameInput, { target: { value: "setAge" } });
+    expect((screen.getByPlaceholderText("Method Name") as HTMLInputElement).value).toBe("setAge");
+  });
+
+  it("changing method return type updates the select value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    const rtSelect = screen.getByTitle("Return Type") as HTMLSelectElement;
+    fireEvent.change(rtSelect, { target: { value: "string" } });
+    expect((screen.getByTitle("Return Type") as HTMLSelectElement).value).toBe("string");
+  });
+
+  it("changing new parameter type select updates its value", () => {
+    render(<PropertySheet glyph={makeUMLGlyph()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    // The new-param type select is the last "Parameter Type" select
+    const paramTypeSelects = screen.getAllByTitle("Parameter Type") as HTMLSelectElement[];
+    const newParamTypeSelect = paramTypeSelects[paramTypeSelects.length - 1];
+    fireEvent.change(newParamTypeSelect, { target: { value: "boolean" } });
+    expect((screen.getAllByTitle("Parameter Type") as HTMLSelectElement[])[paramTypeSelects.length - 1].value).toBe("boolean");
+  });
+});
+
+// ── UML method parameter inline changes (with existing param) ─────────────────
+const makeUMLGlyphWithParam = () =>
+  Object.assign(
+    new Glyph("g-uml-p", "uml-class", 10, 20, [], {}, "MyClass", 1, 1),
+    {
+      attributes: [] as unknown[],
+      methods: [{
+        name: "find",
+        visibility: "public" as const,
+        returnType: "object",
+        parameters: [{ name: "id", type: "string" }],
+      }],
+    }
+  );
+
+describe("PropertySheet — UML method parameter inline field changes", () => {
+  it("changing an existing parameter name updates its input value", () => {
+    render(<PropertySheet glyph={makeUMLGlyphWithParam()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    // First "Parameter Name" input is the existing param row
+    const paramInputs = screen.getAllByPlaceholderText("Parameter Name") as HTMLInputElement[];
+    fireEvent.change(paramInputs[0], { target: { value: "userId" } });
+    expect((screen.getAllByPlaceholderText("Parameter Name") as HTMLInputElement[])[0].value).toBe("userId");
+  });
+
+  it("changing an existing parameter type updates its select value", () => {
+    render(<PropertySheet glyph={makeUMLGlyphWithParam()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    // First "Parameter Type" select belongs to the existing param
+    const paramTypeSelects = screen.getAllByTitle("Parameter Type") as HTMLSelectElement[];
+    fireEvent.change(paramTypeSelects[0], { target: { value: "number" } });
+    expect((screen.getAllByTitle("Parameter Type") as HTMLSelectElement[])[0].value).toBe("number");
+  });
+
+  it("clicking Remove Parameter removes the parameter row", () => {
+    render(<PropertySheet glyph={makeUMLGlyphWithParam()} onClose={vi.fn()} />);
+    fireEvent.click(screen.getByText("Methods"));
+    const before = screen.getAllByPlaceholderText("Parameter Name").length;
+    fireEvent.click(screen.getByTitle("Remove Parameter"));
+    expect(screen.getAllByPlaceholderText("Parameter Name").length).toBeLessThan(before);
+  });
+});
+
+// ── Connection color and thickness ────────────────────────────────────────────
+describe("PropertySheet — connection color and thickness changes", () => {
+  it("connection label change is saved on Apply", () => {
+    const onUpdateConnection = vi.fn();
+    render(
+      <PropertySheet connection={makeConnection()} onClose={vi.fn()} onUpdateConnection={onUpdateConnection} />
+    );
+    const inputs = screen.getAllByRole("textbox") as HTMLInputElement[];
+    const labelInput = inputs.find(i => i.value === "My Connection")!;
+    fireEvent.change(labelInput, { target: { value: "Updated Label" } });
+    fireEvent.click(screen.getByText("Apply"));
+    expect(onUpdateConnection.mock.calls[0][1].label).toBe("Updated Label");
+  });
+
+  it("connection color change is saved on Apply", () => {
+    const onUpdateConnection = vi.fn();
+    const { container } = render(
+      <PropertySheet connection={makeConnection()} onClose={vi.fn()} onUpdateConnection={onUpdateConnection} />
+    );
+    const colorInput = container.querySelector('input[type="color"]') as HTMLInputElement;
+    fireEvent.change(colorInput, { target: { value: "#ff0000" } });
+    fireEvent.click(screen.getByText("Apply"));
+    expect(onUpdateConnection.mock.calls[0][1].view?.color).toBe("#ff0000");
+  });
+
+  it("connection thickness change is saved on Apply", () => {
+    const onUpdateConnection = vi.fn();
+    render(
+      <PropertySheet connection={makeConnection()} onClose={vi.fn()} onUpdateConnection={onUpdateConnection} />
+    );
+    const spinners = screen.getAllByRole("spinbutton") as HTMLInputElement[];
+    // Thickness number input has initial value "2"
+    const thicknessInput = spinners.find(s => s.value === "2")!;
+    fireEvent.change(thicknessInput, { target: { value: "5" } });
+    fireEvent.click(screen.getByText("Apply"));
+    expect(onUpdateConnection.mock.calls[0][1].view?.thickness).toBe(5);
+  });
+});
+
+// ── Page dropdown targetPageId change ─────────────────────────────────────────
+describe("PropertySheet — flow-off-page-connector targetPageId change", () => {
+  const makeOffPageGlyph2 = () =>
+    new Glyph("g-opc2", "flow-off-page-connector", 0, 0, [], {}, "Go to", 0, 0);
+
+  const testPages2: Page[] = [
+    { id: "px1", name: "Alpha", glyphs: [], connections: [] },
+    { id: "px2", name: "Beta", glyphs: [], connections: [] },
+  ];
+
+  it("selecting a target page is included in the Apply update data", () => {
+    const onUpdateGlyph = vi.fn();
+    render(
+      <PropertySheet
+        glyph={makeOffPageGlyph2()}
+        onClose={vi.fn()}
+        onUpdateGlyph={onUpdateGlyph}
+        pages={testPages2}
+      />
+    );
+    const selects = screen.getAllByRole("combobox") as HTMLSelectElement[];
+    const pageSelect = selects.find(s => Array.from(s.options).some(o => o.value === "px1"))!;
+    fireEvent.change(pageSelect, { target: { value: "px1" } });
+    fireEvent.click(screen.getByText("Apply"));
+    expect(onUpdateGlyph).toHaveBeenCalledTimes(1);
+    const updates = onUpdateGlyph.mock.calls[0][1];
+    expect(updates.data?.targetPageId).toBe("px1");
+  });
 });

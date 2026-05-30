@@ -637,4 +637,187 @@ describe("GlyphCanvas", () => {
       expect(glyphItemProps["g1"].hoveredPort).toBeNull();
     });
   });
+
+  // ── Connection double-click and hover ────────────────────────────────────────
+  describe("connection interactions", () => {
+    it("double-clicking a connection calls onConnectionClick when not already selected", () => {
+      const onConnectionClick = vi.fn();
+      const g1 = makeGlyph("g1"), g2 = makeGlyph("g2");
+      const conn = makeConnection("c1");
+      const pages = [makePage([g1, g2], [conn])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1, g2]} connections={[conn]} onConnectionClick={onConnectionClick} />);
+
+      act(() => { connItemProps["c1"].onDoubleClick(conn, 0); });
+
+      expect(onConnectionClick).toHaveBeenCalledWith(conn);
+    });
+
+    it("double-clicking an already-selected connection does not call onConnectionClick", () => {
+      const onConnectionClick = vi.fn();
+      const g1 = makeGlyph("g1"), g2 = makeGlyph("g2");
+      const conn = makeConnection("c1");
+      const pages = [makePage([g1, g2], [conn])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1, g2]} connections={[conn]} onConnectionClick={onConnectionClick} />);
+
+      // Select the connection first so selectedConn === 0
+      act(() => { connItemProps["c1"].onSelect(0); });
+      // Now double-click (selectedConn === idx, so onConnectionClick must NOT be called)
+      act(() => { connItemProps["c1"].onDoubleClick(conn, 0); });
+
+      expect(onConnectionClick).not.toHaveBeenCalled();
+    });
+
+    it("onMouseEnter on a connection sets hoveredConn", () => {
+      const g1 = makeGlyph("g1"), g2 = makeGlyph("g2");
+      const conn = makeConnection("c1");
+      const pages = [makePage([g1, g2], [conn])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1, g2]} connections={[conn]} />);
+
+      act(() => { connItemProps["c1"].onMouseEnter(0); });
+
+      expect(connItemProps["c1"].hoveredConn).toBe(0);
+    });
+
+    it("onMouseLeave on a connection clears hoveredConn", () => {
+      const g1 = makeGlyph("g1"), g2 = makeGlyph("g2");
+      const conn = makeConnection("c1");
+      const pages = [makePage([g1, g2], [conn])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1, g2]} connections={[conn]} />);
+
+      act(() => { connItemProps["c1"].onMouseEnter(0); });
+      act(() => { connItemProps["c1"].onMouseLeave(); });
+
+      expect(connItemProps["c1"].hoveredConn).toBeNull();
+    });
+  });
+
+  // ── handlePointPointerDown ───────────────────────────────────────────────────
+  describe("handlePointPointerDown", () => {
+    it("stops propagation when a connection midpoint is pointer-downed", () => {
+      const g1 = makeGlyph("g1"), g2 = makeGlyph("g2");
+      const conn = makeConnection("c1");
+      const pages = [makePage([g1, g2], [conn])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1, g2]} connections={[conn]} />);
+
+      const stopPropagation = vi.fn();
+      act(() => {
+        connItemProps["c1"].onPointPointerDown("c1", 0, { stopPropagation } as unknown as React.PointerEvent);
+      });
+
+      expect(stopPropagation).toHaveBeenCalled();
+    });
+
+    it("clears draggedPoint on pointerup after handlePointPointerDown", () => {
+      const g1 = makeGlyph("g1"), g2 = makeGlyph("g2");
+      const conn = makeConnection("c1");
+      const pages = [makePage([g1, g2], [conn])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1, g2]} connections={[conn]} />);
+
+      act(() => {
+        connItemProps["c1"].onPointPointerDown("c1", 0, { stopPropagation: vi.fn() } as unknown as React.PointerEvent);
+      });
+      // pointerup should execute draggedPoint's handlePointerUp without throwing
+      act(() => { window.dispatchEvent(new PointerEvent("pointerup")); });
+    });
+  });
+
+  // ── Resizing ─────────────────────────────────────────────────────────────────
+  describe("resizing", () => {
+    it("pointermove with br handle calls onResizeGlyph with updated dimensions", () => {
+      const onResizeGlyph = vi.fn();
+      const g1 = makeGlyph("g1");
+      const pages = [makePage([g1])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1]} onResizeGlyph={onResizeGlyph} />);
+
+      act(() => {
+        glyphItemProps["g1"].setResizing({
+          id: "g1", handle: "br" as const,
+          startX: 100, startY: 100,
+          origX: 50, origY: 50,
+          origW: 120, origH: 80,
+        });
+      });
+
+      act(() => {
+        window.dispatchEvent(new PointerEvent("pointermove", { clientX: 120, clientY: 120 }));
+      });
+
+      // dx=20, dy=20 → w=140, h=100; x,y unchanged
+      expect(onResizeGlyph).toHaveBeenCalledWith("g1", 50, 50, 140, 100);
+    });
+
+    it("pointermove with tl handle adjusts x, y, width and height", () => {
+      const onResizeGlyph = vi.fn();
+      const g1 = makeGlyph("g1");
+      const pages = [makePage([g1])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1]} onResizeGlyph={onResizeGlyph} />);
+
+      act(() => {
+        glyphItemProps["g1"].setResizing({
+          id: "g1", handle: "tl" as const,
+          startX: 100, startY: 100,
+          origX: 50, origY: 50,
+          origW: 120, origH: 80,
+        });
+      });
+
+      act(() => {
+        window.dispatchEvent(new PointerEvent("pointermove", { clientX: 110, clientY: 110 }));
+      });
+
+      // dx=10, dy=10 → x=60, y=60, w=110, h=70
+      expect(onResizeGlyph).toHaveBeenCalledWith("g1", 60, 60, 110, 70);
+    });
+
+    it("minimum size is clamped to 40 when dragging far inward", () => {
+      const onResizeGlyph = vi.fn();
+      const g1 = makeGlyph("g1");
+      const pages = [makePage([g1])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1]} onResizeGlyph={onResizeGlyph} />);
+
+      act(() => {
+        glyphItemProps["g1"].setResizing({
+          id: "g1", handle: "br" as const,
+          startX: 100, startY: 100,
+          origX: 50, origY: 50,
+          origW: 120, origH: 80,
+        });
+      });
+
+      // dx=-90, dy=-90 → w=30 → clamped to 40; h=-10 → clamped to 40
+      act(() => {
+        window.dispatchEvent(new PointerEvent("pointermove", { clientX: 10, clientY: 10 }));
+      });
+
+      const [, , , w, h] = onResizeGlyph.mock.calls[0];
+      expect(w).toBe(40);
+      expect(h).toBe(40);
+    });
+
+    it("pointerup clears resizing so subsequent pointermove has no effect", () => {
+      const onResizeGlyph = vi.fn();
+      const g1 = makeGlyph("g1");
+      const pages = [makePage([g1])];
+      render(<GlyphCanvas {...baseProps} pages={pages} glyphs={[g1]} onResizeGlyph={onResizeGlyph} />);
+
+      act(() => {
+        glyphItemProps["g1"].setResizing({
+          id: "g1", handle: "br" as const,
+          startX: 100, startY: 100,
+          origX: 50, origY: 50,
+          origW: 120, origH: 80,
+        });
+      });
+
+      act(() => { window.dispatchEvent(new PointerEvent("pointermove", { clientX: 110, clientY: 110 })); });
+      expect(onResizeGlyph).toHaveBeenCalledTimes(1);
+
+      // pointerup should clear resizing
+      act(() => { window.dispatchEvent(new PointerEvent("pointerup")); });
+
+      // Subsequent move must NOT fire onResizeGlyph again
+      act(() => { window.dispatchEvent(new PointerEvent("pointermove", { clientX: 130, clientY: 130 })); });
+      expect(onResizeGlyph).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -2,7 +2,461 @@
   "pages": [
     {
       "id": "page-1",
-      "name": "Page 1",
+      "name": "Flowchart",
+      "glyphs": [
+        {
+          "id": "fc-1",
+          "type": "flow-start",
+          "x": 80,
+          "y": 200,
+          "width": 100,
+          "height": 60,
+          "ports": [
+            { "id": "output-fc-1-1", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#ffffff" },
+          "label": "Start",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fc-2",
+          "type": "flow-process",
+          "x": 260,
+          "y": 200,
+          "width": 130,
+          "height": 60,
+          "ports": [
+            { "id": "input-fc-2-1", "type": "input" },
+            { "id": "output-fc-2-1", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Validate Input",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fc-3",
+          "type": "flow-decision",
+          "x": 460,
+          "y": 185,
+          "width": 90,
+          "height": 90,
+          "ports": [
+            { "id": "input-fc-3-1", "type": "input" },
+            { "id": "output-fc-3-1", "type": "output" },
+            { "id": "output-fc-3-2", "type": "output" }
+          ],
+          "data": { "fontSize": 13, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Valid?",
+          "inputs": 1,
+          "outputs": 2,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fc-4",
+          "type": "flow-process",
+          "x": 640,
+          "y": 200,
+          "width": 130,
+          "height": 60,
+          "ports": [
+            { "id": "input-fc-4-1", "type": "input" },
+            { "id": "output-fc-4-1", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Process Data",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fc-5",
+          "type": "flow-end",
+          "x": 840,
+          "y": 200,
+          "width": 100,
+          "height": 60,
+          "ports": [
+            { "id": "input-fc-5-1", "type": "input" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#ffffff" },
+          "label": "End",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fc-6",
+          "type": "flow-process",
+          "x": 460,
+          "y": 370,
+          "width": 130,
+          "height": 60,
+          "ports": [
+            { "id": "input-fc-6-1", "type": "input" },
+            { "id": "output-fc-6-1", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Handle Error",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fc-7",
+          "type": "flow-end",
+          "x": 640,
+          "y": 370,
+          "width": 100,
+          "height": 60,
+          "ports": [
+            { "id": "input-fc-7-1", "type": "input" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#ffffff" },
+          "label": "Failure",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "fc-conn-1",
+          "fromGlyphId": "fc-1", "fromPortId": "output-fc-1-1",
+          "toGlyphId": "fc-2",   "toPortId": "input-fc-2-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#333333", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "fc-conn-2",
+          "fromGlyphId": "fc-2", "fromPortId": "output-fc-2-1",
+          "toGlyphId": "fc-3",   "toPortId": "input-fc-3-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#333333", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "fc-conn-3",
+          "fromGlyphId": "fc-3", "fromPortId": "output-fc-3-1",
+          "toGlyphId": "fc-4",   "toPortId": "input-fc-4-1",
+          "label": "Yes", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#2a8a2a", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "fc-conn-4",
+          "fromGlyphId": "fc-4", "fromPortId": "output-fc-4-1",
+          "toGlyphId": "fc-5",   "toPortId": "input-fc-5-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#333333", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "fc-conn-5",
+          "fromGlyphId": "fc-3", "fromPortId": "output-fc-3-2",
+          "toGlyphId": "fc-6",   "toPortId": "input-fc-6-1",
+          "label": "No", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#c0392b", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "fc-conn-6",
+          "fromGlyphId": "fc-6", "fromPortId": "output-fc-6-1",
+          "toGlyphId": "fc-7",   "toPortId": "input-fc-7-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#333333", "thickness": 2, "dashed": false }
+        }
+      ]
+    },
+    {
+      "id": "page-2",
+      "name": "Network",
+      "glyphs": [
+        {
+          "id": "net-1",
+          "type": "network-cloud",
+          "x": 300,
+          "y": 60,
+          "width": 120,
+          "height": 80,
+          "ports": [
+            { "id": "input-net-1-1", "type": "input" },
+            { "id": "output-net-1-1", "type": "output" }
+          ],
+          "data": {},
+          "label": "Internet",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "net-2",
+          "type": "network-firewall",
+          "x": 300,
+          "y": 220,
+          "width": 80,
+          "height": 80,
+          "ports": [
+            { "id": "input-net-2-1", "type": "input" },
+            { "id": "output-net-2-1", "type": "output" }
+          ],
+          "data": {},
+          "label": "Firewall",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "net-3",
+          "type": "network-router",
+          "x": 300,
+          "y": 380,
+          "width": 80,
+          "height": 80,
+          "ports": [
+            { "id": "input-net-3-1", "type": "input" },
+            { "id": "output-net-3-1", "type": "output" }
+          ],
+          "data": { "model": "RTX-1000" },
+          "label": "Core Router",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "net-4",
+          "type": "network-switch",
+          "x": 300,
+          "y": 540,
+          "width": 100,
+          "height": 60,
+          "ports": [
+            { "id": "input-net-4-1", "type": "input" },
+            { "id": "output-net-4-1", "type": "output" }
+          ],
+          "data": { "ports": 24 },
+          "label": "Switch",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "net-5",
+          "type": "network-server",
+          "x": 100,
+          "y": 540,
+          "width": 80,
+          "height": 100,
+          "ports": [
+            { "id": "input-net-5-1", "type": "input" },
+            { "id": "output-net-5-1", "type": "output" }
+          ],
+          "data": { "ip": "10.0.0.10" },
+          "label": "Web Server",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "net-6",
+          "type": "network-database",
+          "x": 520,
+          "y": 540,
+          "width": 80,
+          "height": 100,
+          "ports": [
+            { "id": "input-net-6-1", "type": "input" },
+            { "id": "output-net-6-1", "type": "output" }
+          ],
+          "data": {},
+          "label": "Database",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "net-conn-1",
+          "fromGlyphId": "net-1", "fromPortId": "output-net-1-1",
+          "toGlyphId": "net-2",   "toPortId": "input-net-2-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "manhattan", "color": "#555555", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "net-conn-2",
+          "fromGlyphId": "net-2", "fromPortId": "output-net-2-1",
+          "toGlyphId": "net-3",   "toPortId": "input-net-3-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "manhattan", "color": "#555555", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "net-conn-3",
+          "fromGlyphId": "net-3", "fromPortId": "output-net-3-1",
+          "toGlyphId": "net-4",   "toPortId": "input-net-4-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "manhattan", "color": "#555555", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "net-conn-4",
+          "fromGlyphId": "net-4", "fromPortId": "output-net-4-1",
+          "toGlyphId": "net-5",   "toPortId": "input-net-5-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "manhattan", "color": "#555555", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "net-conn-5",
+          "fromGlyphId": "net-4", "fromPortId": "output-net-4-1",
+          "toGlyphId": "net-6",   "toPortId": "input-net-6-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "manhattan", "color": "#555555", "thickness": 2, "dashed": true }
+        }
+      ]
+    },
+    {
+      "id": "page-3",
+      "name": "UML",
+      "glyphs": [
+        {
+          "id": "uml-1",
+          "type": "uml-abstract",
+          "x": 80,
+          "y": 80,
+          "width": 180,
+          "height": 160,
+          "ports": [],
+          "data": {},
+          "label": "Animal",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [
+            { "name": "name", "visibility": "protected", "dataType": "string", "type": "attribute" },
+            { "name": "age",  "visibility": "protected", "dataType": "int",    "type": "attribute" }
+          ],
+          "methods": [
+            { "name": "speak",  "visibility": "public",    "returnType": "void",   "parameters": [], "type": "method" },
+            { "name": "move",   "visibility": "public",    "returnType": "void",   "parameters": [], "type": "method" },
+            { "name": "getName","visibility": "public",    "returnType": "string", "parameters": [], "type": "method" }
+          ]
+        },
+        {
+          "id": "uml-2",
+          "type": "uml-interface",
+          "x": 380,
+          "y": 80,
+          "width": 180,
+          "height": 120,
+          "ports": [],
+          "data": {},
+          "label": "Runnable",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": [
+            { "name": "run",  "visibility": "public", "returnType": "void", "parameters": [], "type": "method" },
+            { "name": "stop", "visibility": "public", "returnType": "void", "parameters": [], "type": "method" }
+          ]
+        },
+        {
+          "id": "uml-3",
+          "type": "uml-class",
+          "x": 80,
+          "y": 360,
+          "width": 180,
+          "height": 160,
+          "ports": [],
+          "data": {},
+          "label": "Dog",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [
+            { "name": "breed", "visibility": "private", "dataType": "string", "type": "attribute" }
+          ],
+          "methods": [
+            { "name": "speak",  "visibility": "public", "returnType": "void", "parameters": [], "type": "method" },
+            { "name": "run",    "visibility": "public", "returnType": "void", "parameters": [], "type": "method" },
+            { "name": "fetch",  "visibility": "public", "returnType": "void", "parameters": [{ "name": "item", "type": "string" }], "type": "method" }
+          ]
+        },
+        {
+          "id": "uml-4",
+          "type": "uml-class",
+          "x": 380,
+          "y": 360,
+          "width": 180,
+          "height": 140,
+          "ports": [],
+          "data": {},
+          "label": "Cat",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [
+            { "name": "indoor", "visibility": "private", "dataType": "boolean", "type": "attribute" }
+          ],
+          "methods": [
+            { "name": "speak",  "visibility": "public", "returnType": "void",   "parameters": [], "type": "method" },
+            { "name": "purr",   "visibility": "public", "returnType": "void",   "parameters": [], "type": "method" }
+          ]
+        },
+        {
+          "id": "uml-5",
+          "type": "uml-enum",
+          "x": 660,
+          "y": 80,
+          "width": 160,
+          "height": 120,
+          "ports": [],
+          "data": {},
+          "label": "AnimalType",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [
+            { "name": "DOG",  "visibility": "public", "dataType": "", "type": "attribute" },
+            { "name": "CAT",  "visibility": "public", "dataType": "", "type": "attribute" },
+            { "name": "BIRD", "visibility": "public", "dataType": "", "type": "attribute" }
+          ],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "uml-conn-1",
+          "fromGlyphId": "uml-3", "fromPortId": "",
+          "toGlyphId": "uml-1",   "toPortId": "",
+          "label": "extends", "type": "inheritance",
+          "view": { "connectionType": "line", "color": "#333333", "thickness": 1.5, "dashed": false }
+        },
+        {
+          "id": "uml-conn-2",
+          "fromGlyphId": "uml-4", "fromPortId": "",
+          "toGlyphId": "uml-1",   "toPortId": "",
+          "label": "extends", "type": "inheritance",
+          "view": { "connectionType": "line", "color": "#333333", "thickness": 1.5, "dashed": false }
+        },
+        {
+          "id": "uml-conn-3",
+          "fromGlyphId": "uml-3", "fromPortId": "",
+          "toGlyphId": "uml-2",   "toPortId": "",
+          "label": "implements", "type": "association",
+          "view": { "connectionType": "line", "color": "#555555", "thickness": 1.5, "dashed": true }
+        }
+      ]
+    },
+    {
+      "id": "page-4",
+      "name": "Basic",
       "glyphs": [
         {
           "id": "glyph-1",
@@ -12,21 +466,10 @@
           "width": 120,
           "height": 80,
           "ports": [
-            {
-              "id": "input-glyph-1-1",
-              "type": "input"
-            },
-            {
-              "id": "output-glyph-1-1",
-              "type": "output"
-            }
+            { "id": "input-glyph-1-1", "type": "input" },
+            { "id": "output-glyph-1-1", "type": "output" }
           ],
-          "data": {
-            "fontSize": 18,
-            "fontFamily": "Arial",
-            "labelAlign": "center",
-            "textColor": "#222222"
-          },
+          "data": { "fontSize": 18, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
           "label": "Start",
           "inputs": 1,
           "outputs": 1,
@@ -41,24 +484,66 @@
           "width": 100,
           "height": 100,
           "ports": [
-            {
-              "id": "input-glyph-2-1",
-              "type": "input"
-            },
-            {
-              "id": "output-glyph-2-1",
-              "type": "output"
-            }
+            { "id": "input-glyph-2-1", "type": "input" },
+            { "id": "output-glyph-2-1", "type": "output" }
           ],
-          "data": {
-            "fontSize": 18,
-            "fontFamily": "Arial",
-            "labelAlign": "center",
-            "textColor": "#222222"
-          },
-          "label": "End",
+          "data": { "fontSize": 18, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Process",
           "inputs": 1,
           "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "glyph-3",
+          "type": "multi",
+          "x": 580,
+          "y": 90,
+          "width": 130,
+          "height": 80,
+          "ports": [
+            { "id": "input-glyph-3-1", "type": "input" },
+            { "id": "input-glyph-3-2", "type": "input" },
+            { "id": "output-glyph-3-1", "type": "output" },
+            { "id": "output-glyph-3-2", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Multi I/O",
+          "inputs": 2,
+          "outputs": 2,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "glyph-4",
+          "type": "resizable-rectangle",
+          "x": 120,
+          "y": 260,
+          "width": 150,
+          "height": 90,
+          "ports": [
+            { "id": "input-glyph-4-1", "type": "input" },
+            { "id": "output-glyph-4-1", "type": "output" }
+          ],
+          "data": { "fontSize": 14, "fontFamily": "Arial", "labelAlign": "center", "textColor": "#222222" },
+          "label": "Resizable",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "glyph-5",
+          "type": "text",
+          "x": 380,
+          "y": 280,
+          "width": 200,
+          "height": 40,
+          "ports": [],
+          "data": { "fontSize": 16, "fontFamily": "Arial", "labelAlign": "left", "textColor": "#444444" },
+          "label": "Annotation label",
+          "inputs": 0,
+          "outputs": 0,
           "attributes": [],
           "methods": []
         }
@@ -66,18 +551,17 @@
       "connections": [
         {
           "id": "conn-1",
-          "fromGlyphId": "glyph-1",
-          "fromPortId": "output-glyph-1-1",
-          "toGlyphId": "glyph-2",
-          "toPortId": "input-glyph-2-1",
-          "label": "",
-          "type": "default",
-          "view": {
-            "connectionType": "bezier",
-            "color": "#000000",
-            "thickness": 2,
-            "dashed": false
-          }
+          "fromGlyphId": "glyph-1", "fromPortId": "output-glyph-1-1",
+          "toGlyphId": "glyph-2",   "toPortId": "input-glyph-2-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#000000", "thickness": 2, "dashed": false }
+        },
+        {
+          "id": "conn-2",
+          "fromGlyphId": "glyph-2", "fromPortId": "output-glyph-2-1",
+          "toGlyphId": "glyph-3",   "toPortId": "input-glyph-3-1",
+          "label": "", "type": "default",
+          "view": { "connectionType": "bezier", "color": "#000000", "thickness": 2, "dashed": false }
         }
       ]
     }
