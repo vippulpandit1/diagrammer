@@ -12,6 +12,7 @@ export interface GlyphCanvasProps {
   connections: Connection[];
   onAddConnection: (conn: Connection) => void;
   onDeleteConnection: (connIndex: number) => void;
+  onUpdateConnection: (connId: string, updates: Partial<Connection>) => void;
   zoom: number;
   onAddGlyph: (type: string, x: number, y: number, inputs?: number, outputs?: number) => void;
   onGlyphClick?: (glyph: Glyph) => void;

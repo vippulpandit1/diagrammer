@@ -17,6 +17,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   onMoveGlyph,
   onAddConnection,
   onDeleteConnection,
+  onUpdateConnection,
   zoom,
   onAddGlyph,
   onGlyphClick,
@@ -156,16 +157,20 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   useEffect(() => {
     if (!draggedPoint) return;
     const handlePointerMove = (e: PointerEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      const canvasX = (e.clientX - (rect?.left ?? 0)) / zoom;
+      const canvasY = (e.clientY - (rect?.top ?? 0)) / zoom;
       activePage.connections = activePage.connections.map(conn =>
         conn.id === draggedPoint.connId
           ? {
             ...conn,
             points: conn.points?.map((pt, i) =>
-              i === draggedPoint.idx ? { x: e.clientX, y: e.clientY } : pt
+              i === draggedPoint.idx ? { x: canvasX, y: canvasY } : pt
             ),
           }
           : conn
       );
+      setDragMouse({ x: canvasX, y: canvasY }); // trigger re-render
     };
     const handlePointerUp = () => setDraggedPoint(null);
     window.addEventListener("pointermove", handlePointerMove);
@@ -174,7 +179,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
     };
-  }, [draggedPoint, activePage.connections]);
+  }, [draggedPoint, activePage.connections, zoom]);
 
   // --- Event Handlers ---
   const handleMouseDown = (e: React.PointerEvent, glyph: Glyph) => {
@@ -213,6 +218,21 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const handlePointPointerDown = (connId: string, idx: number, e: React.PointerEvent) => {
     e.stopPropagation();
     setDraggedPoint({ connId, idx });
+  };
+
+  const handleAddWaypoint = (connId: string, segmentIdx: number, canvasX: number, canvasY: number) => {
+    const conn = activePage.connections.find(c => c.id === connId);
+    if (!conn) return;
+    const newPoints = [...(conn.points ?? [])];
+    newPoints.splice(segmentIdx, 0, { x: canvasX, y: canvasY });
+    onUpdateConnection(connId, { points: newPoints });
+  };
+
+  const handleRemoveWaypoint = (connId: string, idx: number) => {
+    const conn = activePage.connections.find(c => c.id === connId);
+    if (!conn) return;
+    const newPoints = (conn.points ?? []).filter((_, i) => i !== idx);
+    onUpdateConnection(connId, { points: newPoints });
   };
 
   // --- Z-order sorted render list ---
@@ -321,7 +341,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                       fromGlyphId: dragConn.fromGlyphId,
                       fromPortId: dragConn.fromPortIdx,
                       toGlyphId,
-                      toPortId,
+                      toPortId: toPortId ?? "",
                       type: "default",
                       view: {},
                     });
@@ -362,6 +382,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 onMouseLeave={() => setHoveredConn(null)}
                 onContextMenu={(connId, x, y) => setConnectionMenu({ connId, x, y })}
                 onPointPointerDown={handlePointPointerDown}
+                onAddWaypoint={handleAddWaypoint}
+                onRemoveWaypoint={handleRemoveWaypoint}
               />
             );
           }

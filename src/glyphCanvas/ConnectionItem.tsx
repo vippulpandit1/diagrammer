@@ -20,6 +20,8 @@ export interface ConnectionItemProps {
   onMouseLeave: () => void;
   onContextMenu: (connId: string, x: number, y: number) => void;
   onPointPointerDown: (connId: string, idx: number, e: React.PointerEvent) => void;
+  onAddWaypoint: (connId: string, segmentIdx: number, canvasX: number, canvasY: number) => void;
+  onRemoveWaypoint: (connId: string, idx: number) => void;
 }
 
 export const ConnectionItem: React.FC<ConnectionItemProps> = ({
@@ -37,6 +39,8 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
   onMouseLeave,
   onContextMenu,
   onPointPointerDown,
+  onAddWaypoint,
+  onRemoveWaypoint,
 }) => {
   const connectionType = conn.view?.[CONNECTION_TYPE_INDEX] || connectorType;
   const sizeMap = new Map<string, { w: number; h: number }>();
@@ -45,7 +49,6 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
   const connectionColor = conn.view?.color || "black";
   const connectionThickness = conn.view?.thickness || 2;
   const connectionDashed = conn.view?.dashed || false;
-  const isHovered = hoveredConn === i;
   const isPortHovered = !!(hoveredPortId && (conn.fromPortId === hoveredPortId || conn.toPortId === hoveredPortId));
 
   const fromGlyph = glyphsToRender.find(g => g.id === conn.fromGlyphId);
@@ -56,6 +59,11 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
   const toSize = sizeMap.get(toGlyph.id) ?? { w: 60, h: 60 };
   const from = getConnectorPos(fromGlyph, conn.fromPortId, fromSize.w, fromSize.h);
   const to = getConnectorPos(toGlyph, conn.toPortId, toSize.w, toSize.h);
+
+  const isSelected = selectedConn === i;
+
+  // All canvas-space points in order: from → waypoints → to
+  const allAbsPoints = [from, ...(conn.points ?? []), to];
 
   // Bounding box
   const xs = [from.x, to.x, ...(conn.points?.map(pt => pt.x) ?? [])];
@@ -143,19 +151,38 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
           onMouseLeave={() => onMouseLeave()}
           strokeDasharray={connectionDashed ? "5,5" : "none"}
         />
-        {relPoints.map((pt, idx) => (
+        {/* Waypoint circles — only when selected */}
+        {isSelected && relPoints.map((pt, idx) => (
           <circle
             key={idx}
             cx={pt.x}
             cy={pt.y}
-            r={8}
+            r={7}
             fill="#fbbf24"
             stroke="#222"
             strokeWidth={2}
             style={{ cursor: "grab" }}
-            onPointerDown={e => onPointPointerDown(conn.id ?? "", idx, e)}
+            onPointerDown={e => { e.stopPropagation(); onPointPointerDown(conn.id ?? "", idx, e); }}
+            onDoubleClick={e => { e.stopPropagation(); onRemoveWaypoint(conn.id ?? "", idx); }}
           />
         ))}
+        {/* Segment midpoint "+" handles — only when selected */}
+        {isSelected && allAbsPoints.slice(0, -1).map((segFrom, idx) => {
+          const segTo = allAbsPoints[idx + 1];
+          const midCanvas = { x: (segFrom.x + segTo.x) / 2, y: (segFrom.y + segTo.y) / 2 };
+          const relMid = rel(midCanvas);
+          return (
+            <g
+              key={`add-${idx}`}
+              style={{ cursor: 'crosshair' }}
+              onClick={e => { e.stopPropagation(); onAddWaypoint(conn.id ?? "", idx, midCanvas.x, midCanvas.y); }}
+            >
+              <circle cx={relMid.x} cy={relMid.y} r={9} fill="white" stroke="#2563eb" strokeWidth={2} />
+              <line x1={relMid.x - 5} y1={relMid.y} x2={relMid.x + 5} y2={relMid.y} stroke="#2563eb" strokeWidth={2} />
+              <line x1={relMid.x} y1={relMid.y - 5} x2={relMid.x} y2={relMid.y + 5} stroke="#2563eb" strokeWidth={2} />
+            </g>
+          );
+        })}
         {conn.label && (
           <>
             <rect

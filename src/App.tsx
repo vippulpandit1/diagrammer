@@ -301,6 +301,7 @@ function App() {
             onDeleteConnection={idx => {
               activePage.connections = activePage.connections.filter((_, i) => i !== idx);
             }}
+            onUpdateConnection={handleUpdateConnection}
             zoom={zoom}
             onAddGlyph={handleAddGlyph}
 
