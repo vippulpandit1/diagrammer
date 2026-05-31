@@ -50,12 +50,13 @@ graph TD
 
         subgraph Glyph_Types [Glyph Types]
             Basic[basic/ - Rect, Circle, Text, PNG, MultiPort]
-            Logic[logic/ - Logic Gates]
+            Logic[logic/ - AND, NAND, NOR, NOT, OR, XNOR, XOR]
             Flowchart[flowchart/ - Flowchart Shapes]
             UML[uml/ - Class, Interface, Enum, Package, Relationships]
             Network[network/ - Devices, Infra, Services, Virtual, Telecom]
             MCP[mcp/ - MCP Components]
             BPMN[bpmn/ - Events, Activities, Gateways, Swimlanes]
+            Util[util/ - Debug Helpers]
         end
     end
 
@@ -109,11 +110,12 @@ graph TD
 |----------|----------|--------|
 | **Basic** | `src/glyph/type/basic/` | Rectangle, Circle, Text, PNG, MultiPort, ResizableRectangle |
 | **Flowchart** | `src/glyph/type/flowchart/` | Process, Decision, Document, Manual, Connector, Control, Misc |
-| **Logic** | `src/glyph/type/logic/` | Logic gates |
+| **Logic** | `src/glyph/type/logic/` | AND, NAND, NOR, NOT, OR, XNOR, XOR gates |
 | **UML** | `src/glyph/type/uml/` | Class, Interface, Abstract, Enum, Package, Inheritance, Association |
 | **Network** | `src/glyph/type/network/` | Devices, Infrastructure, Services, Virtual, Telecom, Power, Server |
 | **BPMN** | `src/glyph/type/bpmn/` | Events, Activities, Gateways, Data Objects, Swimlanes |
 | **MCP** | `src/glyph/type/mcp/` | MCP client components |
+| **Util** | `src/glyph/type/util/` | DebugGlyph (development/debug helper) |
 
 ## BPMN Support
 
@@ -143,6 +145,69 @@ UML glyphs are in `src/glyph/type/uml/`:
 | `UMLInheritanceGlyph.tsx` | Inheritance arrow |
 | `UMLAssociationGlyph.tsx` | Association arrow |
 | `UMLAttr.tsx` / `UMLMethod.tsx` | Shared attribute/method row components |
+
+## Flowchart Support
+
+Flowchart glyphs are split into category files under `src/glyph/type/flowchart/`:
+
+| File | Contents |
+|------|----------|
+| `FlowBasic.tsx` | Start, End, Process, Decision, I/O, Action |
+| `FlowProcess.tsx` | Subroutine, Predefined Process, Delay, Preparation, Display |
+| `FlowDocument.tsx` | Document, Multi-Document, Data, Sorted Data, Database, Internal Storage, Magnetic Tape, Card |
+| `FlowManual.tsx` | Manual Input, Manual Operation, Manual Loop, Loop Limit, Multi-Input |
+| `FlowConnector.tsx` | Connector, Off-Page Connector, On-Page Connector, Off-Page Connector Alt |
+| `FlowControl.tsx` | Merge, Extract, Summarize, Decision Alt, Split, Arrow, Sentiment |
+| `FlowMisc.tsx` | Server |
+| `FlowchartGlyph.tsx` | Central switch-case renderer dispatching to the above components |
+
+## Logic Gate Support
+
+Logic gate glyphs are in `src/glyph/type/logic/`. Each gate is its own file:
+
+| File | Gate |
+|------|------|
+| `AndGateGlyph.tsx` | AND |
+| `NandGateGlyph.tsx` | NAND |
+| `NorGateGlyph.tsx` | NOR |
+| `NotGateGlyph.tsx` | NOT |
+| `OrGateGlyph.tsx` | OR |
+| `XnorGateGlyph.tsx` | XNOR |
+| `XorGateGlyph.tsx` | XOR |
+
+## Network Support
+
+Network glyphs are split into category files under `src/glyph/type/network/`:
+
+| File | Contents |
+|------|----------|
+| `NetworkDevices.tsx` | Server, Switch, Router, Firewall, PC, Laptop, Phone, Tablet, Printer |
+| `NetworkInfra.tsx` | Cloud, Database, WiFi, Hub, Cable, Bridge, Access Point, Load Balancer, Server Rack |
+| `NetworkServices.tsx` | DNS, DHCP, NAT, Proxy, IDS, Gateway, VPN |
+| `NetworkVirtual.tsx` | Quantum Computer, Edge Device, Virtual Machine, IoT Device |
+| `NetworkTelecom.tsx` | VoIP Phone, Optical Network, Satellite, Terminal |
+| `NetworkPower.tsx` | Generator, PDU, UPS, Antenna, CCTV |
+| `NetworkServerProperties.tsx` | Server properties panel component |
+| `NetworkGlyph.tsx` | Central switch-case renderer dispatching to the above components |
+
+## MCP Support
+
+MCP (Model Context Protocol) glyphs are in `src/glyph/type/mcp/`:
+
+| File | Purpose |
+|------|---------|
+| `MCPGlyph.tsx` | `MCPGlyph` interface definition |
+| `MCPGlyph_.tsx` | `MCPGlyph` class implementation |
+| `MCPProperties.tsx` | Property panel for MCP glyphs |
+| `MCPClientOptions.ts` | MCP client configuration types |
+
+## Util
+
+Utility/debug glyphs are in `src/glyph/type/util/`:
+
+| File | Purpose |
+|------|---------|
+| `DebugGlyph.tsx` | Development helper glyph for debugging canvas layout and port positions |
 
 ## Adding a New Glyph Type
 
