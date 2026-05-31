@@ -179,6 +179,42 @@ docker build -t r-js-draw .
 docker run -p 8080:80 r-js-draw
 ```
 
+## Podman
+
+Podman is a daemonless, rootless alternative to Docker and is fully compatible with the Dockerfile.
+
+**Build the image:**
+
+```bash
+podman build -t r-js-draw .
+```
+
+**Run the container:**
+
+```bash
+podman run -p 8080:80 r-js-draw
+```
+
+**Run rootless (no sudo required):**
+
+```bash
+podman run --userns=keep-id -p 8080:80 r-js-draw
+```
+
+**Run in the background:**
+
+```bash
+podman run -d --name r-js-draw -p 8080:80 r-js-draw
+```
+
+**Stop and remove:**
+
+```bash
+podman stop r-js-draw && podman rm r-js-draw
+```
+
+The app will be available at `http://localhost:8080`.
+
 ## Key Files
 
 | File | Purpose |
