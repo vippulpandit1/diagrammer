@@ -85,7 +85,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
       key={conn.id || i}
       style={{
         position: 'absolute',
-        pointerEvents: 'all',
+        pointerEvents: 'none',
         touchAction: 'none',
         zIndex: renderIdx,
         left: minX - 10,
@@ -96,6 +96,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
     >
       <g
         className="connection"
+        style={{ pointerEvents: 'all' }}
         onContextMenu={e => {
           e.preventDefault();
           onContextMenu(conn.id ?? "", e.clientX, e.clientY);
