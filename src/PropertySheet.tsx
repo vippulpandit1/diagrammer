@@ -8,6 +8,9 @@ import type { Page } from "./glyph/Page";
 import { Port } from "./glyph/Port";
 import { v4 as uuidv4 } from "uuid";
 import { glyphRegistry } from "./glyph/type/GlyphRegistry";
+import { ConfigDrivenProperties } from "./glyph/type/ConfigDrivenProperties";
+import type { PropertyFieldConfig } from "./glyph/type/ConfigDrivenProperties";
+import { ColorPalette } from "./glyph/type/ColorPalette";
 
 const FONT_FAMILIES = [
   "Arial", "Helvetica", "Times New Roman", "Courier New", "Georgia", "Verdana", "Tahoma", "Trebuchet MS", "Impact"
@@ -51,8 +54,9 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
 
   // --- State ---
   const [activeTab, setActiveTab] = useState<"General" | "Attributes" | "Methods">("General");
-  const CustomProps =
-    glyph && glyphRegistry[glyph.type as keyof typeof glyphRegistry]?.propertiesComponent;
+  const registryEntry = glyph ? glyphRegistry[glyph.type as keyof typeof glyphRegistry] : undefined;
+  const CustomProps = registryEntry?.propertiesComponent;
+  const propertyFields: PropertyFieldConfig[] | undefined = registryEntry?.propertyFields;
 
   // Safely initialize state from props
   const [label, setLabel] = useState(glyph?.label ?? connection?.label ?? "");
@@ -655,6 +659,39 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
           </select>
         </div>
       )}
+
+      {/* ── Color palette ── */}
+      <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "12px", marginTop: "4px" }}>
+        <ColorPalette
+          label="Fill Color"
+          value={glyph?.data?.fillColor as string | undefined}
+          allowNone
+          onChange={color => {
+            if (glyph && onUpdateGlyph) {
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, fillColor: color } });
+            }
+          }}
+        />
+        <ColorPalette
+          label="Stroke / Border Color"
+          value={glyph?.data?.strokeColor as string | undefined}
+          allowNone
+          onChange={color => {
+            if (glyph && onUpdateGlyph) {
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, strokeColor: color } });
+            }
+          }}
+        />
+        <ColorPalette
+          label="Text Color"
+          value={glyph?.data?.textColor as string | undefined}
+          onChange={color => {
+            if (glyph && onUpdateGlyph) {
+              onUpdateGlyph(glyph.id, { data: { ...glyph.data, textColor: color } });
+            }
+          }}
+        />
+      </div>
     </div>
   );
 
@@ -773,10 +810,24 @@ export const PropertySheet: React.FC<PropertySheetProps> = ({
         ) : renderEmptyState()
       )}
 
-      {/* Render custom properties if available */}
+      {/* Render custom properties component (highest priority) */}
       {glyph && CustomProps && (
         <div style={{ marginTop: 16 }}>
           <CustomProps glyph={glyph} onUpdate={handleUpdate} />
+        </div>
+      )}
+
+      {/* Render config-driven properties when no custom component is provided */}
+      {glyph && !CustomProps && propertyFields && propertyFields.length > 0 && (
+        <div style={{ marginTop: 16, borderTop: "1px solid #e5e7eb", paddingTop: 8 }}>
+          <div style={{ padding: "4px 12px", fontSize: "12px", fontWeight: "bold", color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            Type Properties
+          </div>
+          <ConfigDrivenProperties
+            glyph={glyph}
+            fields={propertyFields}
+            onUpdate={handleUpdate}
+          />
         </div>
       )}
       {(glyph || connection) && (

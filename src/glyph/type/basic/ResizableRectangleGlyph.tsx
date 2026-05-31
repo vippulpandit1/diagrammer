@@ -7,6 +7,8 @@ export interface ResizableRectangleGlyphProps {
   width: number;
   height: number;
   selected?: boolean;
+  fillColor?: string;
+  strokeColor?: string;
   onResize?: (rect: { x: number; y: number; width: number; height: number }) => void;
 }
 
@@ -18,6 +20,8 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
   width,
   height,
   selected = true,
+  fillColor,
+  strokeColor,
   onResize,
 }) => {
   const pointerIdRef = useRef<number | null>(null);
@@ -89,8 +93,8 @@ export const ResizableRectangleGlyph: React.FC<ResizableRectangleGlyphProps> = (
         y={y ?? 0}
         width={width}
         height={height}
-        fill="#f1f5f9"
-        stroke="#2563eb"
+        fill={fillColor && fillColor !== "none" ? fillColor : fillColor === "none" ? "transparent" : "#f1f5f9"}
+        stroke={strokeColor && strokeColor !== "none" ? strokeColor : strokeColor === "none" ? "transparent" : "#2563eb"}
         strokeWidth={2}
         rx={6}
       />

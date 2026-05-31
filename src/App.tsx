@@ -190,8 +190,14 @@ function App() {
     sendGlyphToBack,
     handleAutoArrange,
     handleAddGlyph,
-    handleUpdateGlyph,
+    handleUpdateGlyph: _handleUpdateGlyph,
   } = useGlyphActions(activePage, pages, activePageIdx, addMessage, updateHistory);
+
+  // Wrap so that selectedGlyph stays in sync when properties are updated live
+  const handleUpdateGlyph = (id: string, updates: Partial<Glyph>) => {
+    _handleUpdateGlyph(id, updates);
+    setSelectedGlyph(prev => (prev && prev.id === id ? { ...prev, ...updates } as Glyph : prev));
+  };
 
   const handleClosePropertySheet = () => {
     setSelectedItem(null);

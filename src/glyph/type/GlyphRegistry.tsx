@@ -1,7 +1,35 @@
 import { NetworkServerProperties } from './network/NetworkServerProperties';
 import { MCPProperties } from './mcp/MCPProperties';
+import type { PropertyFieldConfig } from './ConfigDrivenProperties';
+import type React from 'react';
+import type { Glyph } from '../Glyph';
 
-export const glyphRegistry = {
+// ── Registry entry type ───────────────────────────────────────────────────────
+
+export interface GlyphRegistryEntry {
+  icon: string;
+  name: string;
+  description: string;
+  defaultProps: {
+    width: number;
+    height: number;
+    data?: Record<string, unknown>;
+  };
+  /**
+   * A React component that renders a fully custom property panel.
+   * Takes priority over `propertyFields` when both are present.
+   */
+  propertiesComponent?: React.FC<{ glyph: Glyph; onUpdate: (g: Glyph) => void }>;
+  /**
+   * Declarative field schema for the generic config-driven property panel.
+   * Use this instead of `propertiesComponent` for simple key/value properties.
+   */
+  propertyFields?: PropertyFieldConfig[];
+}
+
+// ── Registry ─────────────────────────────────────────────────────────────────
+
+export const glyphRegistry: Record<string, GlyphRegistryEntry> = {
     'network-server': {
         icon: 'server',
         name: 'Network Server',
@@ -26,7 +54,15 @@ export const glyphRegistry = {
                 model: 'RTX-1000'
             }
         },
-        propertiesComponent: 'NetworkRouterProperties' // Reference to the properties component
+        propertyFields: [
+            { key: 'model',    label: 'Model',        type: 'text',   defaultValue: 'RTX-1000',   placeholder: 'e.g. RTX-1000' },
+            { key: 'vendor',   label: 'Vendor',       type: 'text',   defaultValue: '',           placeholder: 'e.g. Cisco' },
+            { key: 'ipv4',     label: 'IPv4 Address', type: 'text',   defaultValue: '',           placeholder: '192.168.1.1' },
+            { key: 'ipv6',     label: 'IPv6 Address', type: 'text',   defaultValue: '',           placeholder: 'fe80::1' },
+            { key: 'ports',    label: 'Ports',        type: 'number', defaultValue: 4,  min: 1, max: 128 },
+            { key: 'managed',  label: 'Managed',      type: 'checkbox', defaultValue: true, placeholder: 'Managed device' },
+            { key: 'notes',    label: 'Notes',        type: 'textarea', defaultValue: '', placeholder: 'Additional notes...' },
+        ],
     },
     'network-switch': {
         icon: 'switch',
@@ -39,7 +75,23 @@ export const glyphRegistry = {
                 ports: 24
             }
         },
-        propertiesComponent: 'NetworkSwitchProperties' // Reference to the properties component
+        propertyFields: [
+            { key: 'model',    label: 'Model',        type: 'text',   defaultValue: '',  placeholder: 'e.g. Catalyst 2960' },
+            { key: 'vendor',   label: 'Vendor',       type: 'text',   defaultValue: '',  placeholder: 'e.g. Cisco' },
+            { key: 'ports',    label: 'Port Count',   type: 'number', defaultValue: 24,  min: 1, max: 512 },
+            { key: 'speed',    label: 'Speed',        type: 'select', defaultValue: '1G',
+              options: [
+                { label: '100 Mbps', value: '100M' },
+                { label: '1 Gbps',   value: '1G' },
+                { label: '10 Gbps',  value: '10G' },
+                { label: '25 Gbps',  value: '25G' },
+                { label: '100 Gbps', value: '100G' },
+              ]
+            },
+            { key: 'vlan',     label: 'VLAN ID',      type: 'number', defaultValue: 1,   min: 1, max: 4094 },
+            { key: 'managed',  label: 'Managed',      type: 'checkbox', defaultValue: true, placeholder: 'Managed switch' },
+            { key: 'notes',    label: 'Notes',        type: 'textarea', defaultValue: '', placeholder: 'Additional notes...' },
+        ],
     },
     'mcp-glyph': {
         icon: 'cube',

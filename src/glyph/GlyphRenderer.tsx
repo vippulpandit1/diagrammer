@@ -31,11 +31,11 @@ import iconPng from '../image/free-sample.png';
 export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncated, attributes, methods, hasConnections, glyph, onResize }: { type: string; width: number; height?: number; label?: string; orinLabel?: string; isTruncated?: boolean; attributes?: UMLAttr[]; methods?: UMLMethod[]; hasConnections?: boolean, glyph?: Glyph, onResize?: (rect: { x: number; y: number; width: number; height: number }) => void }) {
   switch (type) {
     case "rect":
-      return <RectGlyph width={width} height={height ?? width} />;
+      return <RectGlyph width={width} height={height ?? width} fillColor={glyph?.data?.fillColor as string | undefined} strokeColor={glyph?.data?.strokeColor as string | undefined} />;
     case "circle":
-      return <CircleGlyph size={width} />;
+      return <CircleGlyph size={width} fillColor={glyph?.data?.fillColor as string | undefined} strokeColor={glyph?.data?.strokeColor as string | undefined} />;
     case "resizable-rectangle":
-      return <ResizableRectangleGlyph width={width} height={height ?? width} selected={false} onResize={onResize}/>;
+      return <ResizableRectangleGlyph width={width} height={height ?? width} selected={false} fillColor={glyph?.data?.fillColor as string | undefined} strokeColor={glyph?.data?.strokeColor as string | undefined} onResize={onResize}/>;
     case "png-glyph":
       return <PngGlyph
           x={0}
