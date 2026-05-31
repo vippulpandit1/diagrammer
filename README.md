@@ -2,6 +2,18 @@
 
 A React-based diagramming application built with **Vite** and **TypeScript** 5.8. Allows users to create, connect, and customize "Glyphs" (SVG-based components) on a persistent canvas.
 
+## Technology Stack
+
+| Layer | Technology |
+|-------|-----------|
+| UI Framework | React 19 |
+| Build Tool | Vite 7 |
+| Language | TypeScript 5.8 |
+| Rendering | SVG |
+| Testing | Vitest 3 + Testing Library |
+| MCP Integration | `use-mcp`, `@anthropic-ai/claude-agent-sdk` |
+| Containerization | Docker (nginx:1.27-alpine) |
+
 ## Architecture Overview
 
 ```mermaid
@@ -13,56 +25,69 @@ graph TD
         HeaderBar[HeaderBar.tsx - Actions & Zoom]
         PropertySheet[PropertySheet.tsx - Editor Panel]
         BottomPanel[BottomPanel.tsx - Logs & Metrics]
+        FloatingToolbar[FloatingToolbar.tsx - Contextual Actions]
+        PageTabs[PageTabs.tsx - Multi-page Navigation]
+        BottomTabs[BottomTabs.tsx - Panel Tabs]
     end
 
     subgraph Canvas_Engine [Canvas Engine]
         GlyphCanvas[GlyphCanvas.tsx - SVG Rendering & Math]
         UnitsOverlay[UnitsOverlay.tsx - Grid & Scale]
+        GlyphItem[glyphCanvas/GlyphItem.tsx - Per-glyph Render]
+        ConnectionItem[glyphCanvas/ConnectionItem.tsx - Edge Render]
+        ContextMenus[glyphCanvas/ContextMenus.tsx - Right-click Menus]
+        canvasUtils[glyphCanvas/canvasUtils.ts - Coordinate Helpers]
     end
 
     subgraph Glyph_System [Glyph System]
         GlyphClass[Glyph.tsx - Data Model]
         GlyphRenderer[GlyphRenderer.tsx - Component Dispatch]
         GlyphRegistry[GlyphRegistry.tsx - Metadata & Props]
-        
+        Port[Port.tsx - Connection Points]
+        Connection[Connection.tsx - Edge Model]
+        GlyphDocument[GlyphDocument.tsx - Document Model]
+        Page[Page.tsx - Page Model]
+
         subgraph Glyph_Types [Glyph Types]
-            Basic[Basic Glyphs]
-            Logic[Logic Gates]
-            Flowchart[Flowchart]
-            UML[UML Class/Interface]
-            Network[Network Icons]
-            MCP[MCP Components]
-            BPMN[BPMN]
+            Basic[basic/ - Rect, Circle, Text, PNG, MultiPort]
+            Logic[logic/ - Logic Gates]
+            Flowchart[flowchart/ - Flowchart Shapes]
+            UML[uml/ - Class, Interface, Enum, Package, Relationships]
+            Network[network/ - Devices, Infra, Services, Virtual, Telecom]
+            MCP[mcp/ - MCP Components]
+            BPMN[bpmn/ - Events, Activities, Gateways, Swimlanes]
         end
+    end
+
+    subgraph Hooks
+        useGlyphActions[useGlyphActions.ts]
+        usePageManagement[usePageManagement.ts]
     end
 
     subgraph Infrastructure
         Persistence[(sessionStorage - canvasData)]
         History[Undo/Redo Stack]
-        MCP_Lib[use-mcp / MCP SDK]
+        MCP_Lib[use-mcp / Claude Agent SDK]
     end
 
-    %% Data Flow
     App -->|State| GlyphCanvas
     App -->|Selected Item| PropertySheet
     Toolbar -->|Selection| Stencil
     Stencil -->|Add Glyph| App
     GlyphCanvas -->|onUpdate| App
     PropertySheet -->|onUpdate| App
-    
-    %% Internal Relations
-    GlyphCanvas --> GlyphRenderer
-    GlyphRenderer --> Basic
-    GlyphRenderer --> Logic
-    GlyphRenderer --> BPMN
-    GlyphRenderer ...-> Glyph_Types
-    GlyphRenderer --> GlyphClass
-    
-    %% Connections
-    GlyphClass -->|Generates| Port[Port.tsx]
-    GlyphCanvas -->|Calculates| Connection[Connection.tsx]
 
-    %% Persistence
+    GlyphCanvas --> GlyphItem
+    GlyphCanvas --> ConnectionItem
+    GlyphCanvas --> ContextMenus
+    GlyphItem --> GlyphRenderer
+    GlyphRenderer --> Glyph_Types
+    GlyphClass -->|Generates| Port
+    GlyphCanvas -->|Calculates| Connection
+
+    App --> useGlyphActions
+    App --> usePageManagement
+
     App <--> Persistence
     App <--> History
 ```
@@ -71,12 +96,24 @@ graph TD
 
 - **State Management**: Centralized in [src/App.tsx](src/App.tsx). Uses `Page` objects to support multiple canvas tabs. History (Undo/Redo) is manually tracked in a `history` stack.
 - **Persistence**: Application state is automatically persisted to `sessionStorage` under the key `canvasData`.
-- **Glyph System**: 
+- **Glyph System**:
   - **Model**: Defined by the `Glyph` class in [src/glyph/Glyph.tsx](src/glyph/Glyph.tsx).
   - **Rendering**: Dispatched via [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx) based on `glyph.type`.
   - **Registry**: [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx) maps glyph types to metadata and custom Property Sheet components.
 - **Canvas Engine**: [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) handles SVG rendering, coordinate normalization (Zoom/Pan), connection line calculations (Bezier/Manhattan/Line), and auto-expanding scroll area when glyphs are placed beyond the visible viewport.
-- **Technology Stack**: React 19, Vite, TypeScript, and **Model Context Protocol (MCP)** integration via `use-mcp`.
+- **Communication Pattern**: UI updates follow a strict `onUpdate` pattern that surfaces changes back to `App.tsx`, which updates the global state and history.
+
+## Glyph Categories
+
+| Category | Location | Shapes |
+|----------|----------|--------|
+| **Basic** | `src/glyph/type/basic/` | Rectangle, Circle, Text, PNG, MultiPort, ResizableRectangle |
+| **Flowchart** | `src/glyph/type/flowchart/` | Process, Decision, Document, Manual, Connector, Control, Misc |
+| **Logic** | `src/glyph/type/logic/` | Logic gates |
+| **UML** | `src/glyph/type/uml/` | Class, Interface, Abstract, Enum, Package, Inheritance, Association |
+| **Network** | `src/glyph/type/network/` | Devices, Infrastructure, Services, Virtual, Telecom, Power, Server |
+| **BPMN** | `src/glyph/type/bpmn/` | Events, Activities, Gateways, Data Objects, Swimlanes |
+| **MCP** | `src/glyph/type/mcp/` | MCP client components |
 
 ## BPMN Support
 
@@ -92,10 +129,65 @@ BPMN glyphs are split into individual category files under `src/glyph/type/bpmn/
 | `BPMNGlyphs.tsx` | Barrel re-export of all the above |
 | `BPMNGlyph.tsx` | Central switch-case renderer dispatching to the above components |
 
+## UML Support
+
+UML glyphs are in `src/glyph/type/uml/`:
+
+| File | Contents |
+|------|----------|
+| `UMLClassGlyph.tsx` | Class with attributes and methods |
+| `UMLInterfaceGlyph.tsx` | Interface with methods |
+| `UMLAbstractGlyph.tsx` | Abstract class |
+| `UMLEnumGlyph.tsx` | Enumeration |
+| `UMLPackageGlyph.tsx` | Package container |
+| `UMLInheritanceGlyph.tsx` | Inheritance arrow |
+| `UMLAssociationGlyph.tsx` | Association arrow |
+| `UMLAttr.tsx` / `UMLMethod.tsx` | Shared attribute/method row components |
+
+## Adding a New Glyph Type
+
+1. Create the component in `src/glyph/type/[category]/`.
+2. Add a case to the switch statement in [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx).
+3. Register metadata and defaults in [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx).
+4. Add the entry to the relevant category in [src/Stencil.tsx](src/Stencil.tsx).
+
 ## Getting Started
 
 ```bash
 npm install
 npm run dev
 ```
+
+## Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Type-check and produce a production build |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint across the project |
+| `npm test` | Run tests in watch mode (Vitest) |
+| `npm run test:run` | Run tests once |
+| `npm run coverage` | Run tests and generate a coverage report |
+
+## Docker
+
+A multi-stage Dockerfile is included. The build stage compiles the app with Node 22 and the serve stage delivers it via nginx 1.27.
+
+```bash
+docker build -t r-js-draw .
+docker run -p 8080:80 r-js-draw
+```
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| [src/App.tsx](src/App.tsx) | Main application container and central state hub |
+| [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) | Core SVG rendering engine (Zoom/Pan, connections) |
+| [src/glyph/Glyph.tsx](src/glyph/Glyph.tsx) | TypeScript class defining the glyph data model |
+| [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx) | Central dispatch component for all glyph types |
+| [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx) | Glyph metadata, defaults, and property sheet mapping |
+| [src/Stencil.tsx](src/Stencil.tsx) | Palette of draggable glyph types |
+| [src/PropertySheet.tsx](src/PropertySheet.tsx) | Generic property editor panel |
 
