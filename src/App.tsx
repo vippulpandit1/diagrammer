@@ -211,18 +211,33 @@ function App() {
     );
   };
 
-  const handleImport = (json: string) => {
+  const handleImport = (json: string, fileName?: string) => {
     try {
       const parsed = JSON.parse(json);
       if (parsed === null || typeof parsed !== "object") throw new Error("Invalid JSON");
-      const newPages: Page[] = Array.isArray(parsed)
+      const importedPages: Page[] = Array.isArray(parsed)
         ? parsed
         : Array.isArray(parsed.pages)
         ? parsed.pages
         : null;
-      if (!newPages || newPages.length === 0) throw new Error("No pages found");
-      setPages(newPages);
-      setActivePageIdx(0);
+      if (!importedPages || importedPages.length === 0) throw new Error("No pages found");
+      // Derive the tab name from the filename (strip extension) or fall back to the imported page name
+      const tabName = fileName
+        ? fileName.replace(/\.[^.]+$/, "")
+        : importedPages[0].name;
+      // Merge first imported page into the active tab (keep its id, update name),
+      // then append any additional imported pages as new tabs.
+      const [firstPage, ...extraPages] = importedPages;
+      setPages(prev => {
+        const updated = [...prev];
+        updated[activePageIdx] = {
+          ...updated[activePageIdx],
+          name: tabName,
+          glyphs: firstPage.glyphs ?? [],
+          connections: firstPage.connections ?? [],
+        };
+        return [...updated, ...extraPages];
+      });
       if (!Array.isArray(parsed)) {
         if (typeof parsed.stencilType === "string") setStencilType(parsed.stencilType as StencilType);
         if (typeof parsed.connectionType === "string") setConnectionType(parsed.connectionType as "association" | "inheritance" | "default");
@@ -230,7 +245,7 @@ function App() {
         if (parsed.toolbarPos && typeof parsed.toolbarPos.x === "number" && typeof parsed.toolbarPos.y === "number") setToolbarPos(parsed.toolbarPos);
       }
       sessionStorage.setItem("canvasData", json);
-      addMessage(`Imported ${newPages.length} page(s) from file`);
+      addMessage(`Imported ${importedPages.length} page(s) into current tab`);
     } catch (err) {
       addMessage(`Import failed: ${err instanceof Error ? err.message : "Unknown error"}`);
     }

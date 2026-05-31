@@ -99,9 +99,10 @@ describe("GlyphItem", () => {
     it("positions the svg at the glyph coordinates", () => {
       const glyph = makeGlyph("g1", "rect", 100, 150);
       const { container } = renderGlyphItem({ glyph });
+      // GlyphItem uses PAD=8 so the SVG is offset by -PAD to extend connector hit area
       const innerSvg = container.querySelectorAll("svg")[1]!;
-      expect(innerSvg.style.left).toBe("100px");
-      expect(innerSvg.style.top).toBe("150px");
+      expect(innerSvg.style.left).toBe("92px");  // 100 - PAD(8)
+      expect(innerSvg.style.top).toBe("142px");  // 150 - PAD(8)
     });
 
     it("renders GlyphRenderer inside the svg", () => {
@@ -473,6 +474,72 @@ describe("GlyphItem", () => {
       );
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Breakpoint triggered"));
       consoleSpy.mockRestore();
+    });
+
+    it("uses glyph.id in log when debug glyph label is empty (|| glyph.id fallback)", () => {
+      const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+      const glyph = new Glyph("dbg2", "debug", 0, 0, [], {}, "", 1, 1, [], [], 120, 80);
+      // Connection where this glyph is the TARGET (covers conn.toGlyphId === glyph.id branch)
+      const conn = new Connection("c1", "g-other", "p1", "dbg2", "p2");
+      render(
+        <svg>
+          <GlyphItem
+            glyph={glyph}
+            renderIdx={1}
+            selectedGlyphId={null}
+            selectedGlyphIds={[]}
+            hoveredPort={null}
+            dragConn={null}
+            editingTextId={null}
+            editingTextValue=""
+            zoom={1}
+            allGlyphs={[glyph]}
+            allConnections={[conn]}
+            canvasRef={makeRef()}
+            {...baseCallbacks()}
+          />
+        </svg>
+      );
+      // label="" is falsy, so `glyph.label || glyph.id` resolves to glyph.id "dbg2"
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("dbg2"));
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe("label alignment", () => {
+    it("renders label text anchor as 'start' when data.labelAlign is 'left'", () => {
+      const glyph = makeGlyph("g1", "rect", 100, 150);
+      glyph.data = { labelAlign: "left" };
+      const { container } = renderGlyphItem({ glyph });
+      const text = container.querySelector("text");
+      expect(text?.getAttribute("text-anchor")).toBe("start");
+    });
+
+    it("renders label text anchor as 'end' when data.labelAlign is 'right'", () => {
+      const glyph = makeGlyph("g1", "rect", 100, 150);
+      glyph.data = { labelAlign: "right" };
+      const { container } = renderGlyphItem({ glyph });
+      const text = container.querySelector("text");
+      expect(text?.getAttribute("text-anchor")).toBe("end");
+    });
+  });
+
+  describe("port connection highlight", () => {
+    it("highlights port circle red when selectedConnId matches a connection via fromPortId", () => {
+      const glyph = makeGlyph("g1");
+      const portId = glyph.ports[0].id; // actual UUID-based port id
+      const conn = new Connection("c1", "g1", portId, "g2", "p-other");
+      const { container } = renderGlyphItem({
+        glyph,
+        selectedConnId: "c1",
+        allConnections: [conn],
+        allGlyphs: [glyph],
+      });
+      const circles = container.querySelectorAll("circle");
+      const redCircle = Array.from(circles).find(
+        c => c.getAttribute("fill") === "#fecaca"
+      );
+      expect(redCircle).toBeTruthy();
     });
   });
 });

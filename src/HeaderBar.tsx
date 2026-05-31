@@ -8,7 +8,7 @@ interface HeaderBarProps {
   zoom: number;
   onAutoArrange: () => void;
   onPrint: () => void;
-  onImport: (json: string) => void;
+  onImport: (json: string, fileName?: string) => void;
 }
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({
@@ -29,7 +29,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
     const reader = new FileReader();
     reader.onload = (ev) => {
       const text = ev.target?.result;
-      if (typeof text === "string") onImport(text);
+      if (typeof text === "string") onImport(text, file.name);
     };
     reader.readAsText(file);
     // reset so the same file can be re-imported

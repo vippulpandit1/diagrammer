@@ -56,7 +56,8 @@ vi.mock("../HeaderBar", () => ({
             props.onImport(
               JSON.stringify({
                 pages: [{ id: "p-imp", name: "Imported", glyphs: [], connections: [] }],
-              })
+              }),
+              "my-diagram.json"
             )
           }
         />
@@ -239,10 +240,18 @@ describe("App", () => {
   // ─── Import ───────────────────────────────────────────────────────────────
 
   describe("import", () => {
-    it("loads pages from valid JSON on import", async () => {
+    it("loads pages from valid JSON into the active tab on import", async () => {
       renderApp();
       fireEvent.click(screen.getByTestId("hdr-import"));
-      await waitFor(() => expect(screen.getByText("Imported")).not.toBeNull());
+      await waitFor(() =>
+        expect(
+          mocks.bottomPanelProps.messages.some((m: string) =>
+            m.includes("Imported")
+          )
+        ).toBe(true)
+      );
+      // Active tab is renamed to the file name (without extension)
+      expect(screen.getByText("my-diagram")).not.toBeNull();
     });
 
     it("adds an 'Import failed' message when JSON is invalid", async () => {
@@ -264,6 +273,39 @@ describe("App", () => {
         expect(
           mocks.bottomPanelProps.messages.some((m: string) =>
             m.includes("Import failed")
+          )
+        ).toBe(true)
+      );
+    });
+
+    it("adds an 'Import failed' message when imported JSON parses to null", async () => {
+      renderApp();
+      // JSON.parse("null") === null, which triggers the null-object guard
+      mocks.headerBarProps.onImport("null");
+      await waitFor(() =>
+        expect(
+          mocks.bottomPanelProps.messages.some((m: string) =>
+            m.includes("Import failed")
+          )
+        ).toBe(true)
+      );
+    });
+
+    it("imports pages with stencilType, connectionType, toolbarOrientation, and toolbarPos", async () => {
+      renderApp();
+      mocks.headerBarProps.onImport(
+        JSON.stringify({
+          pages: [{ id: "p-full", name: "Full Import", glyphs: [], connections: [] }],
+          stencilType: "bpmn",
+          connectionType: "inheritance",
+          toolbarOrientation: "horizontal",
+          toolbarPos: { x: 50, y: 80 },
+        })
+      );
+      await waitFor(() =>
+        expect(
+          mocks.bottomPanelProps.messages.some((m: string) =>
+            m.includes("Imported")
           )
         ).toBe(true)
       );
@@ -458,6 +500,26 @@ describe("App", () => {
       await waitFor(() => screen.getByTestId("ps-update-conn"));
       expect(() => fireEvent.click(screen.getByTestId("ps-update-conn"))).not.toThrow();
     });
+
+    it("updates connection in state when connection id matches (TRUE branch)", async () => {
+      renderApp();
+      // Add STUB_CONN (id "c-click") directly to state so the update finds a match
+      mocks.glyphCanvasProps.onAddConnection(STUB_CONN);
+      await waitFor(() =>
+        expect(mocks.glyphCanvasProps.connections).toHaveLength(1)
+      );
+      // Open property sheet for the same connection
+      fireEvent.click(screen.getByTestId("click-conn"));
+      await waitFor(() => screen.getByTestId("ps-update-conn"));
+      // Update triggers connection.id === "c-click" TRUE branch
+      fireEvent.click(screen.getByTestId("ps-update-conn"));
+      await waitFor(() => {
+        const updated = mocks.glyphCanvasProps.connections.find(
+          (c: any) => c.id === "c-click"
+        );
+        expect(updated?.label).toBe("Updated");
+      });
+    });
   });
 
   // ─── Auto-arrange ─────────────────────────────────────────────────────────
@@ -522,6 +584,32 @@ describe("App", () => {
       );
       renderApp();
       await waitFor(() => expect(screen.getByText("Saved Page")).not.toBeNull());
+    });
+
+    it("loads pages from old array format in sessionStorage", async () => {
+      sessionStorage.setItem(
+        "canvasData",
+        JSON.stringify([
+          { id: "p-arr", name: "Array Format Page", glyphs: [], connections: [] },
+        ])
+      );
+      renderApp();
+      await waitFor(() => expect(screen.getByText("Array Format Page")).not.toBeNull());
+    });
+
+    it("loads stencilType, connectionType, toolbarOrientation, and toolbarPos from sessionStorage envelope", async () => {
+      sessionStorage.setItem(
+        "canvasData",
+        JSON.stringify({
+          pages: [{ id: "p-env", name: "Env Page", glyphs: [], connections: [] }],
+          stencilType: "network",
+          connectionType: "inheritance",
+          toolbarOrientation: "horizontal",
+          toolbarPos: { x: 100, y: 200 },
+        })
+      );
+      renderApp();
+      await waitFor(() => expect(screen.getByText("Env Page")).not.toBeNull());
     });
 
     it("does not crash on corrupt sessionStorage data", () => {

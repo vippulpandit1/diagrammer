@@ -266,3 +266,95 @@ describe("getConnectionPathMulti", () => {
     expect(path1).toBe(path2);
   });
 });
+
+// ─── computeGlyphSize: uncovered ?? branches ──────────────────────────────────
+
+describe("computeGlyphSize: ?? default branches", () => {
+  it("text glyph uses fontSize ?? 20 and label ?? 'Text' when width/height are undefined", () => {
+    const g = makeGlyph("t1", "text", 0, 0, 1, 1, "Hi");
+    (g as any).width = undefined;
+    (g as any).height = undefined;
+    // fontSize not in data, so uses default 20; label="Hi" (2 chars)
+    const { w, h } = computeGlyphSize(g);
+    // width = max(60, 2 * 12 + 32) = max(60, 56) = 60
+    // height = max(20*2, 40) = 40
+    expect(w).toBeGreaterThanOrEqual(60);
+    expect(h).toBe(40);
+  });
+
+  it("text glyph uses 'Text' as label fallback when label is undefined and no explicit dims", () => {
+    const g = makeGlyph("t2", "text", 0, 0, 1, 1, "");
+    (g as any).width = undefined;
+    (g as any).height = undefined;
+    (g as any).label = undefined;
+    // label ?? "Text" path; fontSize=20 default; "Text".length=4
+    const { w } = computeGlyphSize(g);
+    // width = max(60, 4 * 12 + 32) = max(60, 80) = 80
+    expect(w).toBe(80);
+  });
+
+  it("text glyph uses custom fontSize from data when width/height are undefined", () => {
+    const g = new Glyph("t3", "text", 0, 0, [], { fontSize: 24 }, "Hi", 1, 1, [], [], 120, 80);
+    (g as any).width = undefined;
+    (g as any).height = undefined;
+    // fontSize = 24; height = max(24*2, 40) = max(48, 40) = 48
+    const { h } = computeGlyphSize(g);
+    expect(h).toBe(48);
+  });
+
+  it("generic glyph uses 0 for label length when label is undefined", () => {
+    const g = makeGlyph("g1", "rect", 0, 0, 1, 1, "");
+    (g as any).label = undefined;
+    (g as any).width = undefined;
+    (g as any).height = undefined;
+    // labelWidth = max(60, 0 * 10 + 32) = max(60, 32) = 60; w = max(60, 100) = 100
+    const { w } = computeGlyphSize(g);
+    expect(w).toBe(100);
+  });
+
+  it("generic glyph uses 0 for attributes length when attributes is undefined", () => {
+    const g = makeGlyph("g2", "rect");
+    (g as any).attributes = undefined;
+    (g as any).width = undefined;
+    (g as any).height = undefined;
+    // attrHeight = 0 * 18 + 60 = 60; h = max(60, 60) = 60
+    const { h } = computeGlyphSize(g);
+    expect(h).toBe(60);
+  });
+});
+
+// ─── getConnectors: ?? default branches ───────────────────────────────────────
+
+describe("getConnectors: ?? default branches", () => {
+  it("uses numInputs ?? 2 default when glyph.inputs is undefined", () => {
+    const g = makeGlyph("g3", "rect", 0, 0, 2, 1);
+    (g as any).inputs = undefined;
+    const conns = getConnectors(g, 120, 80);
+    // Still iterates over existing ports (2 inputs from construction)
+    expect(conns.filter(c => c.type === "input")).toHaveLength(2);
+  });
+
+  it("uses numOutputs ?? 1 default when glyph.outputs is undefined", () => {
+    const g = makeGlyph("g4", "rect", 0, 0, 1, 2);
+    (g as any).outputs = undefined;
+    const conns = getConnectors(g, 120, 80);
+    // Still iterates over existing ports (2 outputs from construction)
+    expect(conns.filter(c => c.type === "output")).toHaveLength(2);
+  });
+
+  it("generates 'input-N' fallback id when port.id is undefined", () => {
+    const g = makeGlyph("g5", "rect", 0, 0, 1, 1);
+    (g as any).ports[0].id = undefined;
+    const conns = getConnectors(g, 120, 80);
+    // First port is input; i=0 → id = "input-1"
+    expect(conns[0].id).toBe("input-1");
+  });
+
+  it("generates 'output-N' fallback id when port.id is undefined", () => {
+    const g = makeGlyph("g6", "rect", 0, 0, 1, 1);
+    (g as any).ports[1].id = undefined;
+    const conns = getConnectors(g, 120, 80);
+    // Second port is output; i=1 → id = "output-2"
+    expect(conns[1].id).toBe("output-2");
+  });
+});
