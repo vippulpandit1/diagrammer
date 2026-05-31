@@ -243,15 +243,15 @@ describe("App", () => {
     it("loads pages from valid JSON into the active tab on import", async () => {
       renderApp();
       fireEvent.click(screen.getByTestId("hdr-import"));
-      await waitFor(() =>
+      await waitFor(() => {
         expect(
           mocks.bottomPanelProps.messages.some((m: string) =>
             m.includes("Imported")
           )
-        ).toBe(true)
-      );
-      // Active tab is renamed to the file name (without extension)
-      expect(screen.getByText("my-diagram")).not.toBeNull();
+        ).toBe(true);
+        // Active tab is renamed to the file name (without extension)
+        expect(screen.getByText("my-diagram")).not.toBeNull();
+      });
     });
 
     it("adds an 'Import failed' message when JSON is invalid", async () => {
