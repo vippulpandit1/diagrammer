@@ -87,19 +87,21 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
     ? glyph.label.slice(0, MAX_LABEL_CHARS - 3) + "..."
     : glyph.label;
 
+  const PAD = 8; // must be >= connector circle radius (7px)
+
   return (
     <svg
       key={glyph.id}
-      width={width}
-      height={height}
-      viewBox={`0 0 ${width} ${height}`}
+      width={width + PAD * 2}
+      height={height + PAD * 2}
+      viewBox={`${-PAD} ${-PAD} ${width + PAD * 2} ${height + PAD * 2}`}
       preserveAspectRatio="xMidYMid meet"
       style={{
         position: 'absolute',
-        left: glyph.x,
-        top: glyph.y,
-        width: width,
-        height: height,
+        left: glyph.x - PAD,
+        top: glyph.y - PAD,
+        width: width + PAD * 2,
+        height: height + PAD * 2,
         overflow: 'visible',
         cursor: isTextGlyph ? (isEditing ? 'text' : 'pointer') : 'grab',
         zIndex: renderIdx,
@@ -297,6 +299,7 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
             fill="#222"
             textAnchor={pt.type === 'input' ? 'end' : 'start'}
             pointerEvents="none"
+            style={{ userSelect: "none" }}
           >
             {pt.type === 'input'
               ? `in${connectors.filter(c => c.type === 'input').findIndex(c => c.id === pt.id) + 1}`

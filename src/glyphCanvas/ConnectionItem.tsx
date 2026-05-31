@@ -114,7 +114,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
                 ? "#38bdf8"
                 : hoveredConn === i
                   ? "#2563eb"
-                  : connectionColor === "black" ? "#f87171" : connectionColor
+                  : connectionColor
           }
           strokeWidth={selectedConn === i || isPortHovered || hoveredConn === i ? 5 : connectionThickness}
           fill="none"
@@ -140,7 +140,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
           }}
           onMouseEnter={() => onMouseEnter(i)}
           onMouseLeave={() => onMouseLeave()}
-          strokeDasharray={connectionDashed ? "5,5" : isHovered ? "5,5" : "none"}
+          strokeDasharray={connectionDashed ? "5,5" : "none"}
         />
         {relPoints.map((pt, idx) => (
           <circle
