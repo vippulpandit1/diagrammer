@@ -39,6 +39,26 @@ describe("CircleGlyph", () => {
     const { container } = renderInSvg(<CircleGlyph size={50} />);
     expect(container.querySelector("circle")!.getAttribute("stroke")).toBe("#222");
   });
+
+  it("uses fillColor prop when provided", () => {
+    const { container } = renderInSvg(<CircleGlyph size={50} fillColor="#ff0000" />);
+    expect(container.querySelector("circle")!.getAttribute("fill")).toBe("#ff0000");
+  });
+
+  it("uses transparent fill when fillColor='none'", () => {
+    const { container } = renderInSvg(<CircleGlyph size={50} fillColor="none" />);
+    expect(container.querySelector("circle")!.getAttribute("fill")).toBe("transparent");
+  });
+
+  it("uses strokeColor prop when provided", () => {
+    const { container } = renderInSvg(<CircleGlyph size={50} strokeColor="#0000ff" />);
+    expect(container.querySelector("circle")!.getAttribute("stroke")).toBe("#0000ff");
+  });
+
+  it("uses transparent stroke when strokeColor='none'", () => {
+    const { container } = renderInSvg(<CircleGlyph size={50} strokeColor="none" />);
+    expect(container.querySelector("circle")!.getAttribute("stroke")).toBe("transparent");
+  });
 });
 
 // ─── RectGlyph ────────────────────────────────────────────────────────────────
@@ -70,6 +90,26 @@ describe("RectGlyph", () => {
     const rect = container.querySelector("rect")!;
     expect(rect.getAttribute("x")).toBe("0");
     expect(rect.getAttribute("y")).toBe("0");
+  });
+
+  it("uses fillColor prop when provided", () => {
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} fillColor="#cc0000" />);
+    expect(container.querySelector("rect")!.getAttribute("fill")).toBe("#cc0000");
+  });
+
+  it("uses transparent fill when fillColor='none'", () => {
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} fillColor="none" />);
+    expect(container.querySelector("rect")!.getAttribute("fill")).toBe("transparent");
+  });
+
+  it("uses strokeColor prop when provided", () => {
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} strokeColor="#0000cc" />);
+    expect(container.querySelector("rect")!.getAttribute("stroke")).toBe("#0000cc");
+  });
+
+  it("uses transparent stroke when strokeColor='none'", () => {
+    const { container } = renderInSvg(<RectGlyph width={40} height={30} strokeColor="none" />);
+    expect(container.querySelector("rect")!.getAttribute("stroke")).toBe("transparent");
   });
 });
 

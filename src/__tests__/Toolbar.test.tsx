@@ -19,7 +19,7 @@ const defaultProps = {
 
 describe("Toolbar", () => {
   // ── Stencil type selector ────────────────────────────────────────────────
-  it("renders a select with all 8 stencil categories", () => {
+  it("renders a select with all 9 stencil categories", () => {
     render(<Toolbar {...defaultProps} />);
     const select = screen.getByRole("combobox");
     const options = Array.from(select.querySelectorAll("option")).map(
@@ -29,11 +29,12 @@ describe("Toolbar", () => {
     expect(options).toContain("Logic Gates");
     expect(options).toContain("UML");
     expect(options).toContain("Network");
+    expect(options).toContain("Cloud");
     expect(options).toContain("Flowchart");
     expect(options).toContain("BPMN");
     expect(options).toContain("MCP");
     expect(options).toContain("Debug");
-    expect(options).toHaveLength(8);
+    expect(options).toHaveLength(9);
   });
 
   it("shows the current stencilType as the selected value", () => {
