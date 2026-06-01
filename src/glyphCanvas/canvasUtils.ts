@@ -142,6 +142,27 @@ export const snapToPerimeter = (
   return { x: cx, y: h };
 };
 
+/** Minimum pixel distance between two ports on the perimeter. */
+const PORT_MIN_DIST = 14;
+
+/**
+ * Returns true if the snapped position is too close to any other port
+ * (excluding the port being dragged, identified by `draggingPortId`).
+ */
+export const portOccupied = (
+  glyph: Glyph,
+  candidate: { x: number; y: number },
+  draggingPortId: string
+): boolean => {
+  return (glyph.ports ?? []).some(p => {
+    if (p.id === draggingPortId) return false;
+    const px = p.x ?? 0;
+    const py = p.y ?? 0;
+    const dist = Math.sqrt((px - candidate.x) ** 2 + (py - candidate.y) ** 2);
+    return dist < PORT_MIN_DIST;
+  });
+};
+
 export const getConnectionPathMulti = (
   from: { x: number; y: number },
   points: { x: number; y: number }[],

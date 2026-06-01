@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
 import { Connection } from './glyph/Connection';
-import { computeGlyphSize, getConnectionPath, getConnectors, snapToPerimeter } from './glyphCanvas/canvasUtils';
+import { computeGlyphSize, getConnectionPath, getConnectors, snapToPerimeter, portOccupied } from './glyphCanvas/canvasUtils';
 import { GlyphItem } from './glyphCanvas/GlyphItem';
 import { ConnectionItem } from './glyphCanvas/ConnectionItem';
 import { ContextMenus } from './glyphCanvas/ContextMenus';
@@ -169,8 +169,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       if (!port) return;
       // Snap to nearest perimeter edge of the glyph
       const snapped = snapToPerimeter(canvasX - glyph.x, canvasY - glyph.y, w, h);
-      port.x = snapped.x;
-      port.y = snapped.y;
+      // Only update if not overlapping another port
+      if (!portOccupied(glyph, snapped, draggingPort.portId)) {
+        port.x = snapped.x;
+        port.y = snapped.y;
+      }
       setDragMouse({ x: canvasX, y: canvasY }); // trigger re-render
     };
     const handlePointerUp = (e: PointerEvent) => {
@@ -181,9 +184,12 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       if (glyph && onUpdateGlyph) {
         const { w, h } = computeGlyphSize(glyph);
         const snapped = snapToPerimeter(canvasX - glyph.x, canvasY - glyph.y, w, h);
-        const updatedPorts = glyph.ports.map(p =>
-          p.id === draggingPort.portId ? { ...p, x: snapped.x, y: snapped.y } : p
-        );
+        // Only persist the new position if it doesn't overlap an existing port
+        const updatedPorts = portOccupied(glyph, snapped, draggingPort.portId)
+          ? glyph.ports  // revert to current positions
+          : glyph.ports.map(p =>
+              p.id === draggingPort.portId ? { ...p, x: snapped.x, y: snapped.y } : p
+            );
         onUpdateGlyph(glyph.id, { ports: updatedPorts });
       }
       setDraggingPort(null);
