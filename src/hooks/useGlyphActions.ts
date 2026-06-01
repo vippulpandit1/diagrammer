@@ -43,9 +43,47 @@ export function useGlyphActions(
   };
 
   const handleResizeGlyph = (id: string, x: number, y: number, width: number, height: number) => {
-    activePage.glyphs = activePage.glyphs.map(g =>
-      g.id === id ? { ...g, x, y, width, height } : g
-    );
+    activePage.glyphs = activePage.glyphs.map(g => {
+      if (g.id !== id) return g;
+
+      const oldW = g.width ?? 120;
+      const oldH = g.height ?? 80;
+
+      // Rescale any port that has an explicit (user-dragged) position so it
+      // stays on the same perimeter edge of the resized glyph.
+      const updatedPorts = g.ports.map(port => {
+        if (port.x === undefined || port.y === undefined) return port;
+
+        let newX = port.x;
+        let newY = port.y;
+
+        if (port.x === 0) {
+          // Left edge — keep on left, scale y
+          newX = 0;
+          newY = oldH > 0 ? (port.y / oldH) * height : port.y;
+        } else if (port.x === oldW) {
+          // Right edge — keep on right (new width), scale y
+          newX = width;
+          newY = oldH > 0 ? (port.y / oldH) * height : port.y;
+        } else if (port.y === 0) {
+          // Top edge — scale x, keep on top
+          newX = oldW > 0 ? (port.x / oldW) * width : port.x;
+          newY = 0;
+        } else if (port.y === oldH) {
+          // Bottom edge — scale x, keep on bottom (new height)
+          newX = oldW > 0 ? (port.x / oldW) * width : port.x;
+          newY = height;
+        } else {
+          // Port not exactly on a perimeter edge — scale both axes proportionally
+          newX = oldW > 0 ? (port.x / oldW) * width : port.x;
+          newY = oldH > 0 ? (port.y / oldH) * height : port.y;
+        }
+
+        return { ...port, x: newX, y: newY };
+      });
+
+      return { ...g, x, y, width, height, ports: updatedPorts };
+    });
   };
 
   const bringGlyphToFront = (glyphId: string) => {
