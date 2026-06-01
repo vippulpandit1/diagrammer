@@ -20,6 +20,7 @@ import type { UMLMethod } from "./type/uml/UMLMethod";
 import { DebugGlyph } from "./type/util/DebugGlyph";
 import type { Glyph } from "./Glyph";
 import { NetworkGlyph } from "./type/network/NetworkGlyph";
+import { CloudGlyph } from "./type/cloud/CloudGlyph";
 import { TextGlyph } from "./type/basic/TextGlyph";
 import { FlowchartGlyph } from "./type/flowchart/FlowchartGlyph";
 import { BPMNGlyph } from "./type/bpmn/BPMNGlyph";
@@ -309,6 +310,27 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
     case "bpmn-pool":
     case "bpmn-lane":
       return <BPMNGlyph type={type} width={width} height={height} selected={true} onResize={onResize} />;
+    case "cloud-vm":
+    case "cloud-container":
+    case "cloud-function":
+    case "cloud-kubernetes":
+    case "cloud-object-storage":
+    case "cloud-block-storage":
+    case "cloud-database":
+    case "cloud-cache":
+    case "cloud-vpc":
+    case "cloud-load-balancer":
+    case "cloud-cdn":
+    case "cloud-api-gateway":
+    case "cloud-iam":
+    case "cloud-firewall":
+    case "cloud-waf":
+    case "cloud-kms":
+    case "cloud-queue":
+    case "cloud-event-bus":
+    case "cloud-monitoring":
+    case "cloud-cicd":
+      return <CloudGlyph type={type} width={width} height={height} />;
     default:
       return <rect x={0} y={0} width={width} height={height} fill="#ccc" />;
 

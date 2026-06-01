@@ -8,6 +8,7 @@ const STENCILS = [
   { key: "uml", label: "UML" }, 
   { key: "debug", label: "Debug" },
   { key: "network", label: "Network" },
+  { key: "cloud", label: "Cloud" },
   { key: "flowchart", label: "Flowchart" },
   { key: "mcp", label: "MCP" },
   { key: "bpmn", label: "BPMN" },
