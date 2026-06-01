@@ -125,7 +125,7 @@ describe("HeaderBar", () => {
     Object.defineProperty(fileInput, "files", { value: [mockFile], configurable: true });
     fireEvent.change(fileInput);
 
-    expect(onImport).toHaveBeenCalledWith("file content");
+    expect(onImport).toHaveBeenCalledWith("file content", "test.json");
     spy.mockRestore();
   });
 
@@ -164,5 +164,18 @@ describe("HeaderBar", () => {
 
     expect(onImport).not.toHaveBeenCalled();
     spy.mockRestore();
+  });
+
+  it("clicking the Import JSON button triggers the hidden file input click", () => {
+    const onImport = vi.fn();
+    render(<HeaderBar {...defaultProps} onImport={onImport} />);
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const clickSpy = vi.spyOn(fileInput, "click").mockImplementation(() => {});
+
+    fireEvent.click(screen.getByTitle("Import JSON"));
+
+    expect(clickSpy).toHaveBeenCalledOnce();
+    clickSpy.mockRestore();
   });
 });

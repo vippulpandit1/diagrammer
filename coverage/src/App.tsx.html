@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.06% </span>
+                <span class="strong">99.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>319/322</span>
+                <span class='fraction'>335/338</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.94% </span>
+                <span class="strong">90.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>79/85</span>
+                <span class='fraction'>85/94</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.11% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.06% </span>
+                <span class="strong">99.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>319/322</span>
+                <span class='fraction'>335/338</span>
             </div>
         
             
@@ -453,7 +453,28 @@
 <a name='L388'></a><a href='#L388'>388</a>
 <a name='L389'></a><a href='#L389'>389</a>
 <a name='L390'></a><a href='#L390'>390</a>
-<a name='L391'></a><a href='#L391'>391</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -648,6 +669,12 @@
 <span class="cline-any cline-yes">161x</span>
 <span class="cline-any cline-yes">161x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">161x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -676,9 +703,24 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -1035,8 +1077,14 @@ function App() {
     sendGlyphToBack,
     handleAutoArrange,
     handleAddGlyph,
-    handleUpdateGlyph,
+    handleUpdateGlyph: _handleUpdateGlyph,
   } = useGlyphActions(activePage, pages, activePageIdx, addMessage, updateHistory);
+&nbsp;
+  // Wrap so that selectedGlyph stays in sync when properties are updated live
+  const handleUpdateGlyph = (id: string, updates: Partial&lt;Glyph&gt;) =&gt; {
+    _handleUpdateGlyph(id, updates);
+    setSelectedGlyph(prev =&gt; (prev &amp;&amp; prev.id === id ? { ...prev, ...updates <span class="branch-0 cbranch-no" title="branch not covered" >} as Glyph : prev))</span>;
+  };
 &nbsp;
   const handleClosePropertySheet = () =&gt; {
     setSelectedItem(null);
@@ -1056,18 +1104,33 @@ function App() {
     );
   };
 &nbsp;
-  const handleImport = (json: string) =&gt; {
+  const handleImport = (json: string, fileName?: string) =&gt; {
     try {
       const parsed = JSON.parse(json);
       if (parsed === null || typeof parsed !== "object") throw new Error("Invalid JSON");
-      const newPages: Page[] = Array.isArray(parsed<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
+      const importedPages: Page[] = Array.isArray(parsed<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
 <span class="cstat-no" title="statement not covered" >        ? parsed</span>
         : Array.isArray(parsed.pages)
         ? parsed.<span class="branch-0 cbranch-no" title="branch not covered" >pages</span>
 <span class="cstat-no" title="statement not covered" >        : null;</span>
-      if (!newPages || newPages.length === 0) throw new Error("No pages found");
-      setPages(newPages);
-      setActivePageIdx(0);
+      if (!importedPages || importedPages.length === 0) throw new Error("No pages found");
+      // Derive the tab name from the filename (strip extension) or fall back to the imported page name
+      const tabName = fileName
+        ? fileName.replace(/\.[^.]+$/, "")
+        : importedPages[0].name;
+      // Merge first imported page into the active tab (keep its id, update name),
+      // then append any additional imported pages as new tabs.
+      const [firstPage, ...extraPages] = importedPages;
+      setPages(prev =&gt; {
+        const updated = [...prev];
+        updated[activePageIdx] = {
+          ...updated[activePageIdx],
+          name: tabName,
+          glyphs: firstPage.<span class="branch-0 cbranch-no" title="branch not covered" >glyphs ?? [],</span>
+          connections: firstPage.<span class="branch-0 cbranch-no" title="branch not covered" >connections ?? [],</span>
+        };
+        return [...updated, ...extraPages];
+      });
       if (!Array.isArray(parsed)) {
         if (typeof parsed.stencilType === "string") setStencilType(parsed.stencilType as StencilType);
         if (typeof parsed.connectionType === "string") setConnectionType(parsed.connectionType as "association" | "inheritance" | "default");
@@ -1075,7 +1138,7 @@ function App() {
         if (parsed.toolbarPos &amp;&amp; typeof parsed.toolbarPos.x === "number" &amp;&amp; typeof parsed.toolbarPos.y === "number") setToolbarPos(parsed.toolbarPos);
       }
       sessionStorage.setItem("canvasData", json);
-      addMessage(`Imported ${newPages.length} page(s) from file`);
+      addMessage(`Imported ${importedPages.length} page(s) into current tab`);
     } catch (err) {
       addMessage(`Import failed: ${err instanceof Error ? err.<span class="branch-0 cbranch-no" title="branch not covered" >message : "Unknown error"}</span>`);
     }
@@ -1240,7 +1303,7 @@ export default App
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-31T06:05:57.979Z
+                at 2026-06-01T07:10:37.746Z
             </div>
         <script src="../prettify.js"></script>
         <script>
