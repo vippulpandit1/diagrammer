@@ -29,6 +29,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   onConnectionClick,
   onMessage,
   onResizeGlyph,
+  onUpdateGlyph,
 }) => {
   const activePage = pages[activePageIdx];
 
@@ -404,6 +405,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           ungroupGlyphs={ungroupGlyphs}
           onPageChange={onPageChange}
           onMessage={onMessage}
+          onUpdateGlyph={onUpdateGlyph}
         />
 
         {/* Drag connection preview */}

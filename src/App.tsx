@@ -343,6 +343,7 @@ function App() {
               setSelectedConnection(conn);
               handleOpenPropertySheet(undefined, conn);
             }}
+            onUpdateGlyph={handleUpdateGlyph}
         />
 
       {/* Tabs for pages positioned relative to BottomPanel */}

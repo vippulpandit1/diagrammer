@@ -24,6 +24,7 @@ export interface GlyphCanvasProps {
   onConnectionClick?: (conn: Connection) => void;
   onMessage?: (msg: string) => void;
   onResizeGlyph?: (id: string, x: number, y: number, width: number, height: number) => void;
+  onUpdateGlyph?: (id: string, updates: Partial<Glyph>) => void;
 }
 
 export type ResizingState = {
