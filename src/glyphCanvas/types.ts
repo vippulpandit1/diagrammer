@@ -44,3 +44,8 @@ export type DragConnState = {
   fromX: number;
   fromY: number;
 };
+
+export type DraggingPortState = {
+  glyphId: string;
+  portId: string;
+};

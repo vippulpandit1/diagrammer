@@ -2,11 +2,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Glyph } from './glyph/Glyph';
 import { Connection } from './glyph/Connection';
-import { computeGlyphSize, getConnectionPath, getConnectors } from './glyphCanvas/canvasUtils';
+import { computeGlyphSize, getConnectionPath, getConnectors, snapToPerimeter } from './glyphCanvas/canvasUtils';
 import { GlyphItem } from './glyphCanvas/GlyphItem';
 import { ConnectionItem } from './glyphCanvas/ConnectionItem';
 import { ContextMenus } from './glyphCanvas/ContextMenus';
-import type { GlyphCanvasProps, ResizingState, DragConnState } from './glyphCanvas/types';
+import type { GlyphCanvasProps, ResizingState, DragConnState, DraggingPortState } from './glyphCanvas/types';
 
 export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   pages,
@@ -50,6 +50,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const [, setRect] = useState({ x: 60, y: 60, width: 120, height: 80 });
   const [resizing, setResizing] = useState<ResizingState | null>(null);
   const [, setResizeMouse] = useState<{ x: number; y: number } | null>(null);
+  const [draggingPort, setDraggingPort] = useState<DraggingPortState | null>(null);
 
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
@@ -154,6 +155,47 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
       window.removeEventListener('pointerup', handlePointerUp);
     };
   }, [resizing, zoom, onResizeGlyph]);
+
+  useEffect(() => {
+    if (!draggingPort) return;
+    const handlePointerMove = (e: PointerEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      const canvasX = (e.clientX - (rect?.left ?? 0)) / zoom;
+      const canvasY = (e.clientY - (rect?.top ?? 0)) / zoom;
+      const glyph = glyphsToRender.find(g => g.id === draggingPort.glyphId);
+      if (!glyph) return;
+      const { w, h } = computeGlyphSize(glyph);
+      const port = glyph.ports?.find(p => p.id === draggingPort.portId);
+      if (!port) return;
+      // Snap to nearest perimeter edge of the glyph
+      const snapped = snapToPerimeter(canvasX - glyph.x, canvasY - glyph.y, w, h);
+      port.x = snapped.x;
+      port.y = snapped.y;
+      setDragMouse({ x: canvasX, y: canvasY }); // trigger re-render
+    };
+    const handlePointerUp = (e: PointerEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      const canvasX = (e.clientX - (rect?.left ?? 0)) / zoom;
+      const canvasY = (e.clientY - (rect?.top ?? 0)) / zoom;
+      const glyph = glyphsToRender.find(g => g.id === draggingPort.glyphId);
+      if (glyph && onUpdateGlyph) {
+        const { w, h } = computeGlyphSize(glyph);
+        const snapped = snapToPerimeter(canvasX - glyph.x, canvasY - glyph.y, w, h);
+        const updatedPorts = glyph.ports.map(p =>
+          p.id === draggingPort.portId ? { ...p, x: snapped.x, y: snapped.y } : p
+        );
+        onUpdateGlyph(glyph.id, { ports: updatedPorts });
+      }
+      setDraggingPort(null);
+      setDragMouse(null);
+    };
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [draggingPort, glyphsToRender, zoom, onUpdateGlyph]);
 
   useEffect(() => {
     if (!draggedPoint) return;
@@ -335,6 +377,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                   setDragConn({ fromGlyphId: glyphId, fromPortIdx: portId, fromX, fromY });
                   setDragMouse({ x: fromX, y: fromY });
                 }}
+                onStartPortMove={(portId, glyphId) => setDraggingPort({ glyphId, portId })}
                 onCompleteConnection={(toGlyphId, toPortId) => {
                   if (dragConn) {
                     onAddConnection({

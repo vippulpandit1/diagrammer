@@ -73,12 +73,12 @@ export class Glyph {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(obj: any): Glyph {
-    return new Glyph(
+    const g = new Glyph(
       obj.id,
       obj.type,
       obj.x,
       obj.y,
-      (obj.ports || []).map(Port.fromJSON),
+      [],
       obj.data || {},
       obj.label || "", // <-- Deserialize label
       obj.inputs || 2,
@@ -89,5 +89,12 @@ export class Glyph {
       obj.height || 80, // Deserialize height
       obj.icon || undefined
     );
+    // Restore persisted ports (with stable IDs and custom positions) instead of
+    // the newly-generated ones so that connection fromPortId/toPortId references
+    // remain valid after load, and custom port positions (port.x / port.y) are kept.
+    if (Array.isArray(obj.ports) && obj.ports.length > 0) {
+      g.ports = obj.ports.map(Port.fromJSON);
+    }
+    return g;
   }
 }

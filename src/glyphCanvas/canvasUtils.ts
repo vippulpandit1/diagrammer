@@ -67,16 +67,16 @@ export const getConnectors = (glyph: Glyph, width: number, height: number) => {
     const port = glyph.ports[i];
     if (port.type === "input") {
       connectors.push({
-        cx: 0,
-        cy: height * ((inputCount + 1) / (numInputs + 1)),
+        cx: port.x !== undefined ? port.x : 0,
+        cy: port.y !== undefined ? port.y : height * ((inputCount + 1) / (numInputs + 1)),
         type: "input",
         id: port.id ?? `input-${i + 1}`,
       });
       inputCount++;
     } else if (port.type === "output") {
       connectors.push({
-        cx: width,
-        cy: height * ((outputCount + 1) / (numOutputs + 1)),
+        cx: port.x !== undefined ? port.x : width,
+        cy: port.y !== undefined ? port.y : height * ((outputCount + 1) / (numOutputs + 1)),
         type: "output",
         id: port.id ?? `output-${i + 1}`,
       });
@@ -117,6 +117,29 @@ export const getConnectorPos = (
     x: glyph.x + connector.cx,
     y: glyph.y + connector.cy,
   };
+};
+
+/**
+ * Snaps a point (rx, ry) expressed in glyph-local coordinates to the nearest
+ * edge of the glyph rectangle (0,0) → (w,h).
+ */
+export const snapToPerimeter = (
+  rx: number,
+  ry: number,
+  w: number,
+  h: number
+): { x: number; y: number } => {
+  const cx = Math.max(0, Math.min(w, rx));
+  const cy = Math.max(0, Math.min(h, ry));
+  const dLeft = cx;
+  const dRight = w - cx;
+  const dTop = cy;
+  const dBottom = h - cy;
+  const minDist = Math.min(dLeft, dRight, dTop, dBottom);
+  if (minDist === dLeft)   return { x: 0, y: cy };
+  if (minDist === dRight)  return { x: w, y: cy };
+  if (minDist === dTop)    return { x: cx, y: 0 };
+  return { x: cx, y: h };
 };
 
 export const getConnectionPathMulti = (

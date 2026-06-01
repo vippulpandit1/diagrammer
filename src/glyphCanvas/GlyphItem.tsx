@@ -27,6 +27,7 @@ export interface GlyphItemProps {
   onDoubleClickGlyph: (glyph: Glyph) => void;
   onContextMenu: (glyphId: string, x: number, y: number) => void;
   onStartPortDrag: (portId: string, glyphId: string, fromX: number, fromY: number) => void;
+  onStartPortMove: (portId: string, glyphId: string) => void;
   onCompleteConnection: (toGlyphId: string, toPortId: string | undefined) => void;
   onPortHover: (glyphId: string, portIdx: number) => void;
   onPortHoverEnd: () => void;
@@ -59,6 +60,7 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
   onDoubleClickGlyph,
   onContextMenu,
   onStartPortDrag,
+  onStartPortMove,
   onCompleteConnection,
   onPortHover,
   onPortHoverEnd,
@@ -249,6 +251,7 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
       {/* Connectors */}
       {connectors.map((pt, idx) => (
         <g key={idx}>
+          <title>{pt.type === 'output' ? 'Drag: connect | Alt+Drag: move port' : 'Alt+Drag: move port'}</title>
           <circle
             cx={pt.cx}
             cy={pt.cy}
@@ -273,7 +276,9 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
             style={{ cursor: pt.type === 'output' ? 'crosshair' : 'pointer' }}
             onPointerDown={e => {
               e.stopPropagation();
-              if (pt.type === 'output') {
+              if (e.altKey) {
+                onStartPortMove(pt.id, glyph.id);
+              } else if (pt.type === 'output') {
                 const rect = canvasRef.current?.getBoundingClientRect();
                 const mouseX = (e.clientX - (rect?.left ?? 0)) / zoom;
                 const mouseY = (e.clientY - (rect?.top ?? 0)) / zoom;
