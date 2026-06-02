@@ -1,0 +1,142 @@
+{
+  "pages": [
+    {
+      "id": "page-adt",
+      "name": "Agent Development Kit",
+      "glyphs": [
+
+        {"id":"title-main","type":"text","x":350,"y":18,"width":800,"height":45,"ports":[],"data":{"fontSize":28,"fontFamily":"Arial","labelAlign":"center","textColor":"#111111"},"label":"The Agent Development Kit","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"title-sub","type":"text","x":350,"y":66,"width":800,"height":22,"ports":[],"data":{"fontSize":13,"fontFamily":"Arial","labelAlign":"center","textColor":"#555555"},"label":"CLAUDE.md + Skills + Hooks + Subagents + Plugins","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l1-container","type":"resizable-rectangle","x":145,"y":98,"width":1200,"height":165,"ports":[{"id":"i-l1-mcp","type":"input"},{"id":"o-l1-at","type":"output"}],"data":{"fillColor":"#f0faf5","strokeColor":"#2d7a5a","fontSize":12},"label":"","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l1-num","type":"rect","x":152,"y":104,"width":28,"height":28,"ports":[],"data":{"fillColor":"#2d7a5a","strokeColor":"#2d7a5a","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"1","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l1-hdr","type":"text","x":188,"y":104,"width":235,"height":28,"ports":[],"data":{"fontSize":16,"fontFamily":"Arial","labelAlign":"left","textColor":"#2d7a5a"},"label":"Layer 1 – CLAUDE.md","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l1-mem","type":"text","x":440,"y":108,"width":195,"height":22,"ports":[],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"left","textColor":"#777777"},"label":"The Memory Layer","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l1-doc","type":"rect","x":172,"y":140,"width":82,"height":108,"ports":[{"id":"i-l1-doc","type":"input"},{"id":"o-l1-doc-1","type":"output"},{"id":"o-l1-doc-2","type":"output"},{"id":"o-l1-doc-3","type":"output"},{"id":"o-l1-doc-4","type":"output"},{"id":"o-l1-doc-5","type":"output"},{"id":"o-l1-doc-6","type":"output"}],"data":{"fillColor":"#e0f2ea","strokeColor":"#2d7a5a","fontSize":12,"labelAlign":"center","textColor":"#1a5a3a"},"label":"Root\nCLAUDE.md","inputs":1,"outputs":6,"attributes":[],"methods":[]},
+
+        {"id":"l1-r1","type":"rect","x":310,"y":143,"width":150,"height":27,"ports":[{"id":"i-l1-r1","type":"input"},{"id":"o-l1-r1","type":"output"}],"data":{"fillColor":"#ffffff","strokeColor":"#aaaaaa","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"architecture rules","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l1-r2","type":"rect","x":310,"y":176,"width":150,"height":27,"ports":[{"id":"i-l1-r2","type":"input"},{"id":"o-l1-r2","type":"output"}],"data":{"fillColor":"#ffffff","strokeColor":"#aaaaaa","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"naming conventions","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l1-r3","type":"rect","x":310,"y":209,"width":150,"height":27,"ports":[{"id":"i-l1-r3","type":"input"},{"id":"o-l1-r3","type":"output"}],"data":{"fillColor":"#ffffff","strokeColor":"#aaaaaa","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"test expectations","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l1-r4","type":"rect","x":310,"y":242,"width":90,"height":27,"ports":[{"id":"i-l1-r4","type":"input"}],"data":{"fillColor":"#ffffff","strokeColor":"#aaaaaa","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"repo map","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l1-global","type":"rect","x":514,"y":143,"width":185,"height":47,"ports":[{"id":"i-l1-global","type":"input"}],"data":{"fillColor":"#d8f0e5","strokeColor":"#2d7a5a","fontSize":11,"labelAlign":"center","textColor":"#1a5a3a"},"label":"~/.claude/CLAUDE.md\nGlobal","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l1-project","type":"rect","x":514,"y":203,"width":185,"height":47,"ports":[{"id":"i-l1-project","type":"input"}],"data":{"fillColor":"#d8f0e5","strokeColor":"#2d7a5a","fontSize":11,"labelAlign":"center","textColor":"#1a5a3a"},"label":".claude/CLAUDE.md\nProject","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l1-note","type":"rect","x":742,"y":108,"width":185,"height":150,"ports":[],"data":{"fillColor":"#fff8e7","strokeColor":"#c9a84c","fontSize":11,"labelAlign":"center","textColor":"#444444"},"label":"Always loaded.\nAlways active.\nThis is the\nagent's constitution.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l2-container","type":"resizable-rectangle","x":145,"y":273,"width":1200,"height":158,"ports":[{"id":"i-l2-mcp","type":"input"},{"id":"o-l2-at","type":"output"}],"data":{"fillColor":"#fff8f0","strokeColor":"#d4660a","fontSize":12},"label":"","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l2-num","type":"rect","x":152,"y":279,"width":28,"height":28,"ports":[],"data":{"fillColor":"#d4660a","strokeColor":"#d4660a","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"2","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l2-hdr","type":"text","x":188,"y":279,"width":220,"height":28,"ports":[],"data":{"fontSize":16,"fontFamily":"Arial","labelAlign":"left","textColor":"#d4660a"},"label":"Layer 2 – SKILLS","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l2-know","type":"text","x":430,"y":283,"width":205,"height":22,"ports":[],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"left","textColor":"#777777"},"label":"The Knowledge Layer","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l2-skill","type":"rect","x":172,"y":313,"width":82,"height":100,"ports":[{"id":"o-l2-skill","type":"output"}],"data":{"fillColor":"#ffe5cc","strokeColor":"#d4660a","fontSize":12,"labelAlign":"center","textColor":"#993300"},"label":"SKILL.md","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l2-desc","type":"rect","x":272,"y":335,"width":130,"height":35,"ports":[{"id":"i-l2-desc","type":"input"},{"id":"o-l2-desc","type":"output"}],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"description\nmatching","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l2-auto","type":"rect","x":420,"y":335,"width":112,"height":35,"ports":[{"id":"i-l2-auto","type":"input"},{"id":"o-l2-auto","type":"output"}],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"auto-invoked","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l2-task","type":"rect","x":550,"y":335,"width":133,"height":35,"ports":[{"id":"i-l2-task","type":"input"}],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"task-specific\ncontext","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l2-refs","type":"text","x":702,"y":313,"width":120,"height":72,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"📄 reference docs\n📄 scripts\n📄 templates","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l2-note","type":"rect","x":842,"y":283,"width":195,"height":138,"ports":[],"data":{"fillColor":"#fff8e7","strokeColor":"#c9a84c","fontSize":11,"labelAlign":"center","textColor":"#444444"},"label":"On-demand, not\nalways-on.\nModular context\nchunks.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l2-key","type":"text","x":200,"y":386,"width":360,"height":22,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#d4660a"},"label":"Key: context fork runs skill in isolated subagent","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l3-container","type":"resizable-rectangle","x":145,"y":441,"width":1200,"height":158,"ports":[{"id":"i-l3-mcp","type":"input"},{"id":"o-l3-at","type":"output"}],"data":{"fillColor":"#fff9f0","strokeColor":"#c87d2a","fontSize":12},"label":"","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l3-num","type":"rect","x":152,"y":447,"width":28,"height":28,"ports":[],"data":{"fillColor":"#c87d2a","strokeColor":"#c87d2a","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"3","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-hdr","type":"text","x":188,"y":447,"width":220,"height":28,"ports":[],"data":{"fontSize":16,"fontFamily":"Arial","labelAlign":"left","textColor":"#c87d2a"},"label":"Layer 3 – HOOKS","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-guard","type":"text","x":430,"y":451,"width":205,"height":22,"ports":[],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"left","textColor":"#777777"},"label":"The Guardrail Layer","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l3-h1","type":"rect","x":168,"y":485,"width":98,"height":27,"ports":[],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"PreToolUse","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-h2","type":"rect","x":272,"y":485,"width":105,"height":27,"ports":[],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"PostToolUse","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-h3","type":"rect","x":383,"y":485,"width":108,"height":27,"ports":[],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"SessionStart","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-h4","type":"rect","x":497,"y":485,"width":60,"height":27,"ports":[],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"Stop","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-h5","type":"rect","x":563,"y":485,"width":118,"height":27,"ports":[],"data":{"fillColor":"#ffffff","strokeColor":"#bbbbbb","fontSize":11,"labelAlign":"center","textColor":"#333333"},"label":"SubagentStop","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l3-e1","type":"rect","x":168,"y":524,"width":120,"height":32,"ports":[{"id":"o-l3-e1","type":"output"}],"data":{"fillColor":"#edfaed","strokeColor":"#5a9a5a","fontSize":11,"labelAlign":"center","textColor":"#1a5a1a"},"label":"auto-lint on Write","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l3-e2","type":"rect","x":322,"y":524,"width":112,"height":32,"ports":[{"id":"i-l3-e2","type":"input"},{"id":"o-l3-e2","type":"output"}],"data":{"fillColor":"#fff0f0","strokeColor":"#cc5555","fontSize":11,"labelAlign":"center","textColor":"#993333"},"label":"block rm -rf","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l3-e3","type":"rect","x":472,"y":524,"width":162,"height":32,"ports":[{"id":"i-l3-e3","type":"input"}],"data":{"fillColor":"#f0f4ff","strokeColor":"#5577cc","fontSize":11,"labelAlign":"center","textColor":"#334499"},"label":"Slack notification\non Stop","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l3-flow","type":"text","x":168,"y":566,"width":470,"height":22,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#666666"},"label":"Event fires  →  Matcher checks  →  Command runs","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l3-note","type":"rect","x":842,"y":451,"width":195,"height":140,"ports":[],"data":{"fillColor":"#fff8e7","strokeColor":"#c9a84c","fontSize":11,"labelAlign":"center","textColor":"#444444"},"label":"Deterministic.\nNot AI.\nThink Git hooks\nfor your agent.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l4-container","type":"resizable-rectangle","x":145,"y":609,"width":1200,"height":170,"ports":[{"id":"i-l4-mcp","type":"input"},{"id":"o-l4-at","type":"output"}],"data":{"fillColor":"#f8f0ff","strokeColor":"#8a4aaa","fontSize":12},"label":"","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l4-num","type":"rect","x":152,"y":615,"width":28,"height":28,"ports":[],"data":{"fillColor":"#8a4aaa","strokeColor":"#8a4aaa","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"4","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l4-hdr","type":"text","x":188,"y":615,"width":255,"height":28,"ports":[],"data":{"fontSize":16,"fontFamily":"Arial","labelAlign":"left","textColor":"#8a4aaa"},"label":"Layer 4 – SUBAGENTS","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l4-del-label","type":"text","x":619,"y":619,"width":225,"height":22,"ports":[],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"left","textColor":"#777777"},"label":"The Delegation Layer","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l4-brain","type":"circle","x":185,"y":650,"width":70,"height":70,"ports":[{"id":"o-l4-brain-1","type":"output"},{"id":"o-l4-brain-2","type":"output"},{"id":"o-l4-brain-3","type":"output"},{"id":"i-l4-brain-r","type":"input"}],"data":{"fillColor":"#eedcff","strokeColor":"#8a4aaa","fontSize":22,"labelAlign":"center"},"label":"🧠","inputs":1,"outputs":3,"attributes":[],"methods":[]},
+        {"id":"l4-delegate","type":"text","x":172,"y":640,"width":100,"height":18,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"center","textColor":"#666666"},"label":"delegate only","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l4-results","type":"text","x":172,"y":730,"width":100,"height":18,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"center","textColor":"#666666"},"label":"results only","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l4-cr","type":"rect","x":318,"y":632,"width":175,"height":52,"ports":[{"id":"i-l4-cr","type":"input"},{"id":"o-l4-cr","type":"output"}],"data":{"fillColor":"#f0e8ff","strokeColor":"#8a4aaa","fontSize":12,"labelAlign":"center","textColor":"#5a1a8a"},"label":"code-reviewer","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l4-tr","type":"rect","x":318,"y":692,"width":175,"height":50,"ports":[{"id":"i-l4-tr","type":"input"},{"id":"o-l4-tr","type":"output"}],"data":{"fillColor":"#f0e8ff","strokeColor":"#8a4aaa","fontSize":12,"labelAlign":"center","textColor":"#5a1a8a"},"label":"test-runner","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l4-ex","type":"rect","x":318,"y":750,"width":175,"height":27,"ports":[{"id":"i-l4-ex","type":"input"},{"id":"o-l4-ex","type":"output"}],"data":{"fillColor":"#f0e8ff","strokeColor":"#8a4aaa","fontSize":12,"labelAlign":"center","textColor":"#5a1a8a"},"label":"explorer","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+
+        {"id":"l4-details","type":"text","x":506,"y":635,"width":195,"height":80,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"left","textColor":"#555555"},"label":"• own context window\n• custom model\n• custom tools\n• custom permissions","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l4-note","type":"rect","x":842,"y":619,"width":195,"height":152,"ports":[],"data":{"fillColor":"#fff8e7","strokeColor":"#c9a84c","fontSize":11,"labelAlign":"center","textColor":"#444444"},"label":"Keeps main context\nclean. No infinite\nrecursion —\nsubagents can't\nspawn subagents.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l5-container","type":"resizable-rectangle","x":145,"y":789,"width":1200,"height":118,"ports":[{"id":"i-l5-mcp","type":"input"},{"id":"o-l5-at","type":"output"}],"data":{"fillColor":"#f0faf8","strokeColor":"#1a7a6a","fontSize":12},"label":"","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l5-num","type":"rect","x":152,"y":795,"width":28,"height":28,"ports":[],"data":{"fillColor":"#1a7a6a","strokeColor":"#1a7a6a","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"5","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l5-hdr","type":"text","x":188,"y":795,"width":220,"height":28,"ports":[],"data":{"fontSize":16,"fontFamily":"Arial","labelAlign":"left","textColor":"#1a7a6a"},"label":"Layer 5 – PLUGINS","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l5-dist","type":"text","x":430,"y":799,"width":215,"height":22,"ports":[],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"left","textColor":"#777777"},"label":"The Distribution Layer","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"l5-pkg","type":"rect","x":172,"y":824,"width":68,"height":70,"ports":[{"id":"o-l5-pkg","type":"output"}],"data":{"fillColor":"#d5f0ec","strokeColor":"#1a7a6a","fontSize":22,"labelAlign":"center"},"label":"📦","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"l5-files","type":"text","x":254,"y":824,"width":100,"height":75,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#333333"},"label":"☐ skills/\n☐ agents/\n☐ hooks/\n☐ commands/","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l5-mkt","type":"rect","x":372,"y":832,"width":175,"height":55,"ports":[{"id":"i-l5-mkt","type":"input"}],"data":{"fillColor":"#c8ece8","strokeColor":"#1a7a6a","fontSize":12,"labelAlign":"center","textColor":"#0a4a3a"},"label":"Marketplace /\nTeam install","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"l5-note","type":"rect","x":580,"y":804,"width":205,"height":88,"ports":[],"data":{"fillColor":"#fff8e7","strokeColor":"#c9a84c","fontSize":11,"labelAlign":"center","textColor":"#444444"},"label":"Think npm packages\nfor agent\ncapabilities.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"mcp-box","type":"resizable-rectangle","x":15,"y":295,"width":115,"height":372,"ports":[{"id":"o-mcp-1","type":"output"},{"id":"o-mcp-2","type":"output"},{"id":"o-mcp-3","type":"output"},{"id":"o-mcp-4","type":"output"},{"id":"o-mcp-5","type":"output"}],"data":{"fillColor":"#f5f5f5","strokeColor":"#888888","fontSize":14,"labelAlign":"center","textColor":"#222222"},"label":"MCP\nServers","inputs":0,"outputs":5,"attributes":[],"methods":[]},
+        {"id":"mcp-items","type":"text","x":18,"y":390,"width":109,"height":110,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"• external tools\n• GitHub\n• databases\n• APIs\n• custom\n  integrations","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"at-box","type":"resizable-rectangle","x":1375,"y":295,"width":115,"height":372,"ports":[{"id":"i-at-1","type":"input"},{"id":"i-at-2","type":"input"},{"id":"i-at-3","type":"input"},{"id":"i-at-4","type":"input"},{"id":"i-at-5","type":"input"}],"data":{"fillColor":"#f5f5f5","strokeColor":"#888888","fontSize":14,"labelAlign":"center","textColor":"#222222"},"label":"Agent\nTeams","inputs":5,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"at-items","type":"text","x":1378,"y":390,"width":109,"height":90,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"• parallel execution\n• message passing\n• lead orchestration\n• shared permissions","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"bf-1","type":"flow-start","x":148,"y":930,"width":175,"height":50,"ports":[{"id":"o-bf-1","type":"output"}],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"center","textColor":"#1a5a3a"},"label":"CLAUDE.md\nsets rules","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"bf-2","type":"flow-process","x":343,"y":930,"width":175,"height":50,"ports":[{"id":"i-bf-2","type":"input"},{"id":"o-bf-2","type":"output"}],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"center","textColor":"#222222"},"label":"Skills provide\nexpertise","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"bf-3","type":"flow-process","x":538,"y":930,"width":185,"height":50,"ports":[{"id":"i-bf-3","type":"input"},{"id":"o-bf-3","type":"output"}],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"center","textColor":"#222222"},"label":"Hooks enforce\nquality","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"bf-4","type":"flow-process","x":743,"y":930,"width":185,"height":50,"ports":[{"id":"i-bf-4","type":"input"},{"id":"o-bf-4","type":"output"}],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"center","textColor":"#222222"},"label":"Subagents\ndelegate work","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"bf-5","type":"flow-end","x":948,"y":930,"width":195,"height":50,"ports":[{"id":"i-bf-5","type":"input"}],"data":{"fontSize":12,"fontFamily":"Arial","labelAlign":"center","textColor":"#ffffff"},"label":"Plugins distribute\nto team","inputs":1,"outputs":0,"attributes":[],"methods":[]}
+
+      ],
+      "connections": [
+
+        {"id":"c-l1-doc-r1","fromGlyphId":"l1-doc","fromPortId":"o-l1-doc-1","toGlyphId":"l1-r1","toPortId":"i-l1-r1","label":"","type":"default","view":{"connectionType":"line","color":"#2d7a5a","thickness":1,"dashed":false}},
+        {"id":"c-l1-doc-r2","fromGlyphId":"l1-doc","fromPortId":"o-l1-doc-2","toGlyphId":"l1-r2","toPortId":"i-l1-r2","label":"","type":"default","view":{"connectionType":"line","color":"#2d7a5a","thickness":1,"dashed":false}},
+        {"id":"c-l1-doc-r3","fromGlyphId":"l1-doc","fromPortId":"o-l1-doc-3","toGlyphId":"l1-r3","toPortId":"i-l1-r3","label":"","type":"default","view":{"connectionType":"line","color":"#2d7a5a","thickness":1,"dashed":false}},
+        {"id":"c-l1-doc-r4","fromGlyphId":"l1-doc","fromPortId":"o-l1-doc-4","toGlyphId":"l1-r4","toPortId":"i-l1-r4","label":"","type":"default","view":{"connectionType":"line","color":"#2d7a5a","thickness":1,"dashed":false}},
+        {"id":"c-l1-r1-global","fromGlyphId":"l1-r1","fromPortId":"o-l1-r1","toGlyphId":"l1-global","toPortId":"i-l1-global","label":"","type":"default","view":{"connectionType":"bezier","color":"#2d7a5a","thickness":1,"dashed":false}},
+        {"id":"c-l1-r3-project","fromGlyphId":"l1-r3","fromPortId":"o-l1-r3","toGlyphId":"l1-project","toPortId":"i-l1-project","label":"","type":"default","view":{"connectionType":"bezier","color":"#2d7a5a","thickness":1,"dashed":false}},
+
+        {"id":"c-l2-skill-desc","fromGlyphId":"l2-skill","fromPortId":"o-l2-skill","toGlyphId":"l2-desc","toPortId":"i-l2-desc","label":"","type":"default","view":{"connectionType":"line","color":"#d4660a","thickness":1,"dashed":false}},
+        {"id":"c-l2-desc-auto","fromGlyphId":"l2-desc","fromPortId":"o-l2-desc","toGlyphId":"l2-auto","toPortId":"i-l2-auto","label":"","type":"default","view":{"connectionType":"line","color":"#d4660a","thickness":1,"dashed":false}},
+        {"id":"c-l2-auto-task","fromGlyphId":"l2-auto","fromPortId":"o-l2-auto","toGlyphId":"l2-task","toPortId":"i-l2-task","label":"","type":"default","view":{"connectionType":"line","color":"#d4660a","thickness":1,"dashed":false}},
+
+        {"id":"c-l3-e1-e2","fromGlyphId":"l3-e1","fromPortId":"o-l3-e1","toGlyphId":"l3-e2","toPortId":"i-l3-e2","label":"","type":"default","view":{"connectionType":"line","color":"#c87d2a","thickness":1,"dashed":false}},
+        {"id":"c-l3-e2-e3","fromGlyphId":"l3-e2","fromPortId":"o-l3-e2","toGlyphId":"l3-e3","toPortId":"i-l3-e3","label":"","type":"default","view":{"connectionType":"line","color":"#c87d2a","thickness":1,"dashed":false}},
+
+        {"id":"c-l4-brain-cr","fromGlyphId":"l4-brain","fromPortId":"o-l4-brain-1","toGlyphId":"l4-cr","toPortId":"i-l4-cr","label":"delegate","type":"default","view":{"connectionType":"bezier","color":"#8a4aaa","thickness":1,"dashed":false}},
+        {"id":"c-l4-brain-tr","fromGlyphId":"l4-brain","fromPortId":"o-l4-brain-2","toGlyphId":"l4-tr","toPortId":"i-l4-tr","label":"","type":"default","view":{"connectionType":"bezier","color":"#8a4aaa","thickness":1,"dashed":false}},
+        {"id":"c-l4-brain-ex","fromGlyphId":"l4-brain","fromPortId":"o-l4-brain-3","toGlyphId":"l4-ex","toPortId":"i-l4-ex","label":"","type":"default","view":{"connectionType":"bezier","color":"#8a4aaa","thickness":1,"dashed":false}},
+        {"id":"c-l4-cr-brain","fromGlyphId":"l4-cr","fromPortId":"o-l4-cr","toGlyphId":"l4-brain","toPortId":"i-l4-brain-r","label":"results","type":"default","view":{"connectionType":"bezier","color":"#8a4aaa","thickness":1,"dashed":true}},
+
+        {"id":"c-l5-pkg-mkt","fromGlyphId":"l5-pkg","fromPortId":"o-l5-pkg","toGlyphId":"l5-mkt","toPortId":"i-l5-mkt","label":"","type":"default","view":{"connectionType":"line","color":"#1a7a6a","thickness":1,"dashed":false}},
+
+        {"id":"c-mcp-l1","fromGlyphId":"mcp-box","fromPortId":"o-mcp-1","toGlyphId":"l1-container","toPortId":"i-l1-mcp","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-mcp-l2","fromGlyphId":"mcp-box","fromPortId":"o-mcp-2","toGlyphId":"l2-container","toPortId":"i-l2-mcp","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-mcp-l3","fromGlyphId":"mcp-box","fromPortId":"o-mcp-3","toGlyphId":"l3-container","toPortId":"i-l3-mcp","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-mcp-l4","fromGlyphId":"mcp-box","fromPortId":"o-mcp-4","toGlyphId":"l4-container","toPortId":"i-l4-mcp","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-mcp-l5","fromGlyphId":"mcp-box","fromPortId":"o-mcp-5","toGlyphId":"l5-container","toPortId":"i-l5-mcp","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+
+        {"id":"c-l1-at","fromGlyphId":"l1-container","fromPortId":"o-l1-at","toGlyphId":"at-box","toPortId":"i-at-1","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-l2-at","fromGlyphId":"l2-container","fromPortId":"o-l2-at","toGlyphId":"at-box","toPortId":"i-at-2","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-l3-at","fromGlyphId":"l3-container","fromPortId":"o-l3-at","toGlyphId":"at-box","toPortId":"i-at-3","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-l4-at","fromGlyphId":"l4-container","fromPortId":"o-l4-at","toGlyphId":"at-box","toPortId":"i-at-4","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+        {"id":"c-l5-at","fromGlyphId":"l5-container","fromPortId":"o-l5-at","toGlyphId":"at-box","toPortId":"i-at-5","label":"","type":"default","view":{"connectionType":"line","color":"#888888","thickness":1,"dashed":false}},
+
+        {"id":"c-bf-1-2","fromGlyphId":"bf-1","fromPortId":"o-bf-1","toGlyphId":"bf-2","toPortId":"i-bf-2","label":"","type":"default","view":{"connectionType":"line","color":"#333333","thickness":2,"dashed":false}},
+        {"id":"c-bf-2-3","fromGlyphId":"bf-2","fromPortId":"o-bf-2","toGlyphId":"bf-3","toPortId":"i-bf-3","label":"","type":"default","view":{"connectionType":"line","color":"#333333","thickness":2,"dashed":false}},
+        {"id":"c-bf-3-4","fromGlyphId":"bf-3","fromPortId":"o-bf-3","toGlyphId":"bf-4","toPortId":"i-bf-4","label":"","type":"default","view":{"connectionType":"line","color":"#333333","thickness":2,"dashed":false}},
+        {"id":"c-bf-4-5","fromGlyphId":"bf-4","fromPortId":"o-bf-4","toGlyphId":"bf-5","toPortId":"i-bf-5","label":"","type":"default","view":{"connectionType":"line","color":"#333333","thickness":2,"dashed":false}}
+
+      ]
+    }
+  ]
+}
