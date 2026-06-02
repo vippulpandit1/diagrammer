@@ -1,0 +1,80 @@
+{
+  "pages": [
+    {
+      "id": "page-model-collapse",
+      "name": "4 Ways to Prevent Model Collapse",
+      "glyphs": [
+
+        {"id":"title","type":"text","x":20,"y":12,"width":700,"height":42,"ports":[],"data":{"fontSize":26,"fontFamily":"Arial","labelAlign":"left","textColor":"#111111"},"label":"4 Ways to Prevent Model Collapse","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s1-container","type":"resizable-rectangle","x":15,"y":65,"width":700,"height":120,"ports":[],"data":{"fillColor":"#eaf2fb","strokeColor":"#a8c8e8","fontSize":12},"label":"","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s1-num","type":"rect","x":22,"y":72,"width":28,"height":28,"ports":[],"data":{"fillColor":"#111111","strokeColor":"#111111","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"1","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s1-title","type":"text","x":22,"y":108,"width":115,"height":68,"ports":[],"data":{"fontSize":15,"fontFamily":"Arial","labelAlign":"left","textColor":"#111111"},"label":"Keep Real\nData in\nthe Loop","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s1-ai","type":"flow-process","x":165,"y":82,"width":85,"height":70,"ports":[{"id":"o-s1-ai","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"AI\nData","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s1-real","type":"flow-process","x":295,"y":82,"width":85,"height":70,"ports":[{"id":"i-s1-real","type":"input"},{"id":"o-s1-real","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Real\nData","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s1-model","type":"flow-process","x":425,"y":82,"width":85,"height":70,"ports":[{"id":"i-s1-model","type":"input"},{"id":"o-s1-model","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Model","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s1-stable","type":"flow-process","x":555,"y":82,"width":85,"height":70,"ports":[{"id":"i-s1-stable","type":"input"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Stable\nOutput","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s1-anchors","type":"text","x":308,"y":75,"width":60,"height":14,"ports":[],"data":{"fontSize":9,"fontFamily":"Arial","labelAlign":"center","textColor":"#888888"},"label":"anchors","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s1-note","type":"text","x":728,"y":72,"width":225,"height":88,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"Even a single real-world data point prevents the training loop from fully closing and stops collapse.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s2-container","type":"resizable-rectangle","x":15,"y":200,"width":700,"height":135,"ports":[],"data":{"fillColor":"#fdf0ea","strokeColor":"#e8a87c","fontSize":12},"label":"","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s2-num","type":"rect","x":22,"y":207,"width":28,"height":28,"ports":[],"data":{"fillColor":"#111111","strokeColor":"#111111","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"2","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s2-title","type":"text","x":22,"y":242,"width":115,"height":80,"ports":[],"data":{"fontSize":15,"fontFamily":"Arial","labelAlign":"left","textColor":"#111111"},"label":"Curate\nTraining\nData","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s2-raw","type":"flow-process","x":160,"y":210,"width":90,"height":60,"ports":[{"id":"o-s2-raw","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Raw Web\nData","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s2-filter","type":"flow-process","x":295,"y":210,"width":85,"height":60,"ports":[{"id":"i-s2-filter","type":"input"},{"id":"o-s2-filter","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Filter","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s2-clean","type":"flow-process","x":425,"y":210,"width":95,"height":60,"ports":[{"id":"i-s2-clean","type":"input"},{"id":"o-s2-clean","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Clean\nDataset","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s2-model","type":"flow-process","x":565,"y":210,"width":85,"height":60,"ports":[{"id":"i-s2-model","type":"input"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Model","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s2-removed","type":"flow-process","x":295,"y":285,"width":120,"height":40,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"center","textColor":"#cc3333"},"label":"AI-generated\nremoved","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s2-note","type":"text","x":728,"y":207,"width":225,"height":88,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"Tag data provenance, filter synthetic content, and audit datasets before every training run.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s3-container","type":"resizable-rectangle","x":15,"y":350,"width":700,"height":145,"ports":[],"data":{"fillColor":"#edfaf0","strokeColor":"#88cc99","fontSize":12},"label":"","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s3-num","type":"rect","x":22,"y":357,"width":28,"height":28,"ports":[],"data":{"fillColor":"#111111","strokeColor":"#111111","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"3","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s3-title","type":"text","x":22,"y":392,"width":115,"height":95,"ports":[],"data":{"fontSize":15,"fontFamily":"Arial","labelAlign":"left","textColor":"#111111"},"label":"Retrieval\nAugmented\nGeneration","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s3-query","type":"flow-process","x":165,"y":395,"width":85,"height":58,"ports":[{"id":"o-s3-query","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Query","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s3-llm","type":"flow-process","x":310,"y":395,"width":85,"height":58,"ports":[{"id":"i-s3-llm","type":"input"},{"id":"o-s3-llm","type":"output"},{"id":"i-s3-llm-live","type":"input"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"LLM","inputs":2,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s3-grounded","type":"flow-process","x":455,"y":395,"width":110,"height":58,"ports":[{"id":"i-s3-grounded","type":"input"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Grounded\nOutput","inputs":1,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s3-live","type":"rect","x":340,"y":358,"width":120,"height":30,"ports":[{"id":"o-s3-live","type":"output"}],"data":{"fillColor":"#d5f5dc","strokeColor":"#55aa66","fontSize":11,"labelAlign":"center","textColor":"#1a5a2a"},"label":"Live Sources","inputs":0,"outputs":1,"attributes":[],"methods":[]},
+
+        {"id":"s3-note","type":"text","x":728,"y":357,"width":225,"height":110,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"Retrieval-Augmented Generation grounds outputs in real-time sources instead of degraded trained knowledge.","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s4-container","type":"resizable-rectangle","x":15,"y":510,"width":700,"height":178,"ports":[],"data":{"fillColor":"#fffbea","strokeColor":"#e8d07a","fontSize":12},"label":"","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s4-num","type":"rect","x":22,"y":517,"width":28,"height":28,"ports":[],"data":{"fillColor":"#111111","strokeColor":"#111111","fontSize":15,"labelAlign":"center","textColor":"#ffffff"},"label":"4","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s4-title","type":"text","x":22,"y":552,"width":115,"height":95,"ports":[],"data":{"fontSize":15,"fontFamily":"Arial","labelAlign":"left","textColor":"#111111"},"label":"Protect\nMinority\nData","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s4-full","type":"flow-process","x":330,"y":520,"width":115,"height":48,"ports":[{"id":"o-s4-full-1","type":"output"},{"id":"o-s4-full-2","type":"output"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Full\nDataset","inputs":0,"outputs":2,"attributes":[],"methods":[]},
+        {"id":"s4-common","type":"rect","x":185,"y":590,"width":115,"height":36,"ports":[{"id":"i-s4-common","type":"input"},{"id":"o-s4-common","type":"output"}],"data":{"fillColor":"#d0e8ff","strokeColor":"#6699cc","fontSize":11,"labelAlign":"center","textColor":"#224466"},"label":"Common Data","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s4-rare","type":"rect","x":465,"y":590,"width":115,"height":36,"ports":[{"id":"i-s4-rare","type":"input"},{"id":"o-s4-rare","type":"output"}],"data":{"fillColor":"#ff9966","strokeColor":"#cc5533","fontSize":11,"labelAlign":"center","textColor":"#440000"},"label":"Rare Data","inputs":1,"outputs":1,"attributes":[],"methods":[]},
+        {"id":"s4-oversample","type":"text","x":588,"y":594,"width":82,"height":30,"ports":[],"data":{"fontSize":10,"fontFamily":"Arial","labelAlign":"left","textColor":"#cc5533"},"label":"Oversample\nthis","inputs":0,"outputs":0,"attributes":[],"methods":[]},
+        {"id":"s4-model","type":"flow-process","x":307,"y":652,"width":150,"height":30,"ports":[{"id":"i-s4-model-1","type":"input"},{"id":"i-s4-model-2","type":"input"}],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"center","textColor":"#333333"},"label":"Model","inputs":2,"outputs":0,"attributes":[],"methods":[]},
+
+        {"id":"s4-note","type":"text","x":728,"y":517,"width":225,"height":145,"ports":[],"data":{"fontSize":11,"fontFamily":"Arial","labelAlign":"left","textColor":"#444444"},"label":"Collapse begins at the edges. Actively oversampling rare and underrepresented data preserves model richness.","inputs":0,"outputs":0,"attributes":[],"methods":[]}
+
+      ],
+      "connections": [
+
+        {"id":"c-s1-ai-real","fromGlyphId":"s1-ai","fromPortId":"o-s1-ai","toGlyphId":"s1-real","toPortId":"i-s1-real","label":"","type":"default","view":{"connectionType":"line","color":"#555555","thickness":2,"dashed":false}},
+        {"id":"c-s1-real-model","fromGlyphId":"s1-real","fromPortId":"o-s1-real","toGlyphId":"s1-model","toPortId":"i-s1-model","label":"","type":"default","view":{"connectionType":"line","color":"#555555","thickness":2,"dashed":false}},
+        {"id":"c-s1-model-stable","fromGlyphId":"s1-model","fromPortId":"o-s1-model","toGlyphId":"s1-stable","toPortId":"i-s1-stable","label":"","type":"default","view":{"connectionType":"line","color":"#555555","thickness":2,"dashed":false}},
+
+        {"id":"c-s2-raw-filter","fromGlyphId":"s2-raw","fromPortId":"o-s2-raw","toGlyphId":"s2-filter","toPortId":"i-s2-filter","label":"","type":"default","view":{"connectionType":"line","color":"#cc6633","thickness":2,"dashed":false}},
+        {"id":"c-s2-filter-clean","fromGlyphId":"s2-filter","fromPortId":"o-s2-filter","toGlyphId":"s2-clean","toPortId":"i-s2-clean","label":"","type":"default","view":{"connectionType":"line","color":"#cc6633","thickness":2,"dashed":false}},
+        {"id":"c-s2-clean-model","fromGlyphId":"s2-clean","fromPortId":"o-s2-clean","toGlyphId":"s2-model","toPortId":"i-s2-model","label":"","type":"default","view":{"connectionType":"line","color":"#cc6633","thickness":2,"dashed":false}},
+
+        {"id":"c-s3-query-llm","fromGlyphId":"s3-query","fromPortId":"o-s3-query","toGlyphId":"s3-llm","toPortId":"i-s3-llm","label":"","type":"default","view":{"connectionType":"line","color":"#3a8a4a","thickness":2,"dashed":false}},
+        {"id":"c-s3-live-llm","fromGlyphId":"s3-live","fromPortId":"o-s3-live","toGlyphId":"s3-llm","toPortId":"i-s3-llm-live","label":"","type":"default","view":{"connectionType":"line","color":"#3a8a4a","thickness":2,"dashed":false}},
+        {"id":"c-s3-llm-grounded","fromGlyphId":"s3-llm","fromPortId":"o-s3-llm","toGlyphId":"s3-grounded","toPortId":"i-s3-grounded","label":"","type":"default","view":{"connectionType":"line","color":"#3a8a4a","thickness":2,"dashed":false}},
+
+        {"id":"c-s4-full-common","fromGlyphId":"s4-full","fromPortId":"o-s4-full-1","toGlyphId":"s4-common","toPortId":"i-s4-common","label":"","type":"default","view":{"connectionType":"bezier","color":"#999933","thickness":2,"dashed":false}},
+        {"id":"c-s4-full-rare","fromGlyphId":"s4-full","fromPortId":"o-s4-full-2","toGlyphId":"s4-rare","toPortId":"i-s4-rare","label":"","type":"default","view":{"connectionType":"bezier","color":"#999933","thickness":2,"dashed":false}},
+        {"id":"c-s4-common-model","fromGlyphId":"s4-common","fromPortId":"o-s4-common","toGlyphId":"s4-model","toPortId":"i-s4-model-1","label":"","type":"default","view":{"connectionType":"bezier","color":"#6699cc","thickness":2,"dashed":false}},
+        {"id":"c-s4-rare-model","fromGlyphId":"s4-rare","fromPortId":"o-s4-rare","toGlyphId":"s4-model","toPortId":"i-s4-model-2","label":"","type":"default","view":{"connectionType":"bezier","color":"#cc5533","thickness":2,"dashed":false}}
+
+      ]
+    }
+  ]
+}
