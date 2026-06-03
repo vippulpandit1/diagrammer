@@ -9,6 +9,7 @@ export interface GlyphCanvasProps {
   onPageChange: (index: number) => void;
   glyphs: Glyph[];
   onMoveGlyph: (id: string, x: number, y: number) => void;
+  onDragCommit?: () => void;
   connections: Connection[];
   onAddConnection: (conn: Connection) => void;
   onDeleteConnection: (connIndex: number) => void;

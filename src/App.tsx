@@ -138,6 +138,21 @@ function App() {
     sessionStorage.setItem("zoomRatio", String(zoom));
   }, [zoom]);
 
+  const [autoSave, setAutoSave] = useState(() => sessionStorage.getItem("autoSave") === "true");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Persist autoSave preference
+  useEffect(() => {
+    sessionStorage.setItem("autoSave", String(autoSave));
+  }, [autoSave]);
+
+  // Auto-save whenever canvas state changes and autoSave is on
+  useEffect(() => {
+    if (!autoSave || !isLoaded) return;
+    const json = JSON.stringify({ pages, stencilType, connectionType, toolbarOrientation, toolbarPos });
+    sessionStorage.setItem("canvasData", json);
+  }, [autoSave, isLoaded, pages, stencilType, connectionType, toolbarOrientation, toolbarPos]);
+
   useEffect(() => {
     const saved = sessionStorage.getItem("canvasData");
     if(!saved) return;
@@ -180,6 +195,7 @@ function App() {
       console.warn("Failed to parse saved canvasData");
       addMessage("Failed to load canvas data from sessionStorage");
     }
+    setIsLoaded(true);
   }, []);
   const {
     groupGlyphs,
@@ -285,6 +301,8 @@ function App() {
         onAutoArrange={handleAutoArrange}
         onPrint={printCanvas}
         onImport={handleImport}
+        autoSave={autoSave}
+        onAutoSaveToggle={setAutoSave}
       />
       <div
         ref={canvasRef}
@@ -315,12 +333,24 @@ function App() {
             glyphs={activePage.glyphs}
             connections={activePage.connections}
             onMoveGlyph={handleMoveGlyph}
+            onDragCommit={() => {
+              const newPages = pages.map((p, i) =>
+                i === activePageIdx ? { ...p, glyphs: activePage.glyphs } : p
+              );
+              updateHistory(newPages);
+            }}
             onResizeGlyph={handleResizeGlyph}
             onAddConnection={conn => {
-              activePage.connections = [...activePage.connections, conn];
+              const newPages = pages.map((p, i) =>
+                i === activePageIdx ? { ...p, connections: [...p.connections, conn] } : p
+              );
+              updateHistory(newPages);
             }}
             onDeleteConnection={idx => {
-              activePage.connections = activePage.connections.filter((_, i) => i !== idx);
+              const newPages = pages.map((p, i) =>
+                i === activePageIdx ? { ...p, connections: p.connections.filter((_, ci) => ci !== idx) } : p
+              );
+              updateHistory(newPages);
             }}
             onUpdateConnection={handleUpdateConnection}
             zoom={zoom}

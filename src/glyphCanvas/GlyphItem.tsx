@@ -134,13 +134,13 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
         rx={6}
         fill="none"
         stroke={
-          selectedGlyphId === glyph.id
-            ? "#2563eb"
+          selectedGlyphId === glyph.id || selectedGlyphIds.includes(glyph.id)
+            ? "#1239a8"
             : isGrouped
               ? "#38bdf8"
               : "transparent"
         }
-        strokeWidth={selectedGlyphId === glyph.id || isGrouped ? 4 : 0}
+        strokeWidth={selectedGlyphId === glyph.id || selectedGlyphIds.includes(glyph.id) ? 6 : isGrouped ? 4 : 0}
         pointerEvents="none"
       />
       {/* Glyph shape */}

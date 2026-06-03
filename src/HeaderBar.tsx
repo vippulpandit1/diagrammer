@@ -9,6 +9,8 @@ interface HeaderBarProps {
   onAutoArrange: () => void;
   onPrint: () => void;
   onImport: (json: string, fileName?: string) => void;
+  autoSave: boolean;
+  onAutoSaveToggle: (v: boolean) => void;
 }
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({
@@ -20,6 +22,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onAutoArrange,
   onPrint,
   onImport,
+  autoSave,
+  onAutoSaveToggle,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +54,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
     </span>
     <div className="workspace-header-actions">
       {/* Save */}
-      <button title="Save" className="workspace-header-btn-primary" onClick={onSave}>
+      <button title="Save" className="workspace-header-btn-primary" onClick={onSave} disabled={autoSave}>
         <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
           <polyline points="17 21 17 13 7 13 7 21"/>
@@ -58,6 +62,20 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
         </svg>
         <span>Save</span>
       </button>
+
+      {/* Auto Save toggle */}
+      <label
+        title="Auto Save"
+        style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', fontSize: 13, userSelect: 'none', color: autoSave ? '#38bdf8' : 'inherit' }}
+      >
+        <input
+          type="checkbox"
+          checked={autoSave}
+          onChange={e => onAutoSaveToggle(e.target.checked)}
+          style={{ accentColor: '#38bdf8', width: 14, height: 14, cursor: 'pointer' }}
+        />
+        Auto Save
+      </label>
 
       <span className="workspace-header-divider" />
 

@@ -15,6 +15,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   glyphs,
   connections,
   onMoveGlyph,
+  onDragCommit,
   onAddConnection,
   onDeleteConnection,
   onUpdateConnection,
@@ -35,7 +36,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
 
   // --- State ---
   const [draggedPoint, setDraggedPoint] = useState<{ connId: string; idx: number } | null>(null);
-  const [dragging, setDragging] = useState<{ id: string; offsetX: number; offsetY: number } | null>(null);
+  const [dragging, setDragging] = useState<{ id: string; offsetX: number; offsetY: number; companions: Array<{ id: string; offsetX: number; offsetY: number }> } | null>(null);
   const [dragMouse, setDragMouse] = useState<{ x: number; y: number } | null>(null);
   const [selectedConn, setSelectedConn] = useState<number | null>(null);
   const [selectedGlyphId, setSelectedGlyphId] = useState<string | null>(null);
@@ -51,6 +52,11 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   const [resizing, setResizing] = useState<ResizingState | null>(null);
   const [, setResizeMouse] = useState<{ x: number; y: number } | null>(null);
   const [draggingPort, setDraggingPort] = useState<DraggingPortState | null>(null);
+
+  // Marquee selection
+  const marqueeRef = useRef<{ startX: number; startY: number; endX: number; endY: number } | null>(null);
+  const [marqueeActive, setMarqueeActive] = useState(false);
+  const [marqueeVis, setMarqueeVis] = useState<{ left: number; top: number; width: number; height: number } | null>(null);
 
   const glyphsToRender = activePage.glyphs;
   const connectionsToRender = activePage.connections;
@@ -86,11 +92,15 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     const handleMouseMove = (e: MouseEvent) => {
       setDragMouse({ x: e.clientX, y: e.clientY });
       onMoveGlyph(dragging.id, e.clientX - dragging.offsetX, e.clientY - dragging.offsetY);
+      for (const c of dragging.companions) {
+        onMoveGlyph(c.id, e.clientX - c.offsetX, e.clientY - c.offsetY);
+      }
     };
     const handleMouseUp = () => {
       setDragging(null);
       setDragConn(null);
       setDragMouse(null);
+      onDragCommit?.();
     };
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
@@ -230,12 +240,69 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     };
   }, [draggedPoint, activePage.connections, zoom]);
 
+  useEffect(() => {
+    if (!marqueeActive) return;
+    const getHitIds = (selLeft: number, selTop: number, selRight: number, selBottom: number) =>
+      glyphsToRender
+        .filter(g => {
+          const { w, h } = computeGlyphSize(g);
+          return g.x >= selLeft && g.x + w <= selRight && g.y >= selTop && g.y + h <= selBottom;
+        })
+        .map(g => g.id);
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!marqueeRef.current) return;
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const scrollLeft = canvasRef.current?.scrollLeft ?? 0;
+      const scrollTop = canvasRef.current?.scrollTop ?? 0;
+      const ex = (e.clientX - rect.left + scrollLeft) / zoom;
+      const ey = (e.clientY - rect.top + scrollTop) / zoom;
+      marqueeRef.current.endX = ex;
+      marqueeRef.current.endY = ey;
+      const { startX, startY, endX, endY } = marqueeRef.current;
+      const left = Math.min(startX, endX);
+      const top = Math.min(startY, endY);
+      const width = Math.abs(endX - startX);
+      const height = Math.abs(endY - startY);
+      setMarqueeVis({ left, top, width, height });
+      setSelectedGlyphIds(getHitIds(left, top, left + width, top + height));
+    };
+    const handlePointerUp = () => {
+      if (marqueeRef.current) {
+        const { startX, startY, endX, endY } = marqueeRef.current;
+        const left = Math.min(startX, endX);
+        const top = Math.min(startY, endY);
+        const right = left + Math.abs(endX - startX);
+        const bottom = top + Math.abs(endY - startY);
+        setSelectedGlyphIds(getHitIds(left, top, right, bottom));
+      }
+      marqueeRef.current = null;
+      setMarqueeActive(false);
+      setMarqueeVis(null);
+    };
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [marqueeActive, glyphsToRender, zoom]);
+
   // --- Event Handlers ---
   const handleMouseDown = (e: React.PointerEvent, glyph: Glyph) => {
+    const companions = selectedGlyphIds
+      .filter(id => id !== glyph.id)
+      .map(id => {
+        const g = glyphsToRender.find(gl => gl.id === id);
+        return g ? { id, offsetX: e.clientX - g.x, offsetY: e.clientY - g.y } : null;
+      })
+      .filter((c): c is { id: string; offsetX: number; offsetY: number } => c !== null);
     setDragging({
       id: glyph.id,
       offsetX: e.clientX - glyph.x,
       offsetY: e.clientY - glyph.y,
+      companions: selectedGlyphIds.includes(glyph.id) ? companions : [],
     });
   };
 
@@ -282,6 +349,21 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
     if (!conn) return;
     const newPoints = (conn.points ?? []).filter((_, i) => i !== idx);
     onUpdateConnection(connId, { points: newPoints });
+  };
+
+  const handleCanvasPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) return;
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const scrollLeft = canvasRef.current?.scrollLeft ?? 0;
+    const scrollTop = canvasRef.current?.scrollTop ?? 0;
+    const x = (e.clientX - rect.left + scrollLeft) / zoom;
+    const y = (e.clientY - rect.top + scrollTop) / zoom;
+    marqueeRef.current = { startX: x, startY: y, endX: x, endY: y };
+    setMarqueeVis({ left: x, top: y, width: 0, height: 0 });
+    setMarqueeActive(true);
+    setSelectedGlyphId(null);
+    setSelectedGlyphIds([]);
   };
 
   // --- Z-order sorted render list ---
@@ -335,9 +417,8 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           height: '100%',
           position: 'relative',
         }}
+        onPointerDown={handleCanvasPointerDown}
         onClick={() => {
-          setSelectedGlyphId(null);
-          setSelectedGlyphIds([]);
           setSelectedConn(null);
         }}
       >
@@ -456,6 +537,23 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
           onMessage={onMessage}
           onUpdateGlyph={onUpdateGlyph}
         />
+
+        {/* Marquee selection rectangle */}
+        {marqueeVis && marqueeVis.width > 2 && marqueeVis.height > 2 && (
+          <div
+            style={{
+              position: 'absolute',
+              left: marqueeVis.left,
+              top: marqueeVis.top,
+              width: marqueeVis.width,
+              height: marqueeVis.height,
+              border: '1.5px dashed #2563eb',
+              backgroundColor: 'rgba(37, 99, 235, 0.08)',
+              pointerEvents: 'none',
+              zIndex: 9999,
+            }}
+          />
+        )}
 
         {/* Drag connection preview */}
         {dragConn && dragMouse && (
