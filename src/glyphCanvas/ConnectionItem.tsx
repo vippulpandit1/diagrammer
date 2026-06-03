@@ -88,6 +88,8 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
     y: (relFrom.y + relTo.y) / 2,
   };
 
+  const markerId = `arrowhead-${(conn.id ?? String(i)).replace(/[^a-zA-Z0-9_-]/g, '')}`;
+
   return (
     <svg
       key={conn.id || i}
@@ -102,6 +104,19 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
       width={svgWidth}
       height={svgHeight}
     >
+      <defs>
+        <marker
+          id={markerId}
+          markerWidth="8"
+          markerHeight="6"
+          refX="7"
+          refY="3"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <polygon points="0 0, 8 3, 0 6" fill="context-stroke" />
+        </marker>
+      </defs>
       <g
         className="connection"
         style={{ pointerEvents: 'all' }}
@@ -150,6 +165,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
           onMouseEnter={() => onMouseEnter(i)}
           onMouseLeave={() => onMouseLeave()}
           strokeDasharray={connectionDashed ? "5,5" : "none"}
+          markerEnd={`url(#${markerId})`}
         />
         {/* Waypoint circles — only when selected */}
         {isSelected && relPoints.map((pt, idx) => (
