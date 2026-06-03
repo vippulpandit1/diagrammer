@@ -293,7 +293,12 @@ function App() {
   <div className="workspace-root">
       {/* Header Bar */}
       <HeaderBar
-        onClear={() => { activePage.glyphs=[]; activePage.connections=[]; addMessage("Cleared canvas"); updateHistory(pages); }}
+        onClearSession={() => {
+          sessionStorage.clear();
+          setPages([{ id: 'page-1', name: 'Page 1', glyphs: [], connections: [] }]);
+          setActivePageIdx(0);
+          addMessage("Session storage cleared");
+        }}
         onZoomIn={() => {setZoom(z => Math.min(z + 0.1, 2));addMessage("Zoomed in");}}
         onZoomOut={() => {setZoom(z => Math.max(z - 0.1, 0.2));addMessage("Zoomed out");}}
         onSave={handleSave}

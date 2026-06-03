@@ -20,7 +20,7 @@
 
 
 .workspace-header {
-  width: 100%;
+  width: 100vw;
   height: 52px;
   background: linear-gradient(180deg, #1e293b 0%, #172135 100%);
   color: #f1f5f9;
@@ -35,7 +35,7 @@
   top: 0;
   left: 0;
   z-index: 10;
-  overflow-x: hidden;
+  overflow-x: auto;
   letter-spacing: 0.01em;
 }
 
@@ -48,6 +48,9 @@
   font-size: 1rem;
   font-weight: 700;
   white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 .workspace-title svg {
   flex-shrink: 0;
@@ -125,7 +128,7 @@
 .workspace-header-actions {
   display: flex;
   align-items: center;
-  gap: 1px;
+  gap: 2px;
   margin-left: auto;
   flex-shrink: 0;
   min-width: 0;
@@ -151,9 +154,9 @@
   color: #38bdf8 !important;
 }
 .workspace-header-btn-primary {
-  width: auto !important;
-  min-width: 70px;
-  padding: 0 12px !important;
+  width: 34px !important;
+  min-width: 34px;
+  padding: 0 !important;
   gap: 7px;
   background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%) !important;
   color: #eff6ff !important;
