@@ -31,6 +31,7 @@ export const FloatingToolbar: React.FC<FloatingToolbarProps> = ({
   connectionType,
   setConnectionType,
 }) => {
+  const [minimized, setMinimized] = React.useState(false);
   return (
     <>
       {toolbarOpen && (
@@ -91,46 +92,72 @@ export const FloatingToolbar: React.FC<FloatingToolbarProps> = ({
             }}
           >
             <span>Toolbar</span>
-            <button
-              title={toolbarOrientation === 'vertical' ? 'Switch to horizontal' : 'Switch to vertical'}
-              onClick={() =>
-                setToolbarOrientation(o => (o === 'vertical' ? 'horizontal' : 'vertical'))
-              }
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '1px 3px',
-                borderRadius: 4,
-                color: '#334155',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {toolbarOrientation === 'vertical' ? (
-                /* Horizontal layout icon */
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="1" y="3" width="4" height="10" rx="1" />
-                  <rect x="6" y="3" width="4" height="10" rx="1" />
-                  <rect x="11" y="3" width="4" height="10" rx="1" />
-                </svg>
-              ) : (
-                /* Vertical layout icon */
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="3" y="1" width="10" height="4" rx="1" />
-                  <rect x="3" y="6" width="10" height="4" rx="1" />
-                  <rect x="3" y="11" width="10" height="4" rx="1" />
-                </svg>
-              )}
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              {/* Minimize / Expand */}
+              <button
+                title={minimized ? 'Expand toolbar' : 'Minimize toolbar'}
+                onClick={() => setMinimized(m => !m)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '1px 3px',
+                  borderRadius: 4,
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {minimized ? (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <polyline points="4 6 8 10 12 6" />
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <polyline points="4 10 8 6 12 10" />
+                  </svg>
+                )}
+              </button>
+              {/* Orientation toggle */}
+              <button
+                title={toolbarOrientation === 'vertical' ? 'Switch to horizontal' : 'Switch to vertical'}
+                onClick={() =>
+                  setToolbarOrientation(o => (o === 'vertical' ? 'horizontal' : 'vertical'))
+                }
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '1px 3px',
+                  borderRadius: 4,
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {toolbarOrientation === 'vertical' ? (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="1" y="3" width="4" height="10" rx="1" />
+                    <rect x="6" y="3" width="4" height="10" rx="1" />
+                    <rect x="11" y="3" width="4" height="10" rx="1" />
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="3" y="1" width="10" height="4" rx="1" />
+                    <rect x="3" y="6" width="10" height="4" rx="1" />
+                    <rect x="3" y="11" width="10" height="4" rx="1" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
-
           <Toolbar
             stencilType={stencilType}
             setStencilType={setStencilType}
             connectionType={connectionType}
             setConnectionType={setConnectionType}
             orientation={toolbarOrientation}
+            minimized={minimized}
           />
         </div>
       )}

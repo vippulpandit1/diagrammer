@@ -23,7 +23,8 @@ export const Toolbar: React.FC<{
   connectionType: string;
   setConnectionType: (type: string) => void;
   orientation?: "vertical" | "horizontal";
-}> = ({ stencilType, setStencilType, connectionType, setConnectionType, orientation = "vertical" })  => {
+  minimized?: boolean;
+}> = ({ stencilType, setStencilType, connectionType, setConnectionType, orientation = "vertical", minimized = false })  => {
   const isHorizontal = orientation === "horizontal";
   return (
     <div style={isHorizontal ? { display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 8 } : {}}>
@@ -57,7 +58,7 @@ export const Toolbar: React.FC<{
         </div>
         )}
       </div>
-      <Stencil stencilType={stencilType} orientation={orientation} />
+      {!minimized && <Stencil stencilType={stencilType} orientation={orientation} />}
     </div>
   );
 };
