@@ -7,6 +7,7 @@
   position: relative;
   overflow: hidden;
   font-family: system-ui, sans-serif;
+  padding-top: 52px;
 }
 
 .workspace-canvas {
