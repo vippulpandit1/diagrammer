@@ -53,7 +53,9 @@ graph TD
             Logic[logic/ - AND, NAND, NOR, NOT, OR, XNOR, XOR]
             Flowchart[flowchart/ - Flowchart Shapes]
             UML[uml/ - Class, Interface, Enum, Package, Relationships]
+            Sequence[sequence - Actor, Participant, Lifeline, Message, Return]
             Network[network/ - Devices, Infra, Services, Virtual, Telecom]
+            Cloud[cloud/ - Compute, Storage, Network, Security, Services]
             MCP[mcp/ - MCP Components]
             BPMN[bpmn/ - Events, Activities, Gateways, Swimlanes]
             Util[util/ - Debug Helpers]
@@ -96,12 +98,13 @@ graph TD
 ## Key Project Facts
 
 - **State Management**: Centralized in [src/App.tsx](src/App.tsx). Uses `Page` objects to support multiple canvas tabs. History (Undo/Redo) is manually tracked in a `history` stack.
-- **Persistence**: Application state is automatically persisted to `sessionStorage` under the key `canvasData`.
+- **Persistence**: Application state is automatically persisted to `sessionStorage` under the key `canvasData`, including `stencilType`, `connectionType`, and toolbar layout preferences.
 - **Glyph System**:
   - **Model**: Defined by the `Glyph` class in [src/glyph/Glyph.tsx](src/glyph/Glyph.tsx).
   - **Rendering**: Dispatched via [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx) based on `glyph.type`.
   - **Registry**: [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx) maps glyph types to metadata and custom Property Sheet components.
-- **Canvas Engine**: [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) handles SVG rendering, coordinate normalization (Zoom/Pan), connection line calculations (Bezier/Manhattan/Line), and auto-expanding scroll area when glyphs are placed beyond the visible viewport.
+- **Canvas Engine**: [src/GlyphCanvas.tsx](src/GlyphCanvas.tsx) handles SVG rendering, coordinate normalization (Zoom/Pan), connection line calculations (Bezier/Manhattan/Line), waypoint editing, marquee selection, and auto-expanding scroll area when glyphs are placed beyond the visible viewport.
+- **Page Tabs**: [src/PageTabs.tsx](src/PageTabs.tsx) supports per-page tab rename via double-click or the inline rename icon.
 - **Communication Pattern**: UI updates follow a strict `onUpdate` pattern that surfaces changes back to `App.tsx`, which updates the global state and history.
 
 ## Glyph Categories
@@ -112,10 +115,12 @@ graph TD
 | **Flowchart** | `src/glyph/type/flowchart/` | Process, Decision, Document, Manual, Connector, Control, Misc |
 | **Logic** | `src/glyph/type/logic/` | AND, NAND, NOR, NOT, OR, XNOR, XOR gates |
 | **UML** | `src/glyph/type/uml/` | Class, Interface, Abstract, Enum, Package, Inheritance, Association |
+| **Sequence (UML)** | `src/glyph/type/uml/` | Actor, Participant, Lifeline, Activation, Message, Return |
 | **Network** | `src/glyph/type/network/` | Devices, Infrastructure, Services, Virtual, Telecom, Power, Server |
+| **Cloud** | `src/glyph/type/cloud/` | Compute, Storage, Networking, Security, Messaging, Observability, CI/CD |
 | **BPMN** | `src/glyph/type/bpmn/` | Events, Activities, Gateways, Data Objects, Swimlanes |
 | **MCP** | `src/glyph/type/mcp/` | MCP client components |
-| **Util** | `src/glyph/type/util/` | DebugGlyph (development/debug helper) |
+| **Debug** | `src/glyph/type/util/` | Debug glyph for diagnostics on canvas |
 
 ## BPMN Support
 
@@ -144,7 +149,28 @@ UML glyphs are in `src/glyph/type/uml/`:
 | `UMLPackageGlyph.tsx` | Package container |
 | `UMLInheritanceGlyph.tsx` | Inheritance arrow |
 | `UMLAssociationGlyph.tsx` | Association arrow |
+| `UMLSequenceGlyph.tsx` | Sequence notation shapes (actor/participant/lifeline/messages) |
 | `UMLAttr.tsx` / `UMLMethod.tsx` | Shared attribute/method row components |
+
+## Sequence Diagram Support
+
+Sequence diagram primitives are exposed through the **Sequence** stencil in the toolbar.
+
+| Type | Purpose |
+|------|---------|
+| `uml-sequence-actor` | External actor initiating interactions |
+| `uml-sequence-participant` | Service/object participant with header + lifeline |
+| `uml-sequence-lifeline` | Dashed participant timeline |
+| `uml-sequence-activation` | Execution/activation segment on a lifeline |
+| `uml-sequence-message` | Synchronous call message |
+| `uml-sequence-return` | Dashed return/response message |
+
+Implementation locations:
+
+- Renderer dispatch: [src/glyph/GlyphRenderer.tsx](src/glyph/GlyphRenderer.tsx)
+- Shape implementation: [src/glyph/type/uml/UMLSequenceGlyph.tsx](src/glyph/type/uml/UMLSequenceGlyph.tsx)
+- Stencil entries/tooltips: [src/Stencil.tsx](src/Stencil.tsx)
+- Defaults/metadata: [src/glyph/type/GlyphRegistry.tsx](src/glyph/type/GlyphRegistry.tsx)
 
 ## Flowchart Support
 
@@ -189,6 +215,19 @@ Network glyphs are split into category files under `src/glyph/type/network/`:
 | `NetworkPower.tsx` | Generator, PDU, UPS, Antenna, CCTV |
 | `NetworkServerProperties.tsx` | Server properties panel component |
 | `NetworkGlyph.tsx` | Central switch-case renderer dispatching to the above components |
+
+## Cloud Support
+
+Cloud glyphs are split into category files under `src/glyph/type/cloud/`:
+
+| File | Contents |
+|------|----------|
+| `CloudComputeGlyphs.tsx` | VM, Container, Function, Kubernetes |
+| `CloudStorageGlyphs.tsx` | Object Storage, Block Storage, Database, Cache |
+| `CloudNetworkGlyphs.tsx` | VPC, Load Balancer, CDN, API Gateway |
+| `CloudSecurityGlyphs.tsx` | IAM, Firewall, WAF, KMS |
+| `CloudServicesGlyphs.tsx` | Queue, Event Bus, Monitoring, CI/CD |
+| `CloudGlyph.tsx` | Central switch-case renderer dispatching to cloud glyph groups |
 
 ## MCP Support
 
