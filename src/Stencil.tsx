@@ -27,6 +27,14 @@ const STENCIL_GLYPHS = {
     { type: "uml-enum", label: "Enum", inputs: 0, outputs: 0 },
     { type: "uml-package", label: "Package", inputs: 0, outputs: 0 },
   ],
+  sequence: [
+    { type: "uml-sequence-actor", label: "Actor", inputs: 1, outputs: 1 },
+    { type: "uml-sequence-participant", label: "Participant", inputs: 1, outputs: 1 },
+    { type: "uml-sequence-lifeline", label: "Lifeline", inputs: 1, outputs: 1 },
+    { type: "uml-sequence-activation", label: "Activation", inputs: 1, outputs: 1 },
+    { type: "uml-sequence-message", label: "Message", inputs: 1, outputs: 1 },
+    { type: "uml-sequence-return", label: "Return", inputs: 1, outputs: 1 },
+  ],
   debug: [
     { type: "debug", label: "Debug", inputs: 1, outputs: 1 }
   ],
@@ -187,6 +195,13 @@ function getGlyphDescription(type: string, label?: string) {
     "flow-merge": "Merge: join multiple flows into one.",
     "flow-split": "Split: split one flow into multiple paths.",
     "flow-internal-storage": "Internal Storage: data stored within the program (rectangle with L-line).",
+    // sequence examples
+    "uml-sequence-actor": "Actor: external user/system interacting with the flow.",
+    "uml-sequence-participant": "Participant: object or service taking part in the sequence.",
+    "uml-sequence-lifeline": "Lifeline: vertical timeline for a participant.",
+    "uml-sequence-activation": "Activation: period when participant executes an operation.",
+    "uml-sequence-message": "Message: synchronous call/request between participants.",
+    "uml-sequence-return": "Return: response message, typically dashed.",
     // generic fallback
   };
   return map[type] ?? label ?? "Glyph";

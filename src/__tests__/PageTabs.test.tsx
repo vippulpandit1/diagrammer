@@ -72,6 +72,15 @@ describe("PageTabs", () => {
     expect(onStartEditPage).toHaveBeenCalledWith(0, "Page 1");
   });
 
+  it("clicking rename button calls onStartEditPage", () => {
+    const onStartEditPage = vi.fn();
+    const { getByLabelText } = render(
+      <PageTabs {...defaultProps} onStartEditPage={onStartEditPage} />
+    );
+    fireEvent.click(getByLabelText("Rename Page 1"));
+    expect(onStartEditPage).toHaveBeenCalledWith(0, "Page 1");
+  });
+
   it("shows an input when editingPageIdx matches a tab", () => {
     const { container } = render(
       <PageTabs

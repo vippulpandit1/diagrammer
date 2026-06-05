@@ -1,6 +1,7 @@
 import { Glyph } from '../glyph/Glyph';
 import type { Page } from '../glyph/Page';
 import iconPng from '../image/free-sample.png';
+import { glyphRegistry } from '../glyph/type/GlyphRegistry';
 
 /**
  * Hook that provides all glyph manipulation handlers.
@@ -152,13 +153,15 @@ export function useGlyphActions(
     inputs?: number,
     outputs?: number
   ) => {
+    const registryDefaults = glyphRegistry[type]?.defaultProps;
     const newGlyph = new Glyph(
       `glyph-${Date.now()}`,
       type, x, y,
-      [], {}, '',
+      [], { ...(registryDefaults?.data ?? {}) }, '',
       inputs ?? 1, outputs ?? 1,
       [], [],
-      undefined, undefined,
+      registryDefaults?.width,
+      registryDefaults?.height,
       type === 'png-glyph' ? iconPng : undefined
     );
     const newPages = pages.map((page, index) => {

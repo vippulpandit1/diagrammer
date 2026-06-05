@@ -74,6 +74,7 @@ export const PageTabs: React.FC<PageTabsProps> = ({
             e.stopPropagation();
             onStartEditPage(idx, page.name);
           }}
+          title="Double-click to rename"
         >
           {editingPageIdx === idx ? (
             <input
@@ -97,7 +98,29 @@ export const PageTabs: React.FC<PageTabsProps> = ({
             />
           ) : (
             <>
-              {page.name}
+              <span>{page.name}</span>
+              <button
+                type="button"
+                aria-label={`Rename ${page.name}`}
+                onClick={e => {
+                  e.stopPropagation();
+                  onStartEditPage(idx, page.name);
+                }}
+                style={{
+                  marginLeft: 8,
+                  border: 'none',
+                  background: 'transparent',
+                  color: '#64748b',
+                  cursor: 'pointer',
+                  fontSize: 13,
+                  lineHeight: 1,
+                  padding: '2px 4px',
+                  borderRadius: 4,
+                }}
+                title="Rename tab"
+              >
+                ✎
+              </button>
               {idx === activePageIdx && (
                 <span
                   style={{

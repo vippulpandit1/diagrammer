@@ -15,6 +15,7 @@ import { UMLEnumGlyph } from "./type/uml/UMLEnumGlyph";
 import { UMLPackageGlyph } from "./type/uml/UMLPackageGlyph";
 import { UMLAssociationGlyph } from "./type/uml/UMLAssociationGlyph";
 import { UMLInheritanceGlyph } from "./type/uml/UMLInheritanceGlyph";
+import { UMLSequenceGlyph } from "./type/uml/UMLSequenceGlyph";
 import type { UMLAttr } from "./type/uml/UMLAttr";
 import type { UMLMethod } from "./type/uml/UMLMethod";
 import { DebugGlyph } from "./type/util/DebugGlyph";
@@ -88,6 +89,13 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
       return <UMLAssociationGlyph size={width} />;
     case "uml-inheritance":
       return <UMLInheritanceGlyph size={width} />;
+    case "uml-sequence-actor":
+    case "uml-sequence-participant":
+    case "uml-sequence-lifeline":
+    case "uml-sequence-activation":
+    case "uml-sequence-message":
+    case "uml-sequence-return":
+      return <UMLSequenceGlyph type={type} width={width} height={height} />;
     case "debug":
       return <DebugGlyph size={width}  height={height} hasConnections={hasConnections} />;
     case "network-server":

@@ -106,6 +106,13 @@ export const glyphRegistry: Record<string, GlyphRegistryEntry> = {
         },
         propertiesComponent: MCPProperties
     },
+    // ── UML Sequence ────────────────────────────────────────────────────────
+    'uml-sequence-actor':       { icon: 'actor',       name: 'Actor',       description: 'External actor in sequence diagrams',                      defaultProps: { width: 80,  height: 140 } },
+    'uml-sequence-participant': { icon: 'participant', name: 'Participant', description: 'Participant/object with header and lifeline',               defaultProps: { width: 120, height: 220 } },
+    'uml-sequence-lifeline':    { icon: 'lifeline',    name: 'Lifeline',    description: 'Dashed vertical lifeline for sequence interactions',       defaultProps: { width: 60,  height: 220 } },
+    'uml-sequence-activation':  { icon: 'activation',  name: 'Activation',  description: 'Execution focus block over a participant lifeline',        defaultProps: { width: 80,  height: 180 } },
+    'uml-sequence-message':     { icon: 'message',     name: 'Message',     description: 'Synchronous call/request arrow between participants',      defaultProps: { width: 180, height: 60 } },
+    'uml-sequence-return':      { icon: 'return',      name: 'Return',      description: 'Dashed return/response arrow between participants',        defaultProps: { width: 180, height: 60 } },
     // ── BPMN ──────────────────────────────────────────────────────────────────
     'bpmn-start-event':        { icon: 'circle',   name: 'Start Event',         description: 'BPMN start event',                defaultProps: { width: 60, height: 60 } },
     'bpmn-end-event':          { icon: 'circle',   name: 'End Event',           description: 'BPMN end event',                  defaultProps: { width: 60, height: 60 } },

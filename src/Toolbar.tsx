@@ -6,6 +6,7 @@ const STENCILS = [
   { key: "basic", label: "Basic" },
   { key: "logic", label: "Logic Gates" },
   { key: "uml", label: "UML" }, 
+  { key: "sequence", label: "Sequence" },
   { key: "debug", label: "Debug" },
   { key: "network", label: "Network" },
   { key: "cloud", label: "Cloud" },

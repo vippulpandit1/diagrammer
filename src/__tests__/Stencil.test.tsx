@@ -44,6 +44,16 @@ describe("Stencil", () => {
     expect(screen.getByText("Enum")).toBeInTheDocument();
   });
 
+  it("renders sequence diagram glyphs", () => {
+    render(<Stencil stencilType="sequence" />);
+    expect(screen.getByText("Actor")).toBeInTheDocument();
+    expect(screen.getByText("Participant")).toBeInTheDocument();
+    expect(screen.getByText("Lifeline")).toBeInTheDocument();
+    expect(screen.getByText("Activation")).toBeInTheDocument();
+    expect(screen.getByText("Message")).toBeInTheDocument();
+    expect(screen.getByText("Return")).toBeInTheDocument();
+  });
+
   it("renders BPMN glyphs", () => {
     render(<Stencil stencilType="bpmn" />);
     expect(screen.getByText("Task")).toBeInTheDocument();
