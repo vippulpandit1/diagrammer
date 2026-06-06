@@ -73,6 +73,7 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
 }) => {
   const { w: width, h: height } = computeGlyphSize(glyph);
   const isTextGlyph = glyph.type === "text";
+  const hasInternalLabel = glyph.type === "uml-sequence-participant";
   const isEditing = editingTextId === glyph.id;
   const connectors = getConnectors(glyph, width, height);
   const isGrouped =
@@ -220,7 +221,7 @@ export const GlyphItem: React.FC<GlyphItemProps> = ({
           ))}
         </g>
       )}
-      {!isTextGlyph && (
+      {!isTextGlyph && !hasInternalLabel && (
         <text
           x={(() => {
             if (glyph.data?.labelAlign === "left") return 8;

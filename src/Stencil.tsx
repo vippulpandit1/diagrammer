@@ -29,7 +29,7 @@ const STENCIL_GLYPHS = {
   ],
   sequence: [
     { type: "uml-sequence-actor", label: "Actor", inputs: 1, outputs: 1 },
-    { type: "uml-sequence-participant", label: "Participant", inputs: 1, outputs: 1 },
+    { type: "uml-sequence-participant", label: "Participant", inputs: 0, outputs: 0 },
     { type: "uml-sequence-lifeline", label: "Lifeline", inputs: 1, outputs: 1 },
     { type: "uml-sequence-activation", label: "Activation", inputs: 1, outputs: 1 },
     { type: "uml-sequence-message", label: "Message", inputs: 1, outputs: 1 },

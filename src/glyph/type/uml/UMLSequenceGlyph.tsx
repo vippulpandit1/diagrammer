@@ -12,7 +12,9 @@ export const UMLSequenceGlyph: React.FC<{
   type: SequenceGlyphType | string;
   width: number;
   height?: number;
-}> = ({ type, width, height = Math.max(40, width * 1.4) }) => {
+  label?: string;
+  fontSize?: number;
+}> = ({ type, width, height = Math.max(40, width * 1.4), label, fontSize }) => {
   const w = Math.max(24, width);
   const h = Math.max(40, height);
 
@@ -27,13 +29,28 @@ export const UMLSequenceGlyph: React.FC<{
           <line x1={w / 2} y1={h * 0.56} x2={w * 0.7} y2={h * 0.82} stroke="#222" strokeWidth={2} />
         </g>
       );
-    case "uml-sequence-participant":
+    case "uml-sequence-participant": {
+      const fs = fontSize ?? 13;
+      const rh = fs + 16;
+      const ry = h * 0.06;
       return (
         <g>
-          <rect x={w * 0.1} y={h * 0.06} width={w * 0.8} height={h * 0.2} rx={4} fill="#eef4ff" stroke="#222" strokeWidth={1.5} />
-          <line x1={w / 2} y1={h * 0.26} x2={w / 2} y2={h * 0.95} stroke="#222" strokeWidth={1.5} strokeDasharray="5 4" />
+          <rect x={w * 0.1} y={ry} width={w * 0.8} height={rh} rx={4} fill="#eef4ff" stroke="#222" strokeWidth={1.5} />
+          {label && (
+            <text
+              x={w / 2}
+              y={ry + rh / 2}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              style={{ fontSize: fs, fontFamily: "Arial", fill: "#222", fontWeight: 500, pointerEvents: "none", userSelect: "none" }}
+            >
+              {label}
+            </text>
+          )}
+          <line x1={w / 2} y1={ry + rh} x2={w / 2} y2={h * 0.95} stroke="#222" strokeWidth={1.5} strokeDasharray="5 4" />
         </g>
       );
+    }
     case "uml-sequence-lifeline":
       return (
         <g>

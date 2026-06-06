@@ -90,12 +90,13 @@ export function GlyphRenderer({ type, width, height, label, orinLabel, isTruncat
     case "uml-inheritance":
       return <UMLInheritanceGlyph size={width} />;
     case "uml-sequence-actor":
-    case "uml-sequence-participant":
     case "uml-sequence-lifeline":
     case "uml-sequence-activation":
     case "uml-sequence-message":
     case "uml-sequence-return":
       return <UMLSequenceGlyph type={type} width={width} height={height} />;
+    case "uml-sequence-participant":
+      return <UMLSequenceGlyph type={type} width={width} height={height} label={label} fontSize={glyph?.data?.fontSize as number | undefined} />;
     case "debug":
       return <DebugGlyph size={width}  height={height} hasConnections={hasConnections} />;
     case "network-server":
