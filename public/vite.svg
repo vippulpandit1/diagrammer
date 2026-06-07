@@ -1,1 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 210 210" width="210" height="210">
+  <defs>
+    <linearGradient x1="0" x2="1" id="Gradient" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1e56b3"/>
+      <stop offset="0" stop-color="#174695"/>
+      <stop offset="1" stop-color="#113675"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient" xl:href="#Gradient" gradientTransform="translate(105 0) rotate(90) scale(210)"/>
+  </defs>
+  <g id="Canvas_1" fill="none" stroke="none" stroke-opacity="1" stroke-dasharray="none" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_2">
+        <path d="M 48 0 L 162 0 C 188.50967 1623249e-21 210 21.490332 210 48 L 210 162 C 210 188.50967 188.50967 210 162 210 L 48 210 C 21.490332 210 3246498e-21 188.50967 0 162 L 7105427e-21 48 C 10351925e-21 21.490332 21.490332 10964357e-21 48 14210855e-21 Z" fill="url(#Obj_Gradient)"/>
+      </g>
+      <g id="Graphic_3">
+        <path d="M 50 70 L 50 120 L 95 120" stroke="white" stroke-opacity=".4" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+      </g>
+      <g id="Graphic_4">
+        <line x1="105" y1="80" x2="160" y2="80" stroke="white" stroke-opacity=".4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="16.0,16.0" stroke-width="4"/>
+      </g>
+      <g id="Graphic_5">
+        <path d="M 95 130 L 150 130 L 150 150" stroke="white" stroke-opacity=".4" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+      </g>
+      <g id="Graphic_6">
+        <path d="M 41 40 L 59 40 C 62.31371 40 65 42.68629 65 46 L 65 64 C 65 67.31371 62.31371 70 59 70 L 41 70 C 37.68629 70 35 67.31371 35 64 L 35 46 C 35 42.68629 37.68629 40 41 40 Z" fill="#e66a25"/>
+      </g>
+      <g id="Graphic_7">
+        <path d="M 43 95 L 77 95 C 81.41828 95 85 98.58172 85 103 L 85 137 C 85 141.41828 81.41828 145 77 145 L 43 145 C 38.58172 145 35 141.41828 35 137 L 35 103 C 35 98.58172 38.58172 95 43 95 Z" stroke="#2b72e2" stroke-linecap="butt" stroke-linejoin="round" stroke-width="8"/>
+      </g>
+      <g id="Graphic_8">
+        <circle cx="160" cy="80" r="16.0000255664304" stroke="#43a047" stroke-linecap="butt" stroke-linejoin="round" stroke-width="8"/>
+      </g>
+      <g id="Group_9">
+        <g id="Graphic_10">
+          <path d="M 152.82843 140.20101 L 169.79899 157.17157 C 171.36109 158.73367 171.36109 161.26633 169.79899 162.82843 L 152.82843 179.799 C 151.26633 181.36109 148.73367 181.36109 147.17157 179.799 L 130.20101 162.82843 C 128.63891 161.26633 128.63891 158.73367 130.20101 157.17157 L 147.17157 140.20101 C 148.73367 138.63891 151.26633 138.63891 152.82843 140.20101 Z" fill="#ffb300"/>
+        </g>
+      </g>
+      <g id="Group_11">
+        <g id="Graphic_12">
+          <path d="M 90 45 L 120 45 L 120 95 L 140 95 L 105 135 L 70 95 L 90 95 Z" fill="white"/>
+          <path d="M 90 45 L 120 45 L 120 95 L 140 95 L 105 135 L 70 95 L 90 95 Z" stroke="#113675" stroke-linecap="butt" stroke-linejoin="round" stroke-width="4"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
