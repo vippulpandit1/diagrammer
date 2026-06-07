@@ -14,6 +14,8 @@ export interface ConnectionItemProps {
   hoveredPortId: string | null;
   glyphsToRender: Glyph[];
   connectorType: "bezier" | "manhattan" | "line";
+  /** Crossing points (absolute canvas coords + direction angle) for hop-arc rendering */
+  crossingPoints?: Array<{ x: number; y: number; angle: number }>;
   onSelect: (i: number) => void;
   onDoubleClick: (conn: Connection, i: number) => void;
   onMouseEnter: (i: number) => void;
@@ -33,6 +35,7 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
   hoveredPortId,
   glyphsToRender,
   connectorType,
+  crossingPoints,
   onSelect,
   onDoubleClick,
   onMouseEnter,
@@ -167,6 +170,29 @@ export const ConnectionItem: React.FC<ConnectionItemProps> = ({
           strokeDasharray={connectionDashed ? "5,5" : "none"}
           markerEnd={`url(#${markerId})`}
         />
+        {/* Hop arcs at crossing points (this connection goes under another) */}
+        {crossingPoints && crossingPoints.map((cp, ci) => {
+          const rp = rel(cp);
+          const R = 8;
+          const cos = Math.cos(cp.angle);
+          const sin = Math.sin(cp.angle);
+          // Entry and exit points along the connection direction
+          const x1 = rp.x - R * cos, y1 = rp.y - R * sin;
+          const x2 = rp.x + R * cos, y2 = rp.y + R * sin;
+          return (
+            <g key={`hop-${ci}`} style={{ pointerEvents: 'none' }}>
+              {/* White gap to visually break the line */}
+              <circle cx={rp.x} cy={rp.y} r={R + 1} fill="white" stroke="none" />
+              {/* Arc bump curving to the left of the travel direction */}
+              <path
+                d={`M ${x1},${y1} A ${R},${R} 0 0 0 ${x2},${y2}`}
+                stroke={connectionColor}
+                strokeWidth={connectionThickness}
+                fill="none"
+              />
+            </g>
+          );
+        })}
         {/* Waypoint circles — only when selected */}
         {isSelected && relPoints.map((pt, idx) => (
           <circle

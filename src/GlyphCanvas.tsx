@@ -1,8 +1,8 @@
 // Copyright (c) 2025 Vippul Pandit. All rights reserved.
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { Glyph } from './glyph/Glyph';
 import { Connection } from './glyph/Connection';
-import { computeGlyphSize, getConnectionPath, getConnectors, snapToPerimeter, portOccupied } from './glyphCanvas/canvasUtils';
+import { computeGlyphSize, getConnectionPath, getConnectors, getConnectorPos, getConnectionSegments, segmentIntersect, snapToPerimeter, portOccupied } from './glyphCanvas/canvasUtils';
 import { GlyphItem } from './glyphCanvas/GlyphItem';
 import { ConnectionItem } from './glyphCanvas/ConnectionItem';
 import { ContextMenus } from './glyphCanvas/ContextMenus';
@@ -367,6 +367,70 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
   };
 
   // --- Z-order sorted render list ---
+  // ── Connection crossing / hop computation ──────────────────────────────────
+  const crossingsMap = useMemo(() => {
+    const map = new Map<string, Array<{ x: number; y: number; angle: number }>>();
+
+    // Build a renderIdx lookup for each connection
+    const items: Array<{ type: 'glyph' | 'connection'; data: Glyph | Connection; index: number }> = [];
+    glyphsToRender.forEach((g, idx) => items.push({ type: 'glyph', data: g, index: idx }));
+    connectionsToRender.forEach(conn => {
+      const fi = glyphsToRender.findIndex(g => g.id === conn.fromGlyphId);
+      const ti = glyphsToRender.findIndex(g => g.id === conn.toGlyphId);
+      items.push({ type: 'connection', data: conn, index: Math.min(fi >= 0 ? fi : 0, ti >= 0 ? ti : 0) });
+    });
+    const sorted = [...items].sort((a, b) => a.index - b.index);
+    const connRenderIdx = new Map<string, number>();
+    sorted.forEach((item, idx) => {
+      if (item.type === 'connection') connRenderIdx.set((item.data as Connection).id ?? '', idx);
+    });
+
+    const sizeMap = new Map<string, { w: number; h: number }>();
+    glyphsToRender.forEach(g => sizeMap.set(g.id, computeGlyphSize(g)));
+
+    // Build linearised segments for each connection
+    const connData = connectionsToRender.map(conn => {
+      const fromG = glyphsToRender.find(g => g.id === conn.fromGlyphId);
+      const toG   = glyphsToRender.find(g => g.id === conn.toGlyphId);
+      if (!fromG || !toG) return null;
+      const fs = sizeMap.get(fromG.id) ?? { w: 60, h: 60 };
+      const ts = sizeMap.get(toG.id)   ?? { w: 60, h: 60 };
+      const from = getConnectorPos(fromG, conn.fromPortId, fs.w, fs.h);
+      const to   = getConnectorPos(toG,   conn.toPortId,   ts.w, ts.h);
+      const allPts = [from, ...(conn.points ?? []), to];
+      const ct = (conn.view?.type ?? connectorType) as 'bezier' | 'manhattan' | 'line';
+      return { conn, segs: getConnectionSegments(allPts, ct) };
+    });
+
+    // For each unique pair, find intersections and assign to the "under" connection
+    for (let i = 0; i < connData.length; i++) {
+      for (let j = i + 1; j < connData.length; j++) {
+        const a = connData[i];
+        const b = connData[j];
+        if (!a || !b) continue;
+        const idxA = connRenderIdx.get(a.conn.id ?? '') ?? 0;
+        const idxB = connRenderIdx.get(b.conn.id ?? '') ?? 0;
+        const [underConn, underSegs, overSegs] =
+          idxA < idxB ? [a.conn, a.segs, b.segs] : [b.conn, b.segs, a.segs];
+        const id = underConn.id ?? '';
+        for (const [a1, a2, angle] of underSegs) {
+          for (const [b1, b2] of overSegs) {
+            const pt = segmentIntersect(a1, a2, b1, b2);
+            if (!pt) continue;
+            const arr = map.get(id) ?? [];
+            // Deduplicate: skip if a very close point already exists
+            if (!arr.some(p => Math.hypot(p.x - pt.x, p.y - pt.y) < 6)) {
+              arr.push({ ...pt, angle });
+            }
+            map.set(id, arr);
+          }
+        }
+      }
+    }
+    return map;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connectionsToRender, glyphsToRender, connectorType]);
+
   const renderItems = (() => {
     const items: Array<{ type: 'glyph' | 'connection'; data: Glyph | Connection; index: number }> = [];
     glyphsToRender.forEach((glyph, idx) => {
@@ -504,6 +568,7 @@ export const GlyphCanvas: React.FC<GlyphCanvasProps> = ({
                 hoveredPortId={hoveredPortId}
                 glyphsToRender={glyphsToRender}
                 connectorType={connectorType}
+                crossingPoints={crossingsMap.get(conn.id ?? '') ?? []}
                 onSelect={idx => setSelectedConn(selectedConn === idx ? null : idx)}
                 onDoubleClick={(c, idx) => {
                   setSelectedGlyphId(null);

@@ -176,3 +176,75 @@ export const getConnectionPathMulti = (
   path += ` L${to.x},${to.y}`;
   return path;
 };
+
+// ─── Connection crossing / hop utilities ─────────────────────────────────────
+
+export type Pt = { x: number; y: number };
+
+/**
+ * Segment-segment intersection. Returns the intersection point or null.
+ * Ignores intersections very close to segment endpoints (t/u within 2%).
+ */
+export function segmentIntersect(a1: Pt, a2: Pt, b1: Pt, b2: Pt): Pt | null {
+  const d1x = a2.x - a1.x, d1y = a2.y - a1.y;
+  const d2x = b2.x - b1.x, d2y = b2.y - b1.y;
+  const cross = d1x * d2y - d1y * d2x;
+  if (Math.abs(cross) < 1e-6) return null; // parallel / collinear
+  const dx = b1.x - a1.x, dy = b1.y - a1.y;
+  const t = (dx * d2y - dy * d2x) / cross;
+  const u = (dx * d1y - dy * d1x) / cross;
+  if (t <= 0.02 || t >= 0.98 || u <= 0.02 || u >= 0.98) return null;
+  return { x: a1.x + t * d1x, y: a1.y + t * d1y };
+}
+
+/**
+ * Linearise a connection's absolute path into a flat array of [p1, p2] segments.
+ * For bezier, the curve is sampled at 20 steps per segment.
+ */
+export function getConnectionSegments(
+  allAbsPoints: Pt[],
+  connType: "bezier" | "manhattan" | "line"
+): Array<[Pt, Pt, number]> { // [from, to, angle-of-from-segment]
+  const segs: Array<[Pt, Pt, number]> = [];
+  for (let i = 0; i < allAbsPoints.length - 1; i++) {
+    const p1 = allAbsPoints[i];
+    const p2 = allAbsPoints[i + 1];
+    const push = (a: Pt, b: Pt) =>
+      segs.push([a, b, Math.atan2(b.y - a.y, b.x - a.x)]);
+    if (connType === "line") {
+      push(p1, p2);
+    } else if (connType === "manhattan") {
+      const dx = Math.abs(p2.x - p1.x);
+      const dy = Math.abs(p2.y - p1.y);
+      if (dx > dy) {
+        const mx = (p1.x + p2.x) / 2;
+        push(p1, { x: mx, y: p1.y });
+        push({ x: mx, y: p1.y }, { x: mx, y: p2.y });
+        push({ x: mx, y: p2.y }, p2);
+      } else {
+        const my = (p1.y + p2.y) / 2;
+        push(p1, { x: p1.x, y: my });
+        push({ x: p1.x, y: my }, { x: p2.x, y: my });
+        push({ x: p2.x, y: my }, p2);
+      }
+    } else {
+      // Cubic bezier – sample 20 sub-segments
+      const N = 20;
+      const c1x = p1.x + (p2.x - p1.x) * 0.3;
+      const c1y = p1.y;
+      const c2x = p2.x - (p2.x - p1.x) * 0.3;
+      const c2y = p2.y;
+      let prev = p1;
+      for (let k = 1; k <= N; k++) {
+        const t = k / N, mt = 1 - t;
+        const cur: Pt = {
+          x: mt ** 3 * p1.x + 3 * mt * mt * t * c1x + 3 * mt * t * t * c2x + t ** 3 * p2.x,
+          y: mt ** 3 * p1.y + 3 * mt * mt * t * c1y + 3 * mt * t * t * c2y + t ** 3 * p2.y,
+        };
+        push(prev, cur);
+        prev = cur;
+      }
+    }
+  }
+  return segs;
+}
