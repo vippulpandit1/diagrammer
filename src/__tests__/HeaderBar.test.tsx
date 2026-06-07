@@ -5,7 +5,7 @@ import { vi } from "vitest";
 import { HeaderBar } from "../HeaderBar";
 
 const defaultProps = {
-  onClear: vi.fn(),
+  onClearSession: vi.fn(),
   onZoomIn: vi.fn(),
   onZoomOut: vi.fn(),
   onSave: vi.fn(),
@@ -13,6 +13,9 @@ const defaultProps = {
   onAutoArrange: vi.fn(),
   onPrint: vi.fn(),
   onImport: vi.fn(),
+  onExport: vi.fn(),
+  autoSave: false,
+  onAutoSaveToggle: vi.fn(),
 };
 
 describe("HeaderBar", () => {
@@ -48,9 +51,9 @@ describe("HeaderBar", () => {
     expect(screen.getByTitle("Import JSON")).toBeInTheDocument();
   });
 
-  it("renders the Clear Canvas button", () => {
+  it("renders the Clear Session button", () => {
     render(<HeaderBar {...defaultProps} />);
-    expect(screen.getByTitle("Clear Canvas")).toBeInTheDocument();
+    expect(screen.getByTitle("Clear Session")).toBeInTheDocument();
   });
 
   it("renders the Print Canvas button", () => {
@@ -80,11 +83,18 @@ describe("HeaderBar", () => {
     expect(onZoomOut).toHaveBeenCalledOnce();
   });
 
-  it("calls onClear when Clear Canvas is clicked", () => {
-    const onClear = vi.fn();
-    render(<HeaderBar {...defaultProps} onClear={onClear} />);
-    fireEvent.click(screen.getByTitle("Clear Canvas"));
-    expect(onClear).toHaveBeenCalledOnce();
+  it("calls onClearSession when Clear Session is clicked", () => {
+    const onClearSession = vi.fn();
+    render(<HeaderBar {...defaultProps} onClearSession={onClearSession} />);
+    fireEvent.click(screen.getByTitle("Clear Session"));
+    expect(onClearSession).toHaveBeenCalledOnce();
+  });
+
+  it("calls onExport when Export JSON is clicked", () => {
+    const onExport = vi.fn();
+    render(<HeaderBar {...defaultProps} onExport={onExport} />);
+    fireEvent.click(screen.getByTitle("Export JSON"));
+    expect(onExport).toHaveBeenCalledOnce();
   });
 
   it("calls onAutoArrange when Auto-Arrange is clicked", () => {

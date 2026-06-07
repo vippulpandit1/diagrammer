@@ -233,6 +233,40 @@ function App() {
     );
   };
 
+  const handleExport = async () => {
+    try {
+      const json = JSON.stringify(pages, null, 2);
+      // Use the File System Access API when available (Chromium browsers) so the
+      // OS native "Save As" dialog is shown, letting the user pick the location.
+      if (typeof window !== "undefined" && "showSaveFilePicker" in window) {
+        const fileHandle = await (window as Window & { showSaveFilePicker: (opts: object) => Promise<FileSystemFileHandle> }).showSaveFilePicker({
+          suggestedName: "canvasData.json",
+          types: [{ description: "JSON file", accept: { "application/json": [".json"] } }],
+        });
+        const writable = await fileHandle.createWritable();
+        await writable.write(json);
+        await writable.close();
+      } else {
+        // Fallback: trigger a normal browser download
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "canvasData.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+      addMessage("Exported workspace to JSON");
+    } catch (err: unknown) {
+      // User cancelled the dialog — don't treat that as an error
+      if (err instanceof Error && err.name === "AbortError") return;
+      console.error(err);
+      addMessage("Failed to export workspace");
+    }
+  };
+
   const handleImport = (json: string, fileName?: string) => {
     try {
       const parsed = JSON.parse(json);
@@ -306,6 +340,7 @@ function App() {
         onAutoArrange={handleAutoArrange}
         onPrint={printCanvas}
         onImport={handleImport}
+        onExport={handleExport}
         autoSave={autoSave}
         onAutoSaveToggle={setAutoSave}
       />
