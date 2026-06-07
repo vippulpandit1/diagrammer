@@ -19,7 +19,8 @@ export const UMLSequenceGlyph: React.FC<{
   const h = Math.max(40, height);
 
   switch (type) {
-    case "uml-sequence-actor":
+    case "uml-sequence-actor": {
+      const fs = fontSize ?? 12;
       return (
         <g>
           <circle cx={w / 2} cy={h * 0.16} r={Math.min(w, h) * 0.1} fill="#fff" stroke="#222" strokeWidth={2} />
@@ -27,8 +28,20 @@ export const UMLSequenceGlyph: React.FC<{
           <line x1={w * 0.24} y1={h * 0.36} x2={w * 0.76} y2={h * 0.36} stroke="#222" strokeWidth={2} />
           <line x1={w / 2} y1={h * 0.56} x2={w * 0.3} y2={h * 0.82} stroke="#222" strokeWidth={2} />
           <line x1={w / 2} y1={h * 0.56} x2={w * 0.7} y2={h * 0.82} stroke="#222" strokeWidth={2} />
+          {label && (
+            <text
+              x={w / 2}
+              y={h + 4}
+              textAnchor="middle"
+              dominantBaseline="hanging"
+              style={{ fontSize: fs, fontFamily: "Arial", fill: "#222", fontWeight: 500, pointerEvents: "none", userSelect: "none" }}
+            >
+              {label}
+            </text>
+          )}
         </g>
       );
+    }
     case "uml-sequence-participant": {
       const fs = fontSize ?? 13;
       const rh = fs + 16;
