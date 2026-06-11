@@ -1,0 +1,2004 @@
+[
+  {
+    "id": "page-enterprise-campus-topology",
+    "name": "Enterprise Network Topology",
+    "glyphs": [
+      {
+        "id": "page-bg",
+        "type": "rect",
+        "x": 0,
+        "y": 0,
+        "width": 1056,
+        "height": 1588,
+        "ports": [],
+        "data": {
+          "fillColor": "#f7f8fa",
+          "strokeColor": "#d6d9dc",
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "title",
+        "type": "text",
+        "x": 20,
+        "y": 10,
+        "width": 1016,
+        "height": 72,
+        "ports": [],
+        "data": {
+          "fontSize": 43,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "ENTERPRISE NETWORK TOPOLOGY",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "subtitle",
+        "type": "text",
+        "x": 170,
+        "y": 88,
+        "width": 716,
+        "height": 42,
+        "ports": [],
+        "data": {
+          "fontSize": 27,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#07529a"
+        },
+        "label": "CAMPUS NETWORK DESIGN",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "feature-1",
+        "type": "text",
+        "x": 35,
+        "y": 138,
+        "width": 220,
+        "height": 52,
+        "ports": [],
+        "data": {
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "REDUNDANT\nCORE & DISTRIBUTION",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "feature-2",
+        "type": "text",
+        "x": 280,
+        "y": 138,
+        "width": 220,
+        "height": 52,
+        "ports": [],
+        "data": {
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "VLAN SEGMENTATION\nFOR SECURITY",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "feature-3",
+        "type": "text",
+        "x": 535,
+        "y": 138,
+        "width": 220,
+        "height": 52,
+        "ports": [],
+        "data": {
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "HIGH AVAILABILITY\n& SCALABILITY",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "feature-4",
+        "type": "text",
+        "x": 790,
+        "y": 138,
+        "width": 220,
+        "height": 52,
+        "ports": [],
+        "data": {
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "OPTIMIZED FOR\nPERFORMANCE",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "server-farm-panel",
+        "type": "rect",
+        "x": 34,
+        "y": 220,
+        "width": 435,
+        "height": 145,
+        "ports": [],
+        "data": {
+          "fillColor": "#ffffff",
+          "strokeColor": "#9aa0a6",
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "server-farm-title",
+        "type": "rect",
+        "x": 133,
+        "y": 208,
+        "width": 160,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 16,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SERVER FARM",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "server-1",
+        "type": "network-server",
+        "x": 52,
+        "y": 248,
+        "width": 75,
+        "height": 88,
+        "ports": [
+          {
+            "id": "i-server-1",
+            "type": "input"
+          },
+          {
+            "id": "o-server-1",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Server 1",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "server-2",
+        "type": "network-server",
+        "x": 133,
+        "y": 248,
+        "width": 75,
+        "height": 88,
+        "ports": [
+          {
+            "id": "i-server-2",
+            "type": "input"
+          },
+          {
+            "id": "o-server-2",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Server 2",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "server-3",
+        "type": "network-server",
+        "x": 214,
+        "y": 248,
+        "width": 75,
+        "height": 88,
+        "ports": [
+          {
+            "id": "i-server-3",
+            "type": "input"
+          },
+          {
+            "id": "o-server-3",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Server 3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "vlan20",
+        "type": "text",
+        "x": 328,
+        "y": 246,
+        "width": 125,
+        "height": 95,
+        "ports": [],
+        "data": {
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "left",
+          "textColor": "#061a3b"
+        },
+        "label": "VLAN 20\nIP: 10.16.20.10\nDefault GW:\n10.16.20.1/24",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "firewall-title",
+        "type": "rect",
+        "x": 604,
+        "y": 228,
+        "width": 105,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#c51f1f",
+          "strokeColor": "#c51f1f",
+          "fontSize": 15,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "FIREWALL",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "firewall-ip",
+        "type": "text",
+        "x": 606,
+        "y": 266,
+        "width": 105,
+        "height": 25,
+        "ports": [],
+        "data": {
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "10.AN.19",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "firewall",
+        "type": "network-firewall",
+        "x": 607,
+        "y": 294,
+        "width": 105,
+        "height": 105,
+        "ports": [
+          {
+            "id": "i-firewall",
+            "type": "input"
+          },
+          {
+            "id": "o-firewall",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 10,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Security",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a5-title",
+        "type": "rect",
+        "x": 799,
+        "y": 228,
+        "width": 115,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 15,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH A5",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a5-area",
+        "type": "text",
+        "x": 777,
+        "y": 267,
+        "width": 165,
+        "height": 30,
+        "ports": [],
+        "data": {
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#061a3b"
+        },
+        "label": "(Other Bldg - Area1)",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a5",
+        "type": "network-switch",
+        "x": 785,
+        "y": 300,
+        "width": 145,
+        "height": 80,
+        "ports": [
+          {
+            "id": "i-a5",
+            "type": "input"
+          },
+          {
+            "id": "o-a5",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE0/1        GE0/2",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a5-pc",
+        "type": "network-pc",
+        "x": 914,
+        "y": 370,
+        "width": 90,
+        "height": 100,
+        "ports": [
+          {
+            "id": "i-a5-pc",
+            "type": "input"
+          },
+          {
+            "id": "o-a5-pc",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Area 1 PC",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "vlan11",
+        "type": "rect",
+        "x": 853,
+        "y": 500,
+        "width": 175,
+        "height": 108,
+        "ports": [],
+        "data": {
+          "fillColor": "#f5f8f1",
+          "strokeColor": "#a8b39a",
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#2f6b28"
+        },
+        "label": "VLAN 11\nIP: 10.16.1.10\nDefault GW:\n10.16.1.1/24",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d5-title",
+        "type": "rect",
+        "x": 324,
+        "y": 385,
+        "width": 112,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 15,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH D5",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d5",
+        "type": "network-switch",
+        "x": 322,
+        "y": 420,
+        "width": 115,
+        "height": 95,
+        "ports": [
+          {
+            "id": "i-d5",
+            "type": "input"
+          },
+          {
+            "id": "o-d5",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1 (.21)\nGE1/2 (.26)",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "c1-title",
+        "type": "rect",
+        "x": 219,
+        "y": 570,
+        "width": 115,
+        "height": 40,
+        "ports": [],
+        "data": {
+          "fillColor": "#c51f1f",
+          "strokeColor": "#c51f1f",
+          "fontSize": 15,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH C1",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "c1",
+        "type": "network-switch",
+        "x": 219,
+        "y": 610,
+        "width": 115,
+        "height": 100,
+        "ports": [
+          {
+            "id": "i-c1",
+            "type": "input"
+          },
+          {
+            "id": "o-c1",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1  GE2/1\nGE2/2  GE2/5",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "c2-title",
+        "type": "rect",
+        "x": 598,
+        "y": 570,
+        "width": 118,
+        "height": 40,
+        "ports": [],
+        "data": {
+          "fillColor": "#c51f1f",
+          "strokeColor": "#c51f1f",
+          "fontSize": 15,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH C2",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "c2",
+        "type": "network-switch",
+        "x": 598,
+        "y": 610,
+        "width": 118,
+        "height": 100,
+        "ports": [
+          {
+            "id": "i-c2",
+            "type": "input"
+          },
+          {
+            "id": "o-c2",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1  GE2/1\nGE2/2  GE2/5",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "trunk-label",
+        "type": "text",
+        "x": 420,
+        "y": 603,
+        "width": 120,
+        "height": 55,
+        "ports": [],
+        "data": {
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#111111"
+        },
+        "label": "TRUNK\nC2-C2",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "node-id",
+        "type": "rect",
+        "x": 22,
+        "y": 714,
+        "width": 163,
+        "height": 70,
+        "ports": [],
+        "data": {
+          "fillColor": "#f5f8fa",
+          "strokeColor": "#7d9bb2",
+          "fontSize": 10,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "NodeId-dis: 3750-1\nMngt: 100.100.100.103/27",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d1-title",
+        "type": "rect",
+        "x": 42,
+        "y": 892,
+        "width": 112,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH D1",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d1",
+        "type": "network-switch",
+        "x": 42,
+        "y": 926,
+        "width": 112,
+        "height": 92,
+        "ports": [
+          {
+            "id": "i-d1",
+            "type": "input"
+          },
+          {
+            "id": "o-d1",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1  GE1/2\nGE1/3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d2-title",
+        "type": "rect",
+        "x": 300,
+        "y": 892,
+        "width": 112,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH D2",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d2",
+        "type": "network-switch",
+        "x": 300,
+        "y": 926,
+        "width": 112,
+        "height": 92,
+        "ports": [
+          {
+            "id": "i-d2",
+            "type": "input"
+          },
+          {
+            "id": "o-d2",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1  GE1/2\nGE1/3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d3-title",
+        "type": "rect",
+        "x": 580,
+        "y": 892,
+        "width": 112,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH D3",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d3",
+        "type": "network-switch",
+        "x": 580,
+        "y": 926,
+        "width": 112,
+        "height": 92,
+        "ports": [
+          {
+            "id": "i-d3",
+            "type": "input"
+          },
+          {
+            "id": "o-d3",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1  GE1/2\nGE1/3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d4-title",
+        "type": "rect",
+        "x": 866,
+        "y": 892,
+        "width": 112,
+        "height": 34,
+        "ports": [],
+        "data": {
+          "fillColor": "#07529a",
+          "strokeColor": "#07529a",
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "SWITCH D4",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "d4",
+        "type": "network-switch",
+        "x": 866,
+        "y": 926,
+        "width": 112,
+        "height": 92,
+        "ports": [
+          {
+            "id": "i-d4",
+            "type": "input"
+          },
+          {
+            "id": "o-d4",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 9,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "GE1/1  GE1/2\nGE1/3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a1",
+        "type": "network-switch",
+        "x": 20,
+        "y": 1145,
+        "width": 130,
+        "height": 70,
+        "ports": [
+          {
+            "id": "i-a1",
+            "type": "input"
+          },
+          {
+            "id": "o-a1",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 10,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "SWITCH A1",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a1-pc",
+        "type": "network-pc",
+        "x": 90,
+        "y": 1228,
+        "width": 90,
+        "height": 95,
+        "ports": [
+          {
+            "id": "i-a1-pc",
+            "type": "input"
+          },
+          {
+            "id": "o-a1-pc",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "PTC-Area2",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a1-vlan",
+        "type": "rect",
+        "x": 26,
+        "y": 1340,
+        "width": 178,
+        "height": 92,
+        "ports": [],
+        "data": {
+          "fillColor": "#f5f8f1",
+          "strokeColor": "#a8b39a",
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#2f6b28"
+        },
+        "label": "VLAN 12\nIP: 10.16.2.10\nDefault GW:\n10.16.2.1/24",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a2",
+        "type": "network-switch",
+        "x": 283,
+        "y": 1145,
+        "width": 130,
+        "height": 70,
+        "ports": [
+          {
+            "id": "i-a2",
+            "type": "input"
+          },
+          {
+            "id": "o-a2",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 10,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "SWITCH A2",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a2-pc",
+        "type": "network-pc",
+        "x": 353,
+        "y": 1228,
+        "width": 90,
+        "height": 95,
+        "ports": [
+          {
+            "id": "i-a2-pc",
+            "type": "input"
+          },
+          {
+            "id": "o-a2-pc",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "PM GSE-Area3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a2-vlan",
+        "type": "rect",
+        "x": 289,
+        "y": 1340,
+        "width": 178,
+        "height": 92,
+        "ports": [],
+        "data": {
+          "fillColor": "#f5f8f1",
+          "strokeColor": "#a8b39a",
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#2f6b28"
+        },
+        "label": "VLAN 13\nIP: 10.16.3.10\nDefault GW:\n10.16.3.1/24",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a3",
+        "type": "network-switch",
+        "x": 560,
+        "y": 1145,
+        "width": 130,
+        "height": 70,
+        "ports": [
+          {
+            "id": "i-a3",
+            "type": "input"
+          },
+          {
+            "id": "o-a3",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 10,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "SWITCH A3",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a3-pc",
+        "type": "network-pc",
+        "x": 630,
+        "y": 1228,
+        "width": 90,
+        "height": 95,
+        "ports": [
+          {
+            "id": "i-a3-pc",
+            "type": "input"
+          },
+          {
+            "id": "o-a3-pc",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Catering-Area4",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a3-vlan",
+        "type": "rect",
+        "x": 566,
+        "y": 1340,
+        "width": 178,
+        "height": 92,
+        "ports": [],
+        "data": {
+          "fillColor": "#f5f8f1",
+          "strokeColor": "#a8b39a",
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#2f6b28"
+        },
+        "label": "VLAN 14\nIP: 10.16.4.10\nDefault GW:\n10.16.4.1/24",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a4",
+        "type": "network-switch",
+        "x": 860,
+        "y": 1145,
+        "width": 130,
+        "height": 70,
+        "ports": [
+          {
+            "id": "i-a4",
+            "type": "input"
+          },
+          {
+            "id": "o-a4",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 10,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "SWITCH A4",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a4-pc",
+        "type": "network-pc",
+        "x": 930,
+        "y": 1228,
+        "width": 90,
+        "height": 95,
+        "ports": [
+          {
+            "id": "i-a4-pc",
+            "type": "input"
+          },
+          {
+            "id": "o-a4-pc",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "Ground Service-Area5",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "a4-vlan",
+        "type": "rect",
+        "x": 866,
+        "y": 1340,
+        "width": 178,
+        "height": 92,
+        "ports": [],
+        "data": {
+          "fillColor": "#f5f8f1",
+          "strokeColor": "#a8b39a",
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#2f6b28"
+        },
+        "label": "VLAN 15\nIP: 10.16.5.10\nDefault GW:\n10.16.5.1/24",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-panel",
+        "type": "rect",
+        "x": 28,
+        "y": 1462,
+        "width": 1000,
+        "height": 88,
+        "ports": [],
+        "data": {
+          "fillColor": "#ffffff",
+          "strokeColor": "#9aa0a6",
+          "fontSize": 12,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-title",
+        "type": "rect",
+        "x": 461,
+        "y": 1448,
+        "width": 95,
+        "height": 32,
+        "ports": [],
+        "data": {
+          "fillColor": "#061a3b",
+          "strokeColor": "#061a3b",
+          "fontSize": 15,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#ffffff"
+        },
+        "label": "LEGEND",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-access",
+        "type": "network-switch",
+        "x": 58,
+        "y": 1480,
+        "width": 70,
+        "height": 45,
+        "ports": [
+          {
+            "id": "i-legend-access",
+            "type": "input"
+          },
+          {
+            "id": "o-legend-access",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-access-text",
+        "type": "text",
+        "x": 140,
+        "y": 1482,
+        "width": 115,
+        "height": 45,
+        "ports": [],
+        "data": {
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "left",
+          "textColor": "#111827"
+        },
+        "label": "ACCESS\nLAYER",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-dist",
+        "type": "network-switch",
+        "x": 270,
+        "y": 1480,
+        "width": 58,
+        "height": 48,
+        "ports": [
+          {
+            "id": "i-legend-dist",
+            "type": "input"
+          },
+          {
+            "id": "o-legend-dist",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-dist-text",
+        "type": "text",
+        "x": 338,
+        "y": 1482,
+        "width": 120,
+        "height": 45,
+        "ports": [],
+        "data": {
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "left",
+          "textColor": "#111827"
+        },
+        "label": "DISTRIBUTION\nLAYER",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-core",
+        "type": "network-switch",
+        "x": 480,
+        "y": 1480,
+        "width": 58,
+        "height": 48,
+        "ports": [
+          {
+            "id": "i-legend-core",
+            "type": "input"
+          },
+          {
+            "id": "o-legend-core",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-core-text",
+        "type": "text",
+        "x": 548,
+        "y": 1482,
+        "width": 95,
+        "height": 45,
+        "ports": [],
+        "data": {
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "left",
+          "textColor": "#111827"
+        },
+        "label": "CORE\nLAYER",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-security",
+        "type": "network-firewall",
+        "x": 665,
+        "y": 1478,
+        "width": 58,
+        "height": 52,
+        "ports": [
+          {
+            "id": "i-legend-security",
+            "type": "input"
+          },
+          {
+            "id": "o-legend-security",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-security-text",
+        "type": "text",
+        "x": 733,
+        "y": 1482,
+        "width": 100,
+        "height": 45,
+        "ports": [],
+        "data": {
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "left",
+          "textColor": "#111827"
+        },
+        "label": "SECURITY\nLAYER",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-server",
+        "type": "network-server",
+        "x": 850,
+        "y": 1478,
+        "width": 58,
+        "height": 52,
+        "ports": [
+          {
+            "id": "i-legend-server",
+            "type": "input"
+          },
+          {
+            "id": "o-legend-server",
+            "type": "output"
+          }
+        ],
+        "data": {
+          "fontSize": 8,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#0b1930"
+        },
+        "label": "",
+        "inputs": 1,
+        "outputs": 1,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "legend-server-text",
+        "type": "text",
+        "x": 918,
+        "y": 1482,
+        "width": 90,
+        "height": 45,
+        "ports": [],
+        "data": {
+          "fontSize": 11,
+          "fontFamily": "Arial",
+          "labelAlign": "left",
+          "textColor": "#111827"
+        },
+        "label": "SERVER\nFARM",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      },
+      {
+        "id": "footer",
+        "type": "text",
+        "x": 325,
+        "y": 1555,
+        "width": 410,
+        "height": 25,
+        "ports": [],
+        "data": {
+          "fontSize": 14,
+          "fontFamily": "Arial",
+          "labelAlign": "center",
+          "textColor": "#07529a"
+        },
+        "label": "www.thenetworkdna.com",
+        "inputs": 0,
+        "outputs": 0,
+        "attributes": [],
+        "methods": []
+      }
+    ],
+    "connections": [
+      {
+        "id": "enterprise-conn-1",
+        "fromGlyphId": "server-1",
+        "fromPortId": "o-server-1",
+        "toGlyphId": "d5",
+        "toPortId": "i-d5",
+        "label": "VLAN 20",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#07529a",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-2",
+        "fromGlyphId": "server-2",
+        "fromPortId": "o-server-2",
+        "toGlyphId": "d5",
+        "toPortId": "i-d5",
+        "label": "",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#07529a",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-3",
+        "fromGlyphId": "server-3",
+        "fromPortId": "o-server-3",
+        "toGlyphId": "d5",
+        "toPortId": "i-d5",
+        "label": "",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#07529a",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-4",
+        "fromGlyphId": "d5",
+        "fromPortId": "o-d5",
+        "toGlyphId": "c1",
+        "toPortId": "i-c1",
+        "label": "C1-D5",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-5",
+        "fromGlyphId": "d5",
+        "fromPortId": "o-d5",
+        "toGlyphId": "c2",
+        "toPortId": "i-c2",
+        "label": "C2-D5",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-6",
+        "fromGlyphId": "firewall",
+        "fromPortId": "o-firewall",
+        "toGlyphId": "c1",
+        "toPortId": "i-c1",
+        "label": "HA / security",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": true
+        }
+      },
+      {
+        "id": "enterprise-conn-7",
+        "fromGlyphId": "firewall",
+        "fromPortId": "o-firewall",
+        "toGlyphId": "c2",
+        "toPortId": "i-c2",
+        "label": "HA / security",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": true
+        }
+      },
+      {
+        "id": "enterprise-conn-8",
+        "fromGlyphId": "a5",
+        "fromPortId": "o-a5",
+        "toGlyphId": "c2",
+        "toPortId": "i-c2",
+        "label": "C2-A5",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-9",
+        "fromGlyphId": "a5",
+        "fromPortId": "o-a5",
+        "toGlyphId": "a5-pc",
+        "toPortId": "i-a5-pc",
+        "label": "GE0/2",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-10",
+        "fromGlyphId": "c1",
+        "fromPortId": "o-c1",
+        "toGlyphId": "c2",
+        "toPortId": "i-c2",
+        "label": "TRUNK",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-11",
+        "fromGlyphId": "c1",
+        "fromPortId": "o-c1",
+        "toGlyphId": "d1",
+        "toPortId": "i-d1",
+        "label": "C1-D1",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-12",
+        "fromGlyphId": "c1",
+        "fromPortId": "o-c1",
+        "toGlyphId": "d2",
+        "toPortId": "i-d2",
+        "label": "C1-D2",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-13",
+        "fromGlyphId": "c1",
+        "fromPortId": "o-c1",
+        "toGlyphId": "d3",
+        "toPortId": "i-d3",
+        "label": "C1-D3",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-14",
+        "fromGlyphId": "c1",
+        "fromPortId": "o-c1",
+        "toGlyphId": "d4",
+        "toPortId": "i-d4",
+        "label": "C1-D4",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-15",
+        "fromGlyphId": "c2",
+        "fromPortId": "o-c2",
+        "toGlyphId": "d1",
+        "toPortId": "i-d1",
+        "label": "C2-D1",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-16",
+        "fromGlyphId": "c2",
+        "fromPortId": "o-c2",
+        "toGlyphId": "d2",
+        "toPortId": "i-d2",
+        "label": "C2-D2",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-17",
+        "fromGlyphId": "c2",
+        "fromPortId": "o-c2",
+        "toGlyphId": "d3",
+        "toPortId": "i-d3",
+        "label": "C2-D3",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-18",
+        "fromGlyphId": "c2",
+        "fromPortId": "o-c2",
+        "toGlyphId": "d4",
+        "toPortId": "i-d4",
+        "label": "C2-D4",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-19",
+        "fromGlyphId": "d1",
+        "fromPortId": "o-d1",
+        "toGlyphId": "d2",
+        "toPortId": "i-d2",
+        "label": "D1-D2",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-20",
+        "fromGlyphId": "d3",
+        "fromPortId": "o-d3",
+        "toGlyphId": "d4",
+        "toPortId": "i-d4",
+        "label": "D3-D4",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-21",
+        "fromGlyphId": "a1",
+        "fromPortId": "o-a1",
+        "toGlyphId": "a1-pc",
+        "toPortId": "i-a1-pc",
+        "label": "endpoint",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#222222",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-22",
+        "fromGlyphId": "a2",
+        "fromPortId": "o-a2",
+        "toGlyphId": "a2-pc",
+        "toPortId": "i-a2-pc",
+        "label": "endpoint",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#222222",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-23",
+        "fromGlyphId": "a3",
+        "fromPortId": "o-a3",
+        "toGlyphId": "a3-pc",
+        "toPortId": "i-a3-pc",
+        "label": "endpoint",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#222222",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-24",
+        "fromGlyphId": "a4",
+        "fromPortId": "o-a4",
+        "toGlyphId": "a4-pc",
+        "toPortId": "i-a4-pc",
+        "label": "endpoint",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#222222",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-25",
+        "fromGlyphId": "d1",
+        "fromPortId": "o-d1",
+        "toGlyphId": "a1",
+        "toPortId": "i-a1",
+        "label": "D1-A1",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-26",
+        "fromGlyphId": "d2",
+        "fromPortId": "o-d2",
+        "toGlyphId": "a1",
+        "toPortId": "i-a1",
+        "label": "D2-A1",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-27",
+        "fromGlyphId": "d1",
+        "fromPortId": "o-d1",
+        "toGlyphId": "a2",
+        "toPortId": "i-a2",
+        "label": "D1-A2",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-28",
+        "fromGlyphId": "d2",
+        "fromPortId": "o-d2",
+        "toGlyphId": "a2",
+        "toPortId": "i-a2",
+        "label": "D2-A2",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-29",
+        "fromGlyphId": "d3",
+        "fromPortId": "o-d3",
+        "toGlyphId": "a3",
+        "toPortId": "i-a3",
+        "label": "D3-A3",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-30",
+        "fromGlyphId": "d4",
+        "fromPortId": "o-d4",
+        "toGlyphId": "a3",
+        "toPortId": "i-a3",
+        "label": "D4-A3",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-31",
+        "fromGlyphId": "d3",
+        "fromPortId": "o-d3",
+        "toGlyphId": "a4",
+        "toPortId": "i-a4",
+        "label": "D3-A4",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      },
+      {
+        "id": "enterprise-conn-32",
+        "fromGlyphId": "d4",
+        "fromPortId": "o-d4",
+        "toGlyphId": "a4",
+        "toPortId": "i-a4",
+        "label": "D4-A4",
+        "type": "default",
+        "view": {
+          "connectionType": "line",
+          "color": "#111111",
+          "thickness": 2,
+          "dashed": false
+        }
+      }
+    ]
+  }
+]

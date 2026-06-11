@@ -1,0 +1,2627 @@
+{
+  "pages": [
+    {
+      "id": "page-traceroute",
+      "name": "How Tracert and Traceroute Works",
+      "glyphs": [
+        {
+          "id": "page-bg",
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "width": 1520,
+          "height": 1520,
+          "ports": [],
+          "data": {
+            "fillColor": "#f7f8fa",
+            "strokeColor": "#d6d9dc",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "title-how",
+          "type": "text",
+          "x": 65,
+          "y": 12,
+          "width": 190,
+          "height": 72,
+          "ports": [],
+          "data": {
+            "fontSize": 54,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "HOW",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "title-trace",
+          "type": "text",
+          "x": 245,
+          "y": 12,
+          "width": 890,
+          "height": 72,
+          "ports": [],
+          "data": {
+            "fontSize": 54,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ed4c06"
+          },
+          "label": "TRACERT / TRACEROUTE",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "title-works",
+          "type": "text",
+          "x": 1130,
+          "y": 12,
+          "width": 330,
+          "height": 72,
+          "ports": [],
+          "data": {
+            "fontSize": 54,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "WORKS",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "x": 170,
+          "y": 93,
+          "width": 1180,
+          "height": 40,
+          "ports": [],
+          "data": {
+            "fontSize": 23,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "Visualizing Network Paths, Delay, and Packet Loss through TTL and ICMP",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "source",
+          "type": "network-pc",
+          "x": 48,
+          "y": 182,
+          "width": 155,
+          "height": 128,
+          "ports": [
+            {
+              "id": "o-source",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "SOURCE PC\n(Windows / Linux)",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "home",
+          "type": "network-router",
+          "x": 305,
+          "y": 208,
+          "width": 145,
+          "height": 115,
+          "ports": [
+            {
+              "id": "i-home",
+              "type": "input"
+            },
+            {
+              "id": "o-home",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "HOME ROUTER\n(Default Gateway)",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "isp",
+          "type": "network-router",
+          "x": 535,
+          "y": 208,
+          "width": 145,
+          "height": 115,
+          "ports": [
+            {
+              "id": "i-isp",
+              "type": "input"
+            },
+            {
+              "id": "o-isp",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ISP ROUTER",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "core",
+          "type": "network-router",
+          "x": 755,
+          "y": 205,
+          "width": 145,
+          "height": 118,
+          "ports": [
+            {
+              "id": "i-core",
+              "type": "input"
+            },
+            {
+              "id": "o-core",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "CORE BACKBONE\nROUTER",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dc",
+          "type": "network-server-rack",
+          "x": 990,
+          "y": 197,
+          "width": 145,
+          "height": 128,
+          "ports": [
+            {
+              "id": "i-dc",
+              "type": "input"
+            },
+            {
+              "id": "o-dc",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "DATA-CENTER\nROUTER",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "destination",
+          "type": "network-server-rack",
+          "x": 1280,
+          "y": 190,
+          "width": 155,
+          "height": 135,
+          "ports": [
+            {
+              "id": "i-destination",
+              "type": "input"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "DESTINATION SERVER\n(Google / Public IP)",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop1-number",
+          "type": "rect",
+          "x": 350,
+          "y": 150,
+          "width": 42,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "1",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop1-ttl",
+          "type": "text",
+          "x": 330,
+          "y": 196,
+          "width": 82,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 17,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "TTL=1",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop2-number",
+          "type": "rect",
+          "x": 580,
+          "y": 150,
+          "width": 42,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "2",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop2-ttl",
+          "type": "text",
+          "x": 560,
+          "y": 196,
+          "width": 82,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 17,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "TTL=2",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop3-number",
+          "type": "rect",
+          "x": 800,
+          "y": 150,
+          "width": 42,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "3",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop3-ttl",
+          "type": "text",
+          "x": 780,
+          "y": 196,
+          "width": 82,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 17,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "TTL=3",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop4-number",
+          "type": "rect",
+          "x": 1038,
+          "y": 150,
+          "width": 42,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "4",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop4-ttl",
+          "type": "text",
+          "x": 1018,
+          "y": 196,
+          "width": 82,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 17,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "TTL=4",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop5-number",
+          "type": "rect",
+          "x": 1335,
+          "y": 150,
+          "width": 42,
+          "height": 42,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "5",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hop5-ttl",
+          "type": "text",
+          "x": 1315,
+          "y": 196,
+          "width": 82,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 17,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "TTL=5",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "reply1",
+          "type": "rect",
+          "x": 292,
+          "y": 430,
+          "width": 165,
+          "height": 74,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#a9a9a9",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Time\nExceeded",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "reply2",
+          "type": "rect",
+          "x": 520,
+          "y": 430,
+          "width": 165,
+          "height": 74,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#a9a9a9",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Time\nExceeded",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "reply3",
+          "type": "rect",
+          "x": 745,
+          "y": 430,
+          "width": 165,
+          "height": 74,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#a9a9a9",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Time\nExceeded",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "reply4",
+          "type": "rect",
+          "x": 980,
+          "y": 430,
+          "width": 165,
+          "height": 74,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#a9a9a9",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Time\nExceeded",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "reply5",
+          "type": "rect",
+          "x": 1160,
+          "y": 430,
+          "width": 250,
+          "height": 74,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#a9a9a9",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Echo Reply\n(Destination Reached)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "home-return",
+          "type": "circle",
+          "x": 365,
+          "y": 382,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "o-home-return",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "isp-return",
+          "type": "circle",
+          "x": 595,
+          "y": 382,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "o-isp-return",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "core-return",
+          "type": "circle",
+          "x": 815,
+          "y": 382,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "o-core-return",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dc-return",
+          "type": "circle",
+          "x": 1050,
+          "y": 382,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "o-dc-return",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dest-return",
+          "type": "circle",
+          "x": 1348,
+          "y": 382,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "o-dest-return",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "source-return1",
+          "type": "circle",
+          "x": 245,
+          "y": 382,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "i-source-return1",
+              "type": "input"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "source-return2",
+          "type": "circle",
+          "x": 250,
+          "y": 395,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "i-source-return2",
+              "type": "input"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "source-return3",
+          "type": "circle",
+          "x": 255,
+          "y": 408,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "i-source-return3",
+              "type": "input"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "source-return4",
+          "type": "circle",
+          "x": 260,
+          "y": 421,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "i-source-return4",
+              "type": "input"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "source-return5",
+          "type": "circle",
+          "x": 265,
+          "y": 434,
+          "width": 12,
+          "height": 12,
+          "ports": [
+            {
+              "id": "i-source-return5",
+              "type": "input"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "watermark",
+          "type": "text",
+          "x": 390,
+          "y": 520,
+          "width": 750,
+          "height": 48,
+          "ports": [],
+          "data": {
+            "fontSize": 30,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#c6c8ca"
+          },
+          "label": "www.thenetworkdna.com",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "what-panel",
+          "type": "rect",
+          "x": 42,
+          "y": 575,
+          "width": 680,
+          "height": 185,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "what-num",
+          "type": "rect",
+          "x": 60,
+          "y": 592,
+          "width": 44,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "1",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "what-title",
+          "type": "text",
+          "x": 122,
+          "y": 590,
+          "width": 500,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 21,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#061a3b"
+          },
+          "label": "WHAT IS TRACERT?",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "what-body",
+          "type": "text",
+          "x": 122,
+          "y": 635,
+          "width": 550,
+          "height": 105,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "- Discovers network hops between source and destination.\n- Identifies delay and packet loss at each hop.\n- Troubleshoots routing issues, latency, and network congestion.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "core-panel",
+          "type": "rect",
+          "x": 42,
+          "y": 770,
+          "width": 680,
+          "height": 205,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "core-num",
+          "type": "rect",
+          "x": 60,
+          "y": 787,
+          "width": 44,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "2",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "core-title",
+          "type": "text",
+          "x": 122,
+          "y": 785,
+          "width": 500,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 21,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#061a3b"
+          },
+          "label": "CORE CONCEPT",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ttl-icon",
+          "type": "rect",
+          "x": 67,
+          "y": 852,
+          "width": 155,
+          "height": 82,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#ffffff",
+            "fontSize": 25,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#061a3b"
+          },
+          "label": "TTL  ->  0",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "core-body",
+          "type": "text",
+          "x": 242,
+          "y": 842,
+          "width": 440,
+          "height": 118,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "- TTL (Time To Live) in the IP header decreases by 1 at each router hop.\n- When TTL reaches 0, the router drops the packet and sends ICMP Time Exceeded back to the source.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "protocol-panel",
+          "type": "rect",
+          "x": 42,
+          "y": 985,
+          "width": 680,
+          "height": 185,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "protocol-num",
+          "type": "rect",
+          "x": 60,
+          "y": 1002,
+          "width": 44,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "3",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "protocol-title",
+          "type": "text",
+          "x": 122,
+          "y": 1000,
+          "width": 500,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 21,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#061a3b"
+          },
+          "label": "PROTOCOLS USED",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ip-tag",
+          "type": "rect",
+          "x": 62,
+          "y": 1050,
+          "width": 80,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fillColor": "#063d78",
+            "strokeColor": "#063d78",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "IP",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ip-body",
+          "type": "text",
+          "x": 62,
+          "y": 1090,
+          "width": 190,
+          "height": 66,
+          "ports": [],
+          "data": {
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "TTL field provides\nhop limiting.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "icmp-tag",
+          "type": "rect",
+          "x": 270,
+          "y": 1050,
+          "width": 90,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fillColor": "#ed4c06",
+            "strokeColor": "#ed4c06",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "ICMP",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "icmp-body",
+          "type": "text",
+          "x": 270,
+          "y": 1090,
+          "width": 220,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Time Exceeded and Echo\nRequest/Reply (Windows).",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "udp-tag",
+          "type": "rect",
+          "x": 510,
+          "y": 1050,
+          "width": 80,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "UDP",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "udp-body",
+          "type": "text",
+          "x": 510,
+          "y": 1090,
+          "width": 180,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Linux traceroute default:\nhigh unused ports.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rtt-panel",
+          "type": "rect",
+          "x": 42,
+          "y": 1180,
+          "width": 680,
+          "height": 140,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rtt-num",
+          "type": "rect",
+          "x": 60,
+          "y": 1197,
+          "width": 44,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fillColor": "#ed4c06",
+            "strokeColor": "#ed4c06",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "4",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rtt-title",
+          "type": "text",
+          "x": 122,
+          "y": 1195,
+          "width": 250,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 20,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#061a3b"
+          },
+          "label": "RTT MEASUREMENT",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rtt-clock",
+          "type": "network-router",
+          "x": 225,
+          "y": 1240,
+          "width": 75,
+          "height": 60,
+          "ports": [],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "rtt-body",
+          "type": "text",
+          "x": 335,
+          "y": 1200,
+          "width": 350,
+          "height": 105,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "- Sends three probes per hop to measure packet delay.\n- Round-Trip Time is displayed in milliseconds (ms).",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "timeline-panel",
+          "type": "rect",
+          "x": 750,
+          "y": 575,
+          "width": 712,
+          "height": 475,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "timeline-num",
+          "type": "rect",
+          "x": 768,
+          "y": 592,
+          "width": 44,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fillColor": "#ed4c06",
+            "strokeColor": "#ed4c06",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "5",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "timeline-title",
+          "type": "text",
+          "x": 830,
+          "y": 590,
+          "width": 600,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 20,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#061a3b"
+          },
+          "label": "STEP-BY-STEP PROCESS (VISUAL TIMELINE)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "timeline-line",
+          "type": "rect",
+          "x": 790,
+          "y": 660,
+          "width": 8,
+          "height": 340,
+          "ports": [],
+          "data": {
+            "fillColor": "#061a3b",
+            "strokeColor": "#061a3b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step1-dot",
+          "type": "rect",
+          "x": 780,
+          "y": 668,
+          "width": 28,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fillColor": "#061a3b",
+            "strokeColor": "#061a3b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step1-icon",
+          "type": "rect",
+          "x": 842,
+          "y": 650,
+          "width": 60,
+          "height": 60,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 25,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "1",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step1-text",
+          "type": "text",
+          "x": 930,
+          "y": 650,
+          "width": 490,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Step 1: User runs tracert google.com\n(e.g., C:\\> tracert google.com)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step2-dot",
+          "type": "rect",
+          "x": 780,
+          "y": 743,
+          "width": 28,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fillColor": "#061a3b",
+            "strokeColor": "#061a3b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step2-icon",
+          "type": "rect",
+          "x": 842,
+          "y": 725,
+          "width": 60,
+          "height": 60,
+          "ports": [],
+          "data": {
+            "fillColor": "#129323",
+            "strokeColor": "#129323",
+            "fontSize": 25,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "2",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step2-text",
+          "type": "text",
+          "x": 930,
+          "y": 725,
+          "width": 490,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Step 2: Source sends packet with TTL=1;\nGateway drops it and returns ICMP Time Exceeded.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step3-dot",
+          "type": "rect",
+          "x": 780,
+          "y": 828,
+          "width": 28,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fillColor": "#061a3b",
+            "strokeColor": "#061a3b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step3-icon",
+          "type": "rect",
+          "x": 842,
+          "y": 810,
+          "width": 60,
+          "height": 60,
+          "ports": [],
+          "data": {
+            "fillColor": "#ed4c06",
+            "strokeColor": "#ed4c06",
+            "fontSize": 25,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "3",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step3-text",
+          "type": "text",
+          "x": 930,
+          "y": 810,
+          "width": 490,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Step 3: Source sends packet with TTL=2;\nISP router drops it and returns ICMP Time Exceeded.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step4-dot",
+          "type": "rect",
+          "x": 780,
+          "y": 913,
+          "width": 28,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fillColor": "#061a3b",
+            "strokeColor": "#061a3b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step4-icon",
+          "type": "rect",
+          "x": 842,
+          "y": 895,
+          "width": 60,
+          "height": 60,
+          "ports": [],
+          "data": {
+            "fillColor": "#ed4c06",
+            "strokeColor": "#ed4c06",
+            "fontSize": 25,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "4",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step4-text",
+          "type": "text",
+          "x": 930,
+          "y": 895,
+          "width": 490,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Step 4: TTL increases hop-by-hop,\ndiscovering subsequent routers.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step5-dot",
+          "type": "rect",
+          "x": 780,
+          "y": 988,
+          "width": 28,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fillColor": "#061a3b",
+            "strokeColor": "#061a3b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step5-icon",
+          "type": "rect",
+          "x": 842,
+          "y": 970,
+          "width": 60,
+          "height": 60,
+          "ports": [],
+          "data": {
+            "fillColor": "#e11d22",
+            "strokeColor": "#e11d22",
+            "fontSize": 25,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "5",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "step5-text",
+          "type": "text",
+          "x": 930,
+          "y": 970,
+          "width": 490,
+          "height": 68,
+          "ports": [],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Step 5: Packet reaches destination;\nserver returns Echo Reply or Port Unreachable.",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "compare-panel",
+          "type": "rect",
+          "x": 750,
+          "y": 1060,
+          "width": 712,
+          "height": 260,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "compare-num",
+          "type": "rect",
+          "x": 768,
+          "y": 1077,
+          "width": 44,
+          "height": 44,
+          "ports": [],
+          "data": {
+            "fillColor": "#063d78",
+            "strokeColor": "#063d78",
+            "fontSize": 24,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "6",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "compare-title",
+          "type": "text",
+          "x": 830,
+          "y": 1075,
+          "width": 600,
+          "height": 36,
+          "ports": [],
+          "data": {
+            "fontSize": 20,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#061a3b"
+          },
+          "label": "WINDOWS vs LINUX COMPARISON (MINI TABLE)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-head-0",
+          "type": "rect",
+          "x": 770,
+          "y": 1125,
+          "width": 180,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fillColor": "#063d78",
+            "strokeColor": "#063d78",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "Feature",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-head-1",
+          "type": "rect",
+          "x": 950,
+          "y": 1125,
+          "width": 220,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fillColor": "#063d78",
+            "strokeColor": "#063d78",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "Windows (tracert)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-head-2",
+          "type": "rect",
+          "x": 1170,
+          "y": 1125,
+          "width": 270,
+          "height": 34,
+          "ports": [],
+          "data": {
+            "fillColor": "#063d78",
+            "strokeColor": "#063d78",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "Linux (traceroute)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-0-0",
+          "type": "rect",
+          "x": 770,
+          "y": 1159,
+          "width": 180,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "Protocol Used",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-0-1",
+          "type": "rect",
+          "x": 950,
+          "y": 1159,
+          "width": 220,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Echo",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-0-2",
+          "type": "rect",
+          "x": 1170,
+          "y": 1159,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "UDP by Default",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-1-0",
+          "type": "rect",
+          "x": 770,
+          "y": 1189,
+          "width": 180,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "Default Port",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-1-1",
+          "type": "rect",
+          "x": 950,
+          "y": 1189,
+          "width": 220,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "N/A",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-1-2",
+          "type": "rect",
+          "x": 1170,
+          "y": 1189,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "High Unused Port (33434+)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-2-0",
+          "type": "rect",
+          "x": 770,
+          "y": 1219,
+          "width": 180,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "Command",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-2-1",
+          "type": "rect",
+          "x": 950,
+          "y": 1219,
+          "width": 220,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "tracert <host>",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-2-2",
+          "type": "rect",
+          "x": 1170,
+          "y": 1219,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "traceroute <host>",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-3-0",
+          "type": "rect",
+          "x": 770,
+          "y": 1249,
+          "width": 180,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "Privileges",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-3-1",
+          "type": "rect",
+          "x": 950,
+          "y": 1249,
+          "width": 220,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "Not Required",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-3-2",
+          "type": "rect",
+          "x": 1170,
+          "y": 1249,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "May Require Root",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-4-0",
+          "type": "rect",
+          "x": 770,
+          "y": 1279,
+          "width": 180,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "Output",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-4-1",
+          "type": "rect",
+          "x": 950,
+          "y": 1279,
+          "width": 220,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP Responses",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "table-4-2",
+          "type": "rect",
+          "x": 1170,
+          "y": 1279,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#c3c7cb",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "ICMP + Port Unreachable",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefits-panel",
+          "type": "rect",
+          "x": 42,
+          "y": 1335,
+          "width": 1420,
+          "height": 145,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#9aa0a6",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#0b1930"
+          },
+          "label": "",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefits-tag",
+          "type": "rect",
+          "x": 60,
+          "y": 1355,
+          "width": 155,
+          "height": 72,
+          "ports": [],
+          "data": {
+            "fillColor": "#063d78",
+            "strokeColor": "#063d78",
+            "fontSize": 22,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "BENEFITS",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit1-icon",
+          "type": "rect",
+          "x": 265,
+          "y": 1360,
+          "width": 62,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#063d78",
+            "fontSize": 22,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#063d78"
+          },
+          "label": "1",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit1-label",
+          "type": "text",
+          "x": 340,
+          "y": 1362,
+          "width": 150,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Easy Path\nDiscovery",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit2-icon",
+          "type": "rect",
+          "x": 500,
+          "y": 1360,
+          "width": 62,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#063d78",
+            "fontSize": 22,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#063d78"
+          },
+          "label": "2",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit2-label",
+          "type": "text",
+          "x": 575,
+          "y": 1362,
+          "width": 150,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Latency\nAnalysis",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit3-icon",
+          "type": "rect",
+          "x": 735,
+          "y": 1360,
+          "width": 62,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#063d78",
+            "fontSize": 22,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#063d78"
+          },
+          "label": "3",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit3-label",
+          "type": "text",
+          "x": 810,
+          "y": 1362,
+          "width": 150,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Packet Loss\nDetection",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit4-icon",
+          "type": "rect",
+          "x": 970,
+          "y": 1360,
+          "width": 62,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#063d78",
+            "fontSize": 22,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#063d78"
+          },
+          "label": "4",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit4-label",
+          "type": "text",
+          "x": 1045,
+          "y": 1362,
+          "width": 150,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Network\nTroubleshooting",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit5-icon",
+          "type": "rect",
+          "x": 1220,
+          "y": 1360,
+          "width": 62,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fillColor": "#ffffff",
+            "strokeColor": "#063d78",
+            "fontSize": 22,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#063d78"
+          },
+          "label": "5",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "benefit5-label",
+          "type": "text",
+          "x": 1295,
+          "y": 1362,
+          "width": 150,
+          "height": 62,
+          "ports": [],
+          "data": {
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#111827"
+          },
+          "label": "Performance\nMonitoring",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "trace-conn-1",
+          "fromGlyphId": "source",
+          "fromPortId": "o-source",
+          "toGlyphId": "home",
+          "toPortId": "i-home",
+          "label": "probe",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#15951f",
+            "thickness": 3,
+            "dashed": false
+          }
+        },
+        {
+          "id": "trace-conn-2",
+          "fromGlyphId": "home",
+          "fromPortId": "o-home",
+          "toGlyphId": "isp",
+          "toPortId": "i-isp",
+          "label": "TTL + 1",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#15951f",
+            "thickness": 3,
+            "dashed": false
+          }
+        },
+        {
+          "id": "trace-conn-3",
+          "fromGlyphId": "isp",
+          "fromPortId": "o-isp",
+          "toGlyphId": "core",
+          "toPortId": "i-core",
+          "label": "TTL + 1",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#15951f",
+            "thickness": 3,
+            "dashed": false
+          }
+        },
+        {
+          "id": "trace-conn-4",
+          "fromGlyphId": "core",
+          "fromPortId": "o-core",
+          "toGlyphId": "dc",
+          "toPortId": "i-dc",
+          "label": "TTL + 1",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#15951f",
+            "thickness": 3,
+            "dashed": false
+          }
+        },
+        {
+          "id": "trace-conn-5",
+          "fromGlyphId": "dc",
+          "fromPortId": "o-dc",
+          "toGlyphId": "destination",
+          "toPortId": "i-destination",
+          "label": "TTL + 1",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#15951f",
+            "thickness": 3,
+            "dashed": false
+          }
+        },
+        {
+          "id": "trace-conn-6",
+          "fromGlyphId": "home-return",
+          "fromPortId": "o-home-return",
+          "toGlyphId": "source-return1",
+          "toPortId": "i-source-return1",
+          "label": "ICMP TTL exceeded",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#e11d22",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "trace-conn-7",
+          "fromGlyphId": "isp-return",
+          "fromPortId": "o-isp-return",
+          "toGlyphId": "source-return2",
+          "toPortId": "i-source-return2",
+          "label": "ICMP TTL exceeded",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#e11d22",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "trace-conn-8",
+          "fromGlyphId": "core-return",
+          "fromPortId": "o-core-return",
+          "toGlyphId": "source-return3",
+          "toPortId": "i-source-return3",
+          "label": "ICMP TTL exceeded",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#e11d22",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "trace-conn-9",
+          "fromGlyphId": "dc-return",
+          "fromPortId": "o-dc-return",
+          "toGlyphId": "source-return4",
+          "toPortId": "i-source-return4",
+          "label": "ICMP TTL exceeded",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#e11d22",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "trace-conn-10",
+          "fromGlyphId": "dest-return",
+          "fromPortId": "o-dest-return",
+          "toGlyphId": "source-return5",
+          "toPortId": "i-source-return5",
+          "label": "Echo reply / unreachable",
+          "type": "default",
+          "view": {
+            "connectionType": "manhattan",
+            "color": "#e11d22",
+            "thickness": 2,
+            "dashed": true
+          }
+        }
+      ]
+    }
+  ],
+  "stencilType": "network",
+  "connectionType": "default",
+  "toolbarOrientation": "vertical"
+}

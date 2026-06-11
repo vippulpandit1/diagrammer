@@ -1,0 +1,2909 @@
+{
+  "pages": [
+    {
+      "id": "page-aws-eks-devops",
+      "name": "AWS EKS DevOps Architecture",
+      "glyphs": [
+        {
+          "id": "page-bg",
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "width": 2368,
+          "height": 1562,
+          "ports": [
+            {
+              "id": "i-page-bg",
+              "type": "input"
+            },
+            {
+              "id": "o-page-bg",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#03060b",
+            "strokeColor": "#03060b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "developers-panel",
+          "type": "rect",
+          "x": 20,
+          "y": 15,
+          "width": 380,
+          "height": 120,
+          "ports": [
+            {
+              "id": "i-developers-panel",
+              "type": "input"
+            },
+            {
+              "id": "o-developers-panel",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "developers",
+          "type": "network-pc",
+          "x": 65,
+          "y": 35,
+          "width": 105,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-developers",
+              "type": "input"
+            },
+            {
+              "id": "o-developers",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Developers /\nQA Engineers",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "slack-main",
+          "type": "rect",
+          "x": 985,
+          "y": 15,
+          "width": 350,
+          "height": 110,
+          "ports": [
+            {
+              "id": "i-slack-main",
+              "type": "input"
+            },
+            {
+              "id": "o-slack-main",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#9ca3af",
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "SLACK\nNotifications\nAlerts / CI-CD / GitOps",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "terraform",
+          "type": "network-cloud",
+          "x": 1715,
+          "y": 20,
+          "width": 105,
+          "height": 85,
+          "ports": [
+            {
+              "id": "i-terraform",
+              "type": "input"
+            },
+            {
+              "id": "o-terraform",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Terraform",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "devops-engineer",
+          "type": "network-pc",
+          "x": 1995,
+          "y": 24,
+          "width": 120,
+          "height": 80,
+          "ports": [
+            {
+              "id": "i-devops-engineer",
+              "type": "input"
+            },
+            {
+              "id": "o-devops-engineer",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "DevOps Engineer",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dns-panel",
+          "type": "rect",
+          "x": 20,
+          "y": 150,
+          "width": 380,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-dns-panel",
+              "type": "input"
+            },
+            {
+              "id": "o-dns-panel",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dns-title",
+          "type": "rect",
+          "x": 45,
+          "y": 165,
+          "width": 330,
+          "height": 38,
+          "ports": [
+            {
+              "id": "i-dns-title",
+              "type": "input"
+            },
+            {
+              "id": "o-dns-title",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#38255c",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Route53 - DNS Records",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "dns-records",
+          "type": "text",
+          "x": 65,
+          "y": 212,
+          "width": 300,
+          "height": 125,
+          "ports": [],
+          "data": {
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "prometheus.devopsdock.site\nlogs-easyshop.devopsdock.site\nargocd-easyshop.devopsdock.site\ngrafana-easyshop.devopsdock.site\nalertmanager.devopsdock.site",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "user-flow-panel",
+          "type": "rect",
+          "x": 20,
+          "y": 380,
+          "width": 255,
+          "height": 455,
+          "ports": [
+            {
+              "id": "i-user-flow-panel",
+              "type": "input"
+            },
+            {
+              "id": "o-user-flow-panel",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#6b8e45",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "user-flow-title",
+          "type": "text",
+          "x": 45,
+          "y": 396,
+          "width": 205,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#a7c96f"
+          },
+          "label": "USER TRAFFIC FLOW",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "user",
+          "type": "network-pc",
+          "x": 83,
+          "y": 720,
+          "width": 105,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-user",
+              "type": "input"
+            },
+            {
+              "id": "o-user",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "User",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "public-site",
+          "type": "network-cloud",
+          "x": 83,
+          "y": 610,
+          "width": 105,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-public-site",
+              "type": "input"
+            },
+            {
+              "id": "o-public-site",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 9,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "easyshop.devopsdock.site",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "route53",
+          "type": "rect",
+          "x": 75,
+          "y": 500,
+          "width": 120,
+          "height": 72,
+          "ports": [
+            {
+              "id": "i-route53",
+              "type": "input"
+            },
+            {
+              "id": "o-route53",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#3c2665",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Route53",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "alb",
+          "type": "rect",
+          "x": 330,
+          "y": 515,
+          "width": 120,
+          "height": 85,
+          "ports": [
+            {
+              "id": "i-alb",
+              "type": "input"
+            },
+            {
+              "id": "o-alb",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#49327c",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "ALB\nApplication Load\nBalancer",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ingress",
+          "type": "rect",
+          "x": 525,
+          "y": 505,
+          "width": 125,
+          "height": 95,
+          "ports": [
+            {
+              "id": "i-ingress",
+              "type": "input"
+            },
+            {
+              "id": "o-ingress",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#a73238",
+            "strokeColor": "#c84747",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Ingress\nK8s Ingress\nController",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "aws-cloud",
+          "type": "rect",
+          "x": 650,
+          "y": 145,
+          "width": 1325,
+          "height": 955,
+          "ports": [
+            {
+              "id": "i-aws-cloud",
+              "type": "input"
+            },
+            {
+              "id": "o-aws-cloud",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#090d12",
+            "strokeColor": "#9b5e2b",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "aws-label",
+          "type": "rect",
+          "x": 655,
+          "y": 150,
+          "width": 90,
+          "height": 52,
+          "ports": [
+            {
+              "id": "i-aws-label",
+              "type": "input"
+            },
+            {
+              "id": "o-aws-label",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#e97819",
+            "strokeColor": "#e97819",
+            "fontSize": 20,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ffffff"
+          },
+          "label": "AWS",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "aws-cloud-label",
+          "type": "text",
+          "x": 755,
+          "y": 158,
+          "width": 180,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "AWS Cloud",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "vpc",
+          "type": "rect",
+          "x": 745,
+          "y": 185,
+          "width": 1195,
+          "height": 800,
+          "ports": [
+            {
+              "id": "i-vpc",
+              "type": "input"
+            },
+            {
+              "id": "o-vpc",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0b1115",
+            "strokeColor": "#6b8e45",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "vpc-label",
+          "type": "text",
+          "x": 770,
+          "y": 194,
+          "width": 160,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 17,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#a6c873"
+          },
+          "label": "VPC",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "private-subnet",
+          "type": "rect",
+          "x": 815,
+          "y": 220,
+          "width": 720,
+          "height": 740,
+          "ports": [
+            {
+              "id": "i-private-subnet",
+              "type": "input"
+            },
+            {
+              "id": "o-private-subnet",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#121923",
+            "strokeColor": "#627487",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "private-label",
+          "type": "text",
+          "x": 845,
+          "y": 230,
+          "width": 320,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Private Subnet (EKS Cluster)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "eks-cluster",
+          "type": "rect",
+          "x": 840,
+          "y": 265,
+          "width": 665,
+          "height": 665,
+          "ports": [
+            {
+              "id": "i-eks-cluster",
+              "type": "input"
+            },
+            {
+              "id": "o-eks-cluster",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0b1015",
+            "strokeColor": "#a66b2f",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "eks-title",
+          "type": "rect",
+          "x": 850,
+          "y": 275,
+          "width": 260,
+          "height": 58,
+          "ports": [
+            {
+              "id": "i-eks-title",
+              "type": "input"
+            },
+            {
+              "id": "o-eks-title",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#5f351f",
+            "strokeColor": "#e97819",
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "EKS Cluster\nPrivate Endpoint Enabled",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "helm",
+          "type": "rect",
+          "x": 1390,
+          "y": 280,
+          "width": 90,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-helm",
+              "type": "input"
+            },
+            {
+              "id": "o-helm",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#9ca3af",
+            "fontSize": 18,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "HELM",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "application",
+          "type": "rect",
+          "x": 1055,
+          "y": 355,
+          "width": 270,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-application",
+              "type": "input"
+            },
+            {
+              "id": "o-application",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#111a22",
+            "strokeColor": "#4b9ac8",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "app-title",
+          "type": "text",
+          "x": 1080,
+          "y": 365,
+          "width": 220,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Application (EasyShop)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pods",
+          "type": "rect",
+          "x": 1075,
+          "y": 410,
+          "width": 230,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pods",
+              "type": "input"
+            },
+            {
+              "id": "o-pods",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#152332",
+            "strokeColor": "#4b9ac8",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "POD 1       POD 2       POD 3",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pods-label",
+          "type": "text",
+          "x": 1080,
+          "y": 490,
+          "width": 220,
+          "height": 55,
+          "ports": [],
+          "data": {
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "EasyShop App Pods\nDeployment / ReplicaSet",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "lb-controller",
+          "type": "rect",
+          "x": 870,
+          "y": 400,
+          "width": 120,
+          "height": 120,
+          "ports": [
+            {
+              "id": "i-lb-controller",
+              "type": "input"
+            },
+            {
+              "id": "o-lb-controller",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#241b41",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "AWS Load\nBalancer\nController",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "service",
+          "type": "rect",
+          "x": 1375,
+          "y": 395,
+          "width": 110,
+          "height": 95,
+          "ports": [
+            {
+              "id": "i-service",
+              "type": "input"
+            },
+            {
+              "id": "o-service",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#17243b",
+            "strokeColor": "#4b9ac8",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Service",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "csi",
+          "type": "rect",
+          "x": 860,
+          "y": 565,
+          "width": 125,
+          "height": 115,
+          "ports": [
+            {
+              "id": "i-csi",
+              "type": "input"
+            },
+            {
+              "id": "o-csi",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#382815",
+            "strokeColor": "#e97819",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "EBS CSI\nDriver",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "argocd",
+          "type": "rect",
+          "x": 990,
+          "y": 565,
+          "width": 135,
+          "height": 115,
+          "ports": [
+            {
+              "id": "i-argocd",
+              "type": "input"
+            },
+            {
+              "id": "o-argocd",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#20242a",
+            "strokeColor": "#9ca3af",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "ArgoCD\n(GitOps)",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "config",
+          "type": "rect",
+          "x": 1135,
+          "y": 565,
+          "width": 135,
+          "height": 115,
+          "ports": [
+            {
+              "id": "i-config",
+              "type": "input"
+            },
+            {
+              "id": "o-config",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#20242a",
+            "strokeColor": "#9ca3af",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "ConfigMaps\n& Secrets",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "hpa",
+          "type": "rect",
+          "x": 1280,
+          "y": 565,
+          "width": 180,
+          "height": 115,
+          "ports": [
+            {
+              "id": "i-hpa",
+              "type": "input"
+            },
+            {
+              "id": "o-hpa",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#20242a",
+            "strokeColor": "#9ca3af",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "HPA / Autoscaler\nHorizontal Pod\nAutoscaler",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "storage",
+          "type": "rect",
+          "x": 930,
+          "y": 700,
+          "width": 405,
+          "height": 140,
+          "ports": [
+            {
+              "id": "i-storage",
+              "type": "input"
+            },
+            {
+              "id": "o-storage",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#11161d",
+            "strokeColor": "#9ca3af",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Storage (EBS Volumes via CSI Driver)\n\nApp Data          Monitoring Data          Logging Data",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "public-subnet",
+          "type": "rect",
+          "x": 1580,
+          "y": 220,
+          "width": 330,
+          "height": 740,
+          "ports": [
+            {
+              "id": "i-public-subnet",
+              "type": "input"
+            },
+            {
+              "id": "o-public-subnet",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#121923",
+            "strokeColor": "#627487",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "public-label",
+          "type": "text",
+          "x": 1610,
+          "y": 230,
+          "width": 220,
+          "height": 32,
+          "ports": [],
+          "data": {
+            "fontSize": 16,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Public Subnet",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "bastion",
+          "type": "network-server",
+          "x": 1625,
+          "y": 325,
+          "width": 235,
+          "height": 160,
+          "ports": [
+            {
+              "id": "i-bastion",
+              "type": "input"
+            },
+            {
+              "id": "o-bastion",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Bastion Host\n(Jump Server)",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "jenkins",
+          "type": "network-server",
+          "x": 1625,
+          "y": 535,
+          "width": 235,
+          "height": 170,
+          "ports": [
+            {
+              "id": "i-jenkins",
+              "type": "input"
+            },
+            {
+              "id": "o-jenkins",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Jenkins CI Server\n(Build & Deployment)",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "operations",
+          "type": "rect",
+          "x": 2010,
+          "y": 380,
+          "width": 330,
+          "height": 350,
+          "ports": [
+            {
+              "id": "i-operations",
+              "type": "input"
+            },
+            {
+              "id": "o-operations",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#c7a73a",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "operations-title",
+          "type": "text",
+          "x": 2040,
+          "y": 398,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#d8bd65"
+          },
+          "label": "OPERATIONS ACCESS",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ops-user",
+          "type": "network-pc",
+          "x": 2080,
+          "y": 445,
+          "width": 190,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-ops-user",
+              "type": "input"
+            },
+            {
+              "id": "o-ops-user",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "DevOps Engineer",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ops-bastion",
+          "type": "rect",
+          "x": 2070,
+          "y": 545,
+          "width": 210,
+          "height": 62,
+          "ports": [
+            {
+              "id": "i-ops-bastion",
+              "type": "input"
+            },
+            {
+              "id": "o-ops-bastion",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#121923",
+            "strokeColor": "#9ca3af",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Bastion Host",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ops-cli",
+          "type": "rect",
+          "x": 2070,
+          "y": 625,
+          "width": 210,
+          "height": 58,
+          "ports": [
+            {
+              "id": "i-ops-cli",
+              "type": "input"
+            },
+            {
+              "id": "o-ops-cli",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#121923",
+            "strokeColor": "#9ca3af",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "kubectl / helm / aws cli",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ops-note",
+          "type": "text",
+          "x": 2050,
+          "y": 690,
+          "width": 250,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Access to Private EKS Cluster",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "additional",
+          "type": "rect",
+          "x": 2010,
+          "y": 760,
+          "width": 330,
+          "height": 375,
+          "ports": [
+            {
+              "id": "i-additional",
+              "type": "input"
+            },
+            {
+              "id": "o-additional",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#8b5bb5",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "additional-title",
+          "type": "text",
+          "x": 2040,
+          "y": 778,
+          "width": 270,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#ca8bdc"
+          },
+          "label": "ADDITIONAL SERVICES",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "secrets",
+          "type": "rect",
+          "x": 2040,
+          "y": 815,
+          "width": 55,
+          "height": 50,
+          "ports": [
+            {
+              "id": "i-secrets",
+              "type": "input"
+            },
+            {
+              "id": "o-secrets",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#c84747",
+            "strokeColor": "#c84747",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "secrets-label",
+          "type": "text",
+          "x": 2110,
+          "y": 815,
+          "width": 195,
+          "height": 55,
+          "ports": [],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Secrets Management\nAWS Secrets Manager",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ecr",
+          "type": "rect",
+          "x": 2040,
+          "y": 880,
+          "width": 55,
+          "height": 50,
+          "ports": [
+            {
+              "id": "i-ecr",
+              "type": "input"
+            },
+            {
+              "id": "o-ecr",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#e97819",
+            "strokeColor": "#e97819",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "ecr-label",
+          "type": "text",
+          "x": 2110,
+          "y": 880,
+          "width": 195,
+          "height": 55,
+          "ports": [],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Container Registry\nAmazon ECR",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "s3",
+          "type": "rect",
+          "x": 2040,
+          "y": 945,
+          "width": 55,
+          "height": 50,
+          "ports": [
+            {
+              "id": "i-s3",
+              "type": "input"
+            },
+            {
+              "id": "o-s3",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#6b8e45",
+            "strokeColor": "#6b8e45",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "s3-label",
+          "type": "text",
+          "x": 2110,
+          "y": 945,
+          "width": 195,
+          "height": 55,
+          "ports": [],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Object Storage\nAmazon S3",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "velero",
+          "type": "rect",
+          "x": 2040,
+          "y": 1010,
+          "width": 55,
+          "height": 50,
+          "ports": [
+            {
+              "id": "i-velero",
+              "type": "input"
+            },
+            {
+              "id": "o-velero",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#4b9ac8",
+            "strokeColor": "#4b9ac8",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "velero-label",
+          "type": "text",
+          "x": 2110,
+          "y": 1010,
+          "width": 195,
+          "height": 55,
+          "ports": [],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Backup (Velero)\nK8s Backup",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "cloudwatch",
+          "type": "rect",
+          "x": 2040,
+          "y": 1075,
+          "width": 55,
+          "height": 50,
+          "ports": [
+            {
+              "id": "i-cloudwatch",
+              "type": "input"
+            },
+            {
+              "id": "o-cloudwatch",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#b52f72",
+            "strokeColor": "#b52f72",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "cloudwatch-label",
+          "type": "text",
+          "x": 2110,
+          "y": 1075,
+          "width": 195,
+          "height": 55,
+          "ports": [],
+          "data": {
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "CloudWatch\nMetrics / Logs / Alarms",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "cicd-panel",
+          "type": "rect",
+          "x": 20,
+          "y": 850,
+          "width": 580,
+          "height": 250,
+          "ports": [
+            {
+              "id": "i-cicd-panel",
+              "type": "input"
+            },
+            {
+              "id": "o-cicd-panel",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#426b91",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "cicd-title",
+          "type": "text",
+          "x": 45,
+          "y": 865,
+          "width": 510,
+          "height": 28,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#4b9ac8"
+          },
+          "label": "CI / CD PIPELINE (Jenkins)",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pipe-code",
+          "type": "rect",
+          "x": 30,
+          "y": 925,
+          "width": 70,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pipe-code",
+              "type": "input"
+            },
+            {
+              "id": "o-pipe-code",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#151a21",
+            "strokeColor": "#9ca3af",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "1. Code\nCommit",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pipe-build",
+          "type": "rect",
+          "x": 130,
+          "y": 925,
+          "width": 70,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pipe-build",
+              "type": "input"
+            },
+            {
+              "id": "o-pipe-build",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#151a21",
+            "strokeColor": "#9ca3af",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "2. Build &\nTest",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pipe-image",
+          "type": "rect",
+          "x": 230,
+          "y": 925,
+          "width": 70,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pipe-image",
+              "type": "input"
+            },
+            {
+              "id": "o-pipe-image",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#151a21",
+            "strokeColor": "#9ca3af",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "3. Build\nDocker Image",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pipe-registry",
+          "type": "rect",
+          "x": 335,
+          "y": 925,
+          "width": 70,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pipe-registry",
+              "type": "input"
+            },
+            {
+              "id": "o-pipe-registry",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#151a21",
+            "strokeColor": "#9ca3af",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "4. Push to\nRegistry",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pipe-values",
+          "type": "rect",
+          "x": 440,
+          "y": 925,
+          "width": 70,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pipe-values",
+              "type": "input"
+            },
+            {
+              "id": "o-pipe-values",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#151a21",
+            "strokeColor": "#9ca3af",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "5. Update\nHelm Values",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "pipe-gitops",
+          "type": "rect",
+          "x": 530,
+          "y": 925,
+          "width": 70,
+          "height": 75,
+          "ports": [
+            {
+              "id": "i-pipe-gitops",
+              "type": "input"
+            },
+            {
+              "id": "o-pipe-gitops",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#151a21",
+            "strokeColor": "#9ca3af",
+            "fontSize": 10,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "6. GitOps\nRepo",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "jenkins-slack",
+          "type": "rect",
+          "x": 120,
+          "y": 1030,
+          "width": 300,
+          "height": 45,
+          "ports": [
+            {
+              "id": "i-jenkins-slack",
+              "type": "input"
+            },
+            {
+              "id": "o-jenkins-slack",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#9ca3af",
+            "fontSize": 11,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Jenkins Notifications to Slack",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "monitoring-title",
+          "type": "text",
+          "x": 845,
+          "y": 1010,
+          "width": 430,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#d3b75f"
+          },
+          "label": "MONITORING STACK",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "prometheus",
+          "type": "rect",
+          "x": 680,
+          "y": 1040,
+          "width": 180,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-prometheus",
+              "type": "input"
+            },
+            {
+              "id": "o-prometheus",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#c7a73a",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Prometheus\nMetrics Collection\n\nNode Metrics\nPod Metrics\nApplication Metrics\nCluster Metrics",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "alertmanager",
+          "type": "rect",
+          "x": 875,
+          "y": 1040,
+          "width": 180,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-alertmanager",
+              "type": "input"
+            },
+            {
+              "id": "o-alertmanager",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#c7a73a",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Alertmanager\nAlert Routing\n\nAlert Grouping\nInhibition\nRouting",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "grafana",
+          "type": "rect",
+          "x": 1070,
+          "y": 1040,
+          "width": 180,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-grafana",
+              "type": "input"
+            },
+            {
+              "id": "o-grafana",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#c7a73a",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Grafana\nVisualization\n\nDashboards\nExplore\nAlerts",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "logging-title",
+          "type": "text",
+          "x": 1395,
+          "y": 1010,
+          "width": 430,
+          "height": 30,
+          "ports": [],
+          "data": {
+            "fontSize": 15,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#4b9ac8"
+          },
+          "label": "LOGGING STACK",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "fluentbit",
+          "type": "rect",
+          "x": 1325,
+          "y": 1040,
+          "width": 180,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-fluentbit",
+              "type": "input"
+            },
+            {
+              "id": "o-fluentbit",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#416d91",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Fluent Bit\nLog Collector\n\nCollects logs from\nPods / Nodes /\nContainers",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "elasticsearch",
+          "type": "rect",
+          "x": 1520,
+          "y": 1040,
+          "width": 180,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-elasticsearch",
+              "type": "input"
+            },
+            {
+              "id": "o-elasticsearch",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#416d91",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Elasticsearch\nLog Storage & Indexing\n\nIndexing\nSearch\nStorage",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "kibana",
+          "type": "rect",
+          "x": 1715,
+          "y": 1040,
+          "width": 180,
+          "height": 205,
+          "ports": [
+            {
+              "id": "i-kibana",
+              "type": "input"
+            },
+            {
+              "id": "o-kibana",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#416d91",
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Kibana\nLog Visualization\n\nDashboards\nLog Search\nDiscover",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "slack-alerts",
+          "type": "rect",
+          "x": 785,
+          "y": 1285,
+          "width": 400,
+          "height": 70,
+          "ports": [
+            {
+              "id": "i-slack-alerts",
+              "type": "input"
+            },
+            {
+              "id": "o-slack-alerts",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#c7a73a",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Slack Notifications\nMonitoring Alerts",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "kibana-access",
+          "type": "rect",
+          "x": 1485,
+          "y": 1285,
+          "width": 350,
+          "height": 70,
+          "ports": [
+            {
+              "id": "i-kibana-access",
+              "type": "input"
+            },
+            {
+              "id": "o-kibana-access",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#9ca3af",
+            "fontSize": 13,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "Kibana Access\nlogs-easyshop.devopsdock.site",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "brand",
+          "type": "text",
+          "x": 25,
+          "y": 1450,
+          "width": 430,
+          "height": 70,
+          "ports": [],
+          "data": {
+            "fontSize": 36,
+            "fontFamily": "Arial",
+            "labelAlign": "left",
+            "textColor": "#e5e7eb"
+          },
+          "label": "DevOps Dock",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "legend",
+          "type": "rect",
+          "x": 1390,
+          "y": 1425,
+          "width": 940,
+          "height": 100,
+          "ports": [
+            {
+              "id": "i-legend",
+              "type": "input"
+            },
+            {
+              "id": "o-legend",
+              "type": "output"
+            }
+          ],
+          "data": {
+            "fillColor": "#0c1118",
+            "strokeColor": "#9ca3af",
+            "fontSize": 14,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#e5e7eb"
+          },
+          "label": "TECH STACK:  AWS | Kubernetes | Helm | ArgoCD | Prometheus | Grafana | Elasticsearch | Kibana | Jenkins | Docker",
+          "inputs": 1,
+          "outputs": 1,
+          "attributes": [],
+          "methods": []
+        },
+        {
+          "id": "flow-legend",
+          "type": "text",
+          "x": 490,
+          "y": 1455,
+          "width": 820,
+          "height": 65,
+          "ports": [],
+          "data": {
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "labelAlign": "center",
+            "textColor": "#9ca3af"
+          },
+          "label": "User Traffic   |   Management / Access   |   Notifications / Alerts\nDNS Resolution  |   Internal Traffic       |   GitOps / Sync",
+          "inputs": 0,
+          "outputs": 0,
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "aws-conn-1",
+          "fromGlyphId": "user",
+          "fromPortId": "o-user",
+          "toGlyphId": "public-site",
+          "toPortId": "i-public-site",
+          "label": "request",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#d1d5db",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-2",
+          "fromGlyphId": "public-site",
+          "fromPortId": "o-public-site",
+          "toGlyphId": "route53",
+          "toPortId": "i-route53",
+          "label": "DNS lookup",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#d1d5db",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-3",
+          "fromGlyphId": "route53",
+          "fromPortId": "o-route53",
+          "toGlyphId": "alb",
+          "toPortId": "i-alb",
+          "label": "resolves to ALB",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#d1d5db",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-4",
+          "fromGlyphId": "alb",
+          "fromPortId": "o-alb",
+          "toGlyphId": "ingress",
+          "toPortId": "i-ingress",
+          "label": "user traffic",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#d1d5db",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-5",
+          "fromGlyphId": "ingress",
+          "fromPortId": "o-ingress",
+          "toGlyphId": "lb-controller",
+          "toPortId": "i-lb-controller",
+          "label": "route into EKS",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#d1d5db",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-6",
+          "fromGlyphId": "lb-controller",
+          "fromPortId": "o-lb-controller",
+          "toGlyphId": "pods",
+          "toPortId": "i-pods",
+          "label": "internal traffic",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#6b8e45",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-7",
+          "fromGlyphId": "service",
+          "fromPortId": "o-service",
+          "toGlyphId": "pods",
+          "toPortId": "i-pods",
+          "label": "service routing",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#6b8e45",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-8",
+          "fromGlyphId": "argocd",
+          "fromPortId": "o-argocd",
+          "toGlyphId": "pods",
+          "toPortId": "i-pods",
+          "label": "GitOps sync",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#d1d5db",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-9",
+          "fromGlyphId": "config",
+          "fromPortId": "o-config",
+          "toGlyphId": "pods",
+          "toPortId": "i-pods",
+          "label": "configuration",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#6b8e45",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-10",
+          "fromGlyphId": "hpa",
+          "fromPortId": "o-hpa",
+          "toGlyphId": "pods",
+          "toPortId": "i-pods",
+          "label": "scale replicas",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#6b8e45",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-11",
+          "fromGlyphId": "csi",
+          "fromPortId": "o-csi",
+          "toGlyphId": "storage",
+          "toPortId": "i-storage",
+          "label": "mount volumes",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#6b8e45",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-12",
+          "fromGlyphId": "storage",
+          "fromPortId": "o-storage",
+          "toGlyphId": "pods",
+          "toPortId": "i-pods",
+          "label": "persistent data",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#6b8e45",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-13",
+          "fromGlyphId": "terraform",
+          "fromPortId": "o-terraform",
+          "toGlyphId": "public-subnet",
+          "toPortId": "i-public-subnet",
+          "label": "infra setup / management",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#4b9ac8",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-14",
+          "fromGlyphId": "devops-engineer",
+          "fromPortId": "o-devops-engineer",
+          "toGlyphId": "ops-user",
+          "toPortId": "i-ops-user",
+          "label": "operations access",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-15",
+          "fromGlyphId": "ops-user",
+          "fromPortId": "o-ops-user",
+          "toGlyphId": "ops-bastion",
+          "toPortId": "i-ops-bastion",
+          "label": "SSH",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-16",
+          "fromGlyphId": "ops-bastion",
+          "fromPortId": "o-ops-bastion",
+          "toGlyphId": "ops-cli",
+          "toPortId": "i-ops-cli",
+          "label": "admin tools",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-17",
+          "fromGlyphId": "ops-cli",
+          "fromPortId": "o-ops-cli",
+          "toGlyphId": "bastion",
+          "toPortId": "i-bastion",
+          "label": "private access",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-18",
+          "fromGlyphId": "pipe-code",
+          "fromPortId": "o-pipe-code",
+          "toGlyphId": "pipe-build",
+          "toPortId": "i-pipe-build",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-19",
+          "fromGlyphId": "pipe-build",
+          "fromPortId": "o-pipe-build",
+          "toGlyphId": "pipe-image",
+          "toPortId": "i-pipe-image",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-20",
+          "fromGlyphId": "pipe-image",
+          "fromPortId": "o-pipe-image",
+          "toGlyphId": "pipe-registry",
+          "toPortId": "i-pipe-registry",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-21",
+          "fromGlyphId": "pipe-registry",
+          "fromPortId": "o-pipe-registry",
+          "toGlyphId": "pipe-values",
+          "toPortId": "i-pipe-values",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-22",
+          "fromGlyphId": "pipe-values",
+          "fromPortId": "o-pipe-values",
+          "toGlyphId": "pipe-gitops",
+          "toPortId": "i-pipe-gitops",
+          "label": "",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-23",
+          "fromGlyphId": "jenkins",
+          "fromPortId": "o-jenkins",
+          "toGlyphId": "pipe-code",
+          "toPortId": "i-pipe-code",
+          "label": "pipeline trigger",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#4b9ac8",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-24",
+          "fromGlyphId": "pipe-gitops",
+          "fromPortId": "o-pipe-gitops",
+          "toGlyphId": "argocd",
+          "toPortId": "i-argocd",
+          "label": "repo sync",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-25",
+          "fromGlyphId": "jenkins-slack",
+          "fromPortId": "o-jenkins-slack",
+          "toGlyphId": "slack-main",
+          "toPortId": "i-slack-main",
+          "label": "CI/CD notifications",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-26",
+          "fromGlyphId": "pods",
+          "fromPortId": "o-pods",
+          "toGlyphId": "prometheus",
+          "toPortId": "i-prometheus",
+          "label": "metrics",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-27",
+          "fromGlyphId": "prometheus",
+          "fromPortId": "o-prometheus",
+          "toGlyphId": "alertmanager",
+          "toPortId": "i-alertmanager",
+          "label": "alerts",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-28",
+          "fromGlyphId": "alertmanager",
+          "fromPortId": "o-alertmanager",
+          "toGlyphId": "grafana",
+          "toPortId": "i-grafana",
+          "label": "alert state",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-29",
+          "fromGlyphId": "prometheus",
+          "fromPortId": "o-prometheus",
+          "toGlyphId": "grafana",
+          "toPortId": "i-grafana",
+          "label": "queries",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-30",
+          "fromGlyphId": "alertmanager",
+          "fromPortId": "o-alertmanager",
+          "toGlyphId": "slack-alerts",
+          "toPortId": "i-slack-alerts",
+          "label": "notifications",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-31",
+          "fromGlyphId": "grafana",
+          "fromPortId": "o-grafana",
+          "toGlyphId": "slack-alerts",
+          "toPortId": "i-slack-alerts",
+          "label": "dashboard alerts",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-32",
+          "fromGlyphId": "slack-alerts",
+          "fromPortId": "o-slack-alerts",
+          "toGlyphId": "slack-main",
+          "toPortId": "i-slack-main",
+          "label": "alerts",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#c7a73a",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-33",
+          "fromGlyphId": "pods",
+          "fromPortId": "o-pods",
+          "toGlyphId": "fluentbit",
+          "toPortId": "i-fluentbit",
+          "label": "logs",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#4b9ac8",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-34",
+          "fromGlyphId": "fluentbit",
+          "fromPortId": "o-fluentbit",
+          "toGlyphId": "elasticsearch",
+          "toPortId": "i-elasticsearch",
+          "label": "forward logs",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-35",
+          "fromGlyphId": "elasticsearch",
+          "fromPortId": "o-elasticsearch",
+          "toGlyphId": "kibana",
+          "toPortId": "i-kibana",
+          "label": "search/index",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": false
+          }
+        },
+        {
+          "id": "aws-conn-36",
+          "fromGlyphId": "kibana",
+          "fromPortId": "o-kibana",
+          "toGlyphId": "kibana-access",
+          "toPortId": "i-kibana-access",
+          "label": "web access",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#e5e7eb",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-37",
+          "fromGlyphId": "dns-panel",
+          "fromPortId": "o-dns-panel",
+          "toGlyphId": "kibana-access",
+          "toPortId": "i-kibana-access",
+          "label": "DNS resolution",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#8b5bb5",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-38",
+          "fromGlyphId": "dns-panel",
+          "fromPortId": "o-dns-panel",
+          "toGlyphId": "prometheus",
+          "toPortId": "i-prometheus",
+          "label": "DNS",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#8b5bb5",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-39",
+          "fromGlyphId": "dns-panel",
+          "fromPortId": "o-dns-panel",
+          "toGlyphId": "grafana",
+          "toPortId": "i-grafana",
+          "label": "DNS",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#8b5bb5",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-40",
+          "fromGlyphId": "dns-panel",
+          "fromPortId": "o-dns-panel",
+          "toGlyphId": "argocd",
+          "toPortId": "i-argocd",
+          "label": "DNS",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#8b5bb5",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-41",
+          "fromGlyphId": "developers",
+          "fromPortId": "o-developers",
+          "toGlyphId": "slack-main",
+          "toPortId": "i-slack-main",
+          "label": "team notifications",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#8b5bb5",
+            "thickness": 2,
+            "dashed": true
+          }
+        },
+        {
+          "id": "aws-conn-42",
+          "fromGlyphId": "terraform",
+          "fromPortId": "o-terraform",
+          "toGlyphId": "slack-main",
+          "toPortId": "i-slack-main",
+          "label": "automation status",
+          "type": "default",
+          "view": {
+            "connectionType": "line",
+            "color": "#4b9ac8",
+            "thickness": 2,
+            "dashed": true
+          }
+        }
+      ]
+    }
+  ],
+  "stencilType": "network",
+  "connectionType": "default",
+  "toolbarOrientation": "vertical"
+}
